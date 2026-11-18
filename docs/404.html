@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found</title>
+<script>
+  // The blog moved from den-run-ai.github.io/den-run-ai.io/ to den-run-ai.github.io/: send old links to the same page at the new address.
+  (function () {
+    var p = location.pathname, old = '/den-run-ai.io';
+    if (p === old || p.indexOf(old + '/') === 0) location.replace((p.slice(old.length) || '/') + location.search + location.hash);
+  })();
+</script>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#373a3c}a{color:#2780e3}</style>
+</head>
+<body><p>Page not found. <a href="/">Go to the blog</a></p></body>
+</html>

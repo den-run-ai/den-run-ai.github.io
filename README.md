@@ -1,1 +1,1 @@
-https://den-run-ai.github.io/den-run-ai.io/posts/post-with-code/
+https://den-run-ai.github.io/posts/post-with-code/

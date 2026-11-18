@@ -4,6 +4,7 @@ project:
   resources:
     - "dance/"
     - "ceo-keynote-dance/"
+    - "404.html"
 
 website:
   title: "blog"
