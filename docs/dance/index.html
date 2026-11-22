@@ -369,9 +369,9 @@ let tieA = 0, tieV = 0, hairX = 0, hairXV = 0, hairY = 0, hairYV = 0, lastHX = n
 const parts = [], puffs = [];
 
 const basePose = () => ({ x:0, y:0, lean:0, tilt:0, head:0, turn:0, hipTilt:0, shTilt:0, lS:.22, lE:.2, rS:.22, rE:.2,
-  lfx:-13, lfy:0, rfx:13, rfy:0, lToe:.7, rToe:.7, lK:.55, rK:.55, lz:0, rz:0, pointe:0, lHeel:0, rHeel:0, mouth:.55, brow:0, browT:0,
+  lfx:-13, lfy:0, rfx:13, rfy:0, lToe:.7, rToe:.7, lK:.55, rK:.55, lz:0, rz:0, pointe:0, lPt:0, rPt:0, lHeel:0, rHeel:0, mouth:.55, brow:0, browT:0,
   sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
-const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF'];
+const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF'];
 let cur = basePose(); cur.mouth = 0;
 
 /* ---------- dance moves: each fills a pose for beat position b (arm angle 0 hangs down, PI/2 out sideways, PI up) ---------- */
@@ -647,9 +647,9 @@ const MOVES = {
     const slide = lerp(.71, -.71, ease(f)), plant = lerp(-.71, .71, f);      // how far in front of him each foot is
     p.yaw = d * 1.05; p.pitch = .09; p.head = d * .04; p.y = -5 - 2 * Math.sin(PI * f);
     p.lfx = -3; p.rfx = 3; p.lToe = p.rToe = .2; p.lK = p.rK = .3;
-    if (Math.floor(b) % 2 === 0){ p.lz = slide; p.rz = plant; p.rfy = 8; } else { p.rz = slide; p.lz = plant; p.lfy = 8; }
+    if (Math.floor(b) % 2 === 0){ p.lz = slide; p.rz = plant; p.rPt = .62; } else { p.rz = slide; p.lz = plant; p.lPt = .62; }      // lPt, rPt: that heel is up and its toe stays on the floor
     p.lF = p.rF = 1; p.lS = .4 * a; p.rS = -.4 * a; p.lE = p.rE = .55; p.mouth = .2; p.brow = .4;
-    if (u < .5){ p.yaw += d * (TAU - 2.1) * (1 - ease(u / .5)); p.lz = p.rz = 0; p.lfy = p.rfy = 0; p.lS = p.rS = .55; p.lE = p.rE = -1.9; }   // spin round to face the other way
+    if (u < .5){ p.yaw += d * (TAU - 2.1) * (1 - ease(u / .5)); p.lz = p.rz = 0; p.lPt = p.rPt = 0; p.lS = p.rS = .55; p.lE = p.rE = -1.9; }   // spin round to face the other way
     return -d * lerp(-66, 66, u / 8);
   },
 
@@ -1279,11 +1279,24 @@ function drawLeg(hx, hy, fx, fy, side, k, dir, lift, z, pt, heel, flat){   // di
   const ex = hx + ux * d, ey = hy + uy * d;
   cap(hx, hy, 8.8, kx, ky, 7.2, LEGC); cap(kx, ky, 7.2, ex, ey, 5.6, LEGC);
   ctx.save(); ctx.translate(ex, ey + 2.5 * z);
-  const sc = 1 + .12 * z, sgn = dir >= 0 ? 1 : -1, len = 8 + 9 * Math.min(1.25, Math.abs(dir));
-  ctx.scale(sc, sc); ctx.rotate(flat + (clamp(lift * .03, 0, .5) + 1.15 * pt - .7 * heel) * sgn);   // pt: up on the toes; heel: heel dug in, toes up
-  const x0 = sgn > 0 ? -6.5 : -len, w = len + 6.5;
-  ctx.fillStyle = C.sun; rr(x0, -3, w, 10, 5); ctx.fill();
-  ctx.fillStyle = C.paper; rr(x0, 4.5, w, 3.2, 1.6); ctx.fill();
+  const sc = 1 + .12 * z, sgn = dir >= 0 ? 1 : -1, len = 8 + 9 * Math.min(1.25, Math.abs(dir)), B = len - 5.5;
+  ctx.scale(sc * sgn, sc);                                         // from here on the toe points to +x, and B is how far along the sole the ball of the foot is
+  // pt: up on the toes. The shoe bends at the ball of the foot: the heel tips up while the toe stays flat on the floor, right under the ankle, and only at
+  // full point does the whole shoe stand on its tip. In the air there is no floor to bend against, so it turns in one piece with the toes hanging.
+  // heel: heel dug in, toes up.
+  const air = clamp(lift / 5, 0, 1), up = 1.45 * pt, whole = ease(clamp((pt - .65) / .35, 0, 1)), planted = clamp(pt * 8, 0, 1) * (1 - air);
+  const rear = flat * sgn + lerp(up, clamp(lift * .03, 0, .5) + 1.15 * pt, air) - .7 * heel, toe = rear - up * (1 - whole) * (1 - air);
+  const bx = B * Math.cos(rear) - 7.7 * Math.sin(rear), by = B * Math.sin(rear) + 7.7 * Math.cos(rear);      // where the ball of the foot would be if the shoe could not bend
+  const Hx = lerp(bx, lerp(-.75, bx, clamp(Math.abs(dir) * 1.4, 0, 1)), planted);
+  const Hy = lerp(by, 7.7 + 7 * pt - Math.max(0, 5.5 * Math.sin(toe - flat * sgn)), planted);              // planted, it is exactly on the floor
+  const tip = whole * (1 - air), mid = -2.35 * tip;                // standing on its tip the shoe is seen from the front: centred under the ankle, its sole out of sight
+  ctx.save(); ctx.rotate(rear);
+  ctx.fillStyle = C.sun; rr(-6.5 + 3 * tip, -3 + mid, B + 8.5 - 3 * tip, 10, 5); ctx.fill();
+  if (tip < .98){ ctx.globalAlpha = 1 - tip; ctx.fillStyle = C.paper; rr(-6.5, 4.5 + mid, B + 8.5, 3.2, 1.6); ctx.fill(); ctx.globalAlpha = 1; }
+  ctx.restore();
+  ctx.translate(Hx, Hy); ctx.rotate(toe);
+  ctx.fillStyle = C.sun; rr(-4, -10.7 + mid, len - B + 4, 10, 4.7); ctx.fill();
+  if (tip < .98){ ctx.globalAlpha = 1 - tip; ctx.fillStyle = C.paper; rr(-4, -3.2 + mid, len - B + 4, 3.2, 1.6); ctx.fill(); ctx.globalAlpha = 1; }
   ctx.restore();
 }
 
@@ -1314,59 +1327,66 @@ function drawTamb(x, y, ph){                     // a tambourine in the hand: ho
   for (let i = 0; i < 6; i++){ const a = i * TAU / 6 + .5 + .25 * Math.sin(ph * 2 + i); oval(13 * Math.cos(a), 11 * Math.sin(a), 2.5, 2.5, 0, C.sun); }
   ctx.restore();
 }
-function drawHats(yc){                           // a sideways cap for hip hop and a cowboy hat for country, dropped on from above
+function drawHats(yc, ys, cyS, mir){             // each hat is dropped on from above, and turns with the head: yc how square on he is, ys which way the face has gone, cyS below zero from behind
+  const lean = a => ctx.rotate(a * yc + .1 * ys);                  // a hat worn at an angle looks level from the side, where instead its brim dips over the eyes
+  const crown = (hw, side, top) => {                               // a creased crown from one side of the band to the other; the pinch at its front slides round with the face
+    const dx = 8 * ys, w = 6 * Math.max(.5, yc), xl = dx - w, xr = dx + w;
+    ctx.beginPath(); ctx.moveTo(-hw, -14); ctx.bezierCurveTo(-side, -28, Math.max(-hw + 1, xl - 9), top - 1, xl, top);
+    ctx.quadraticCurveTo(dx, top + 2.4 + 1.1 * yc, xr, top); ctx.bezierCurveTo(Math.min(hw - 1, xr + 9), top - 1, side, -28, hw, -14); ctx.closePath(); ctx.fill();
+  };
   let a = wear.cap;
-  if (a > .03){
+  if (a > .03){                                                    // a cap for hip hop, its brim round to one side
     ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -26 * (1 - a));
-    ctx.save(); ctx.scale(Math.max(.2, yc), 1); ctx.translate(15, -16); ctx.rotate(-.16); ctx.fillStyle = '#1E9E93'; rr(0, -3.5, 25, 7, 3.5); ctx.fill(); ctx.restore();   // the brim, off to one side
+    ctx.save(); ctx.scale(Math.max(.2, yc), 1); ctx.translate(15, -16); ctx.rotate(-.16); ctx.fillStyle = '#1E9E93'; rr(0, -3.5, 25, 7, 3.5); ctx.fill(); ctx.restore();
     ctx.fillStyle = C.aqua; ctx.beginPath(); ctx.moveTo(-20.5, -13); ctx.bezierCurveTo(-22, -40, 22, -40, 20.5, -13); ctx.quadraticCurveTo(0, -18, -20.5, -13); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = '#1E9E93'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(-19.5, -14.5); ctx.quadraticCurveTo(0, -19.5, 19.5, -14.5); ctx.stroke();
+    const out = mir ? ys : -ys;                                    // how squarely the brim's side of the head faces the audience
+    if (out > .3) oval(9 * yc, -12.5, 15 * Math.min(1, out + .15), 4.6 * out, 0, '#1E9E93');
     oval(0, -33.5, 2.6, 1.6, 0, '#1E9E93');
     ctx.restore();
   }
   a = wear.fedora;
   if (a > .03){                                  // a fedora for the pop numbers
-    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); ctx.rotate(-.07);
-    ctx.fillStyle = C.violet; ctx.beginPath(); ctx.moveTo(-17, -14); ctx.bezierCurveTo(-19, -28, -15, -38, -6, -37);
-    ctx.quadraticCurveTo(0, -33.5, 6, -37); ctx.bezierCurveTo(15, -38, 19, -28, 17, -14); ctx.closePath(); ctx.fill();               // creased crown
+    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); lean(-.07);
+    ctx.fillStyle = C.violet; crown(17, 19, -37);
     ctx.fillStyle = '#2A1245'; ctx.beginPath(); ctx.moveTo(-17.6, -20.5); ctx.quadraticCurveTo(0, -18.5, 17.6, -20.5); ctx.lineTo(17, -14.5); ctx.lineTo(-17, -14.5); ctx.closePath(); ctx.fill();
     oval(0, -13.5, 28, 4.6, 0, C.violet);                                                                                              // snap brim
     ctx.restore();
   }
   a = wear.cowboy;
   if (a > .03){
-    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -3 - 26 * (1 - a));
-    ctx.fillStyle = '#C99355'; ctx.beginPath(); ctx.moveTo(-17, -14); ctx.bezierCurveTo(-20, -30, -15, -42, -7, -40.5);
-    ctx.quadraticCurveTo(0, -35, 7, -40.5); ctx.bezierCurveTo(15, -42, 20, -30, 17, -14); ctx.closePath(); ctx.fill();               // pinched crown
+    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -3 - 26 * (1 - a)); lean(0);
+    ctx.fillStyle = '#C99355'; crown(17, 20, -40.5);
     ctx.fillStyle = '#6B3F22'; ctx.beginPath(); ctx.moveTo(-17.8, -21); ctx.quadraticCurveTo(0, -18.5, 17.8, -21); ctx.lineTo(17, -14); ctx.lineTo(-17, -14); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#B07E42'; ctx.beginPath(); ctx.moveTo(-38, -20); ctx.quadraticCurveTo(-27, -9.5, 0, -11); ctx.quadraticCurveTo(27, -9.5, 38, -20);
-    ctx.quadraticCurveTo(26, -15, 0, -16); ctx.quadraticCurveTo(-26, -15, -38, -20); ctx.closePath(); ctx.fill();                    // brim, curled up at the sides
+    const curl = -11.5 - 8.5 * yc, mid = curl + 5;                 // the brim curls up at the sides, which from the side are toward and away from the audience
+    ctx.fillStyle = '#B07E42'; ctx.beginPath(); ctx.moveTo(-38, curl); ctx.quadraticCurveTo(-27, -9.5, 0, -11); ctx.quadraticCurveTo(27, -9.5, 38, curl);
+    ctx.quadraticCurveTo(26, Math.min(-13.5, mid), 0, -16); ctx.quadraticCurveTo(-26, Math.min(-13.5, mid), -38, curl); ctx.closePath(); ctx.fill();
     ctx.restore();
   }
   a = wear.cordobes;
   if (a > .03){                                  // a flat-topped Cordoban hat for flamenco
-    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); ctx.rotate(-.06);
+    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); lean(-.06);
     ctx.fillStyle = '#17121F'; rr(-15.5, -33, 31, 20, 2.5); ctx.fill();
     ctx.fillStyle = '#C22F3D'; ctx.fillRect(-15.5, -20, 31, 5);
     oval(0, -13.5, 31, 4, 0, '#17121F');
     ctx.restore();
   }
   a = wear.plume;
-  if (a > .03){                                  // a carnival headdress for samba: a gold band under a fan of feathers
+  if (a > .03){                                  // a carnival headdress for samba: a gold band under a fan of feathers, which closes up as he turns side on
     ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -26 * (1 - a));
-    const cols = ['#FF4FD8', '#3DE0D0', '#FFD23F', '#5FE08A', '#FFD23F', '#3DE0D0', '#FF4FD8'];
+    const cols = ['#FF4FD8', '#3DE0D0', '#FFD23F', '#5FE08A', '#FFD23F', '#3DE0D0', '#FF4FD8'], fan = Math.max(.28, yc);
     for (let i = 0; i < 7; i++){
-      const an = (i - 3) * .3;
-      ctx.save(); ctx.translate(an * 20 + hairX, -22 + Math.abs(i - 3) * 2.5); ctx.rotate(an);
+      const an = (i - 3) * .3 * fan - .12 * ys;
+      ctx.save(); ctx.translate((i - 3) * 6 * fan + hairX, -22 + Math.abs(i - 3) * 2.5 * fan); ctx.rotate(an);
       oval(0, -17 + hairY, 5.5, 19, 0, cols[i]); oval(0, -17 + hairY, 1.2, 17, 0, 'rgba(255,255,255,.35)'); ctx.restore();
     }
     ctx.fillStyle = C.sun; ctx.beginPath(); ctx.moveTo(-19.5, -13); ctx.quadraticCurveTo(0, -20, 19.5, -13); ctx.lineTo(18.5, -19); ctx.quadraticCurveTo(0, -26, -18.5, -19); ctx.closePath(); ctx.fill();
-    oval(0, -21, 3.2, 3.2, 0, C.coral);
+    if (cyS > -.15) oval(17.5 * ys, -21 + 3.5 * ys * ys, 3.2 * Math.max(.35, Math.sqrt(Math.max(0, cyS))), 3.2, 0, C.coral);      // the jewel at the front
     ctx.restore();
   }
   a = wear.alpine;
   if (a > .03){                                  // a green felt hat with a feather for the polka
-    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); ctx.rotate(.06);
+    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); lean(.06);
     ctx.save(); ctx.scale(Math.max(.2, yc), 1); ctx.translate(12, -21); ctx.rotate(.45); oval(0, -11, 3, 12, 0, C.coral); ctx.restore();
     ctx.fillStyle = '#2F7D4F'; ctx.beginPath(); ctx.moveTo(-16.5, -14); ctx.bezierCurveTo(-18, -29, -10, -38, 0, -37); ctx.bezierCurveTo(10, -36, 17, -28, 16.5, -14); ctx.closePath(); ctx.fill();
     ctx.fillStyle = '#F6E7C8'; ctx.beginPath(); ctx.moveTo(-17, -20); ctx.quadraticCurveTo(0, -18.5, 17, -20); ctx.lineTo(16.8, -16.5); ctx.quadraticCurveTo(0, -15, -16.8, -16.5); ctx.closePath(); ctx.fill();
@@ -1374,7 +1394,6 @@ function drawHats(yc){                           // a sideways cap for hip hop a
     ctx.restore();
   }
 }
-
 function headPath(){
   ctx.beginPath(); ctx.moveTo(-18, -5);
   ctx.bezierCurveTo(-18, -27, 18, -27, 18, -5);
@@ -1382,10 +1401,10 @@ function headPath(){
   ctx.bezierCurveTo(-10, 22, -18, 11, -18, -5);
   ctx.closePath();
 }
-function drawHead(p, back, yc, ys){
+function drawHead(p, yc, ys, cyS, mir){             // yc, ys, cyS: how far round the head is (cyS below zero from behind); mir: the body is being drawn as its mirror image
   // The head is a ball. As it turns each feature rides round to where it would really be, narrows as it nears the edge and goes out of sight behind it,
   // so side on there is one eye, a nose and an ear, and from behind there is hair.
-  const cyS = back ? -yc : yc, sgn = ys >= 0 ? 1 : -1, kb = back ? yc : 0;
+  const sgn = ys >= 0 ? 1 : -1, kb = cyS < 0 ? yc : 0;
   const on = (x, R) => { const s = clamp(x / R, -1, 1), c = Math.sqrt(1 - s * s); return [R * (s * cyS + c * ys), c * cyS - s * ys]; };   // [where it lands, how much of its width shows]
   const earL = on(-18.5, 18.5), earR = on(18.5, 18.5);
   oval(earL[0], 1.5, 3.6, 5.2, 0, SKD); oval(earR[0], 1.5, 3.6, 5.2, 0, SKD);
@@ -1398,13 +1417,20 @@ function drawHead(p, back, yc, ys){
   ctx.lineTo(22 * sgn, -32); ctx.lineTo(-22 * sgn, -32); ctx.lineTo(-22 * sgn, 10 - 5 * kb);
   ctx.quadraticCurveTo((H[0][0] - 22 * sgn) / 2, 9 + 4 * kb, H[0][0], 5 * kb); ctx.closePath(); ctx.fill();
   ctx.restore();
-  ctx.save(); ctx.translate(hairX, hairY);                         // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion
+  // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion. A hat presses the top flat and covers it, so under one
+  // there is hair only below its edge: the short sides, and the curls at the back
+  const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
+  ctx.save();
+  if (hatOn > .03){ ctx.beginPath(); ctx.rect(-30, -12.5 - 26 * (1 - hatOn), 60, 60); ctx.clip(); }
+  ctx.translate(hairX * fluff, hairY * fluff);
   for (const c of [[-56, -5, 6.2, HAIRD], [-19, -3.5, 7, HAIRD], [19, -3.5, 7, HAIRD], [56, -5, 6.2, HAIRD], [-38, -10.5, 7, HAIR], [0, -9.5, 7.5, HAIR], [38, -10.5, 7, HAIR]]){
     const an = c[0] * PI / 180, sa = Math.sin(an), ca = Math.cos(an), w = -(ca * cyS - sa * ys);
     if (w > .12) oval(-15.5 * (sa * cyS + ca * ys), c[1], c[2] * Math.min(1, w + .4), c[2], 0, c[3]);
   }
-  for (const c of [[-14, -15, 6.5], [-5, -21, 7.5], [6, -22, 7.5], [14, -16, 6.5]]) oval(c[0], c[1], c[2], c[2], 0, HAIRD);
-  for (const c of [[-10, -18, 6.5], [0, -23.5, 7.5], [10, -19, 6.5], [-16, -10, 4.5], [16, -11, 4.5]]) oval(c[0], c[1], c[2], c[2], 0, HAIR);
+  if (fluff > .02){
+    for (const c of [[-14, -15, 6.5], [-5, -21, 7.5], [6, -22, 7.5], [14, -16, 6.5]]) oval(c[0], c[1], c[2] * fluff, c[2] * fluff, 0, HAIRD);
+    for (const c of [[-10, -18, 6.5], [0, -23.5, 7.5], [10, -19, 6.5], [-16, -10, 4.5], [16, -11, 4.5]]) oval(c[0], c[1], c[2] * fluff, c[2] * fluff, 0, HAIR);
+  }
   ctx.restore();
   if (wear.hat > .03){                                             // fur hat for the Russian dance, dropped on from above
     ctx.save(); ctx.globalAlpha = Math.min(1, wear.hat * 1.5); ctx.translate(0, -26 * (1 - wear.hat));
@@ -1417,7 +1443,7 @@ function drawHead(p, back, yc, ys){
     if (e[1] > .45) oval(e[0] + .9 * sgn, 2, 1.9 * e[1], 2.9, 0, SK);
   }
 
-  const fx = p.turn * 3.5, joy = p.face === 'joy', calm = p.face === 'calm';
+  const fx = 0, joy = p.face === 'joy', calm = p.face === 'calm';   // a look to one side is a real turn of the head now, worked out by the caller
   ctx.save(); headPath(); ctx.clip();
   const inset = 1 - .32 * Math.abs(ys);                            // eyes and mouth sit back from the nose, so side on they are a little way in from the edge
   const part = (x, draw, least) => {                               // least: this part still shows, that narrow, when it is edge on
@@ -1432,7 +1458,7 @@ function drawHead(p, back, yc, ys){
   });
   // eyes
   for (const g of [-1, 1]) part(fx + g * 7.6, () => {
-    const ey = -3, look = p.turn * 1.5 + 1.2 * ys;
+    const ey = -3, look = clamp(ys * 4.5, -1.7, 1.7);
     if (blink > 0 || joy || calm){
       ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath();
       if (joy) ctx.arc(0, ey + 2, 3.9, PI * 1.15, PI * 1.85); else if (calm) ctx.arc(0, ey - 1.5, 3.9, PI * .15, PI * .85); else { ctx.moveTo(-3.6, ey + .5); ctx.lineTo(3.6, ey + .5); }
@@ -1445,7 +1471,7 @@ function drawHead(p, back, yc, ys){
     }
   });
   for (const g of [-1, 1]) part(fx + g * 11.5, () => oval(0, 6.5, 3.4, 2.2, 0, 'rgba(255,93,93,.28)'));
-  part(fx + p.turn * 2, () => { ctx.strokeStyle = SKD; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(0, 4.2, 2.3, .15 * PI, .85 * PI); ctx.stroke(); });
+  part(fx, () => { ctx.strokeStyle = SKD; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(0, 4.2, 2.3, .15 * PI, .85 * PI); ctx.stroke(); });
   // mouth
   part(fx, () => {
     if (p.face === 'ooh') oval(0, 14, 3, 3.8, 0, MOUTH);
@@ -1461,14 +1487,14 @@ function drawHead(p, back, yc, ys){
     }
   }, .3);
   // presenter's headset mic, worn on one ear (seen from behind he is drawn mirrored, so it is the other one here)
-  const me = back ? earL : earR, mic = on(fx + (back ? -10 : 10), 19), ball = mic[1] > .22;
+  const me = mir ? earL : earR, mic = on(mir ? -10 : 10, 19), ball = mic[1] > .22;
   if (me[1] > .2 || mic[1] > .32){
     const bx = ball ? mic[0] * inset : 15 * sgn;
     ctx.strokeStyle = '#1B1230'; ctx.lineWidth = 1.6; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(me[0] * .97, 1); ctx.quadraticCurveTo(me[0] * .95, 13, bx, 15); ctx.stroke();
     if (ball) oval(bx, 15, 2.3, 2.3, 0, '#1B1230');
   }
   ctx.restore();
-  drawHats(yc);
+  drawHats(yc, ys, cyS, mir);
 }
 
 function drawTutu(x, y, rot, front){
@@ -1512,12 +1538,12 @@ function drawDancer(p, ax, ay){
   if (rB) hand = drawArm(1, p.rS, p.rE, shR[0], shR[1], yc, ys, p.rF);
 
   const hipL = HP(-9.5, 0, 0), hipR = HP(9.5, 0, 0), ct = Math.cos(p.tilt), st = Math.sin(p.tilt);
-  const leg = (hip, side, fx, fyUp, k, toe, z, heel) => {
-    const wx = sg * (fx * yc + 12 * z * ys), wy = -fyUp - 7 * p.pointe;      // where the ankle is before the body tips, measured from the ankle pivot
+  const leg = (hip, side, fx, fyUp, k, toe, z, heel, onToe) => {
+    const pt = Math.max(p.pointe, onToe), wx = sg * (fx * yc + 12 * z * ys), wy = -fyUp - 7 * pt;      // where the ankle is before the body tips, measured from the ankle pivot
     drawLeg(hip[0], hip[1], sg * (wx * ct + wy * st), -6 - wx * st + wy * ct, side, k * yc + side * Math.sqrt(Math.max(0, 1 - k * k)) * ys,
-      side * toe * yc + 1.1 * ys, fyUp, z * yc, p.pointe, heel, -p.tilt * sg);
+      side * toe * yc + 1.1 * ys, fyUp, z * yc, pt, heel, -p.tilt * sg);
   };
-  const legL = () => leg(hipL, -1, p.lfx, p.lfy, p.lK, p.lToe, p.lz, p.lHeel), legR = () => leg(hipR, 1, p.rfx, p.rfy, p.rK, p.rToe, p.rz, p.rHeel);
+  const legL = () => leg(hipL, -1, p.lfx, p.lfy, p.lK, p.lToe, p.lz, p.lHeel, p.lPt), legR = () => leg(hipR, 1, p.rfx, p.rfy, p.rK, p.rToe, p.rz, p.rHeel, p.rPt);
   drawTutu(hx + ux * 5, hy + uy * 5, aH, false);
   if (9.5 * sy + 12 * p.lz * cy <= -9.5 * sy + 12 * p.rz * cy){ legL(); legR(); } else { legR(); legL(); }      // the leg nearer the audience goes on top
   oval(hx - ux * 2, hy - uy * 2, 16 * Math.sqrt(cy * cy + .45 * sy * sy), 9.5, aH, LEGC);
@@ -1544,10 +1570,6 @@ function drawDancer(p, ax, ay){
     // shirt, tie, lapels, button and pocket square
     const nl = CP(-7, 5, zC(7)), nr = CP(7, 5, zC(7)), vt = HP(0, 22, 11.5), kn = CP(0, 1, 11.5), hem = HP(0, -10, 9.6), bt = HP(0, 15, 11);
     ctx.fillStyle = C.paper; ctx.beginPath(); ctx.moveTo(nl[0], nl[1]); ctx.lineTo(nr[0], nr[1]); ctx.lineTo(vt[0], vt[1]); ctx.closePath(); ctx.fill();
-    ctx.save(); ctx.translate(kn[0], kn[1]); ctx.rotate(p.lean + tieA); ctx.scale(Math.max(.25, yc), 1); ctx.fillStyle = C.sun;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(3.6, 3); ctx.lineTo(0, 6); ctx.lineTo(-3.6, 3); ctx.closePath(); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(-2.2, 5); ctx.lineTo(2.2, 5); ctx.lineTo(4.8, 21); ctx.lineTo(0, 26); ctx.lineTo(-4.8, 21); ctx.closePath(); ctx.fill();
-    ctx.restore();
     ctx.strokeStyle = SUITD; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.moveTo(nl[0], nl[1]); ctx.lineTo(vt[0], vt[1]); ctx.lineTo(nr[0], nr[1]); ctx.stroke();
     ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(vt[0], vt[1]); ctx.lineTo(hem[0], hem[1]); ctx.stroke();
@@ -1559,11 +1581,17 @@ function drawDancer(p, ax, ay){
       for (let i = 0; i < 10; i++){ const r = i % 2 ? 2.5 : 5.8, an = -PI / 2 + i * PI / 5; ctx.lineTo(sb[0] + r * tw * Math.cos(an), sb[1] + r * Math.sin(an)); }
       ctx.closePath(); ctx.fill();
     }
+    // the tie goes on last, so that when it swings it flies out over the lapel instead of sliding under it
+    ctx.save(); ctx.translate(kn[0], kn[1]); ctx.rotate(p.lean + tieA + mod(PI - p.rot - p.tilt, TAU) - PI); ctx.scale(Math.max(.25, yc), 1); ctx.fillStyle = C.sun;   // it hangs toward the floor, however he is tipped or turned over
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(3.6, 3); ctx.lineTo(0, 6); ctx.lineTo(-3.6, 3); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-2.2, 5); ctx.lineTo(2.2, 5); ctx.lineTo(4.8, 21); ctx.lineTo(0, 26); ctx.lineTo(-4.8, 21); ctx.closePath(); ctx.fill();
+    ctx.restore();
   }
 
   drawTutu(hx + ux * 5, hy + uy * 5, aH, true);
   const arms = () => { if (!lB) drawArm(-1, p.lS, p.lE, shL[0], shL[1], yc, ys, p.lF); if (!rB) hand = drawArm(1, p.rS, p.rE, shR[0], shR[1], yc, ys, p.rF); };
-  const head = () => { ctx.save(); ctx.translate(hcx, hcy); ctx.rotate(ha); drawHead(p, back, yc, ys); ctx.restore(); };
+  const hyaw = p.yaw + .32 * p.turn, hc = Math.cos(hyaw);        // the head turns a little further than the body when he looks to one side, and its hat and hair go with it
+  const head = () => { ctx.save(); ctx.translate(hcx, hcy); ctx.rotate(ha); drawHead(p, Math.abs(hc), Math.sin(hyaw) * sg, hc, back); ctx.restore(); };
   if (p.over){ head(); arms(); } else { arms(); head(); }          // in a dab the arm crosses in front of the face
   if (p.rope !== null && hand) drawRope(hand[0], hand[1], p.rope);
   if (p.tamb !== null && hand) drawTamb(hand[0], hand[1], p.tamb);
