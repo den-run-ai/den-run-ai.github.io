@@ -551,7 +551,7 @@ const MOVES = {
     const i = Math.floor(b), f = frac(b), open = i % 2 === 0, hop = Math.sin(PI * f);
     const w = lerp(open ? -3 : 15, open ? 15 : -3, easeOut(f / .3));
     p.lS = p.rS = -.5; p.lE = p.rE = -.12;
-    p.pointe = .8; p.y = 2 + 5 * hop; p.lfx = -w; p.rfx = w; p.lfy = p.rfy = 3 * hop; p.lToe = p.rToe = .3;
+    p.pointe = 1; p.y = 3 + 5 * hop; p.lfx = -w; p.rfx = w; p.lfy = p.rfy = 3 * hop; p.lToe = p.rToe = .2;
     if (i % 4 === 3){ p.rfy = 20 * hop; p.rK = 1; p.rfx = 6; }
     const hd = mod(Math.floor(b / 2), 2) === 0 ? 1 : -1;
     p.turn = hd; p.head = hd * .1; p.brow = .5; p.browT = .3; p.mouth = .2;
@@ -1289,14 +1289,23 @@ function drawLeg(hx, hy, fx, fy, side, k, dir, lift, z, pt, heel, flat){   // di
   const bx = B * Math.cos(rear) - 7.7 * Math.sin(rear), by = B * Math.sin(rear) + 7.7 * Math.cos(rear);      // where the ball of the foot would be if the shoe could not bend
   const Hx = lerp(bx, lerp(-.75, bx, clamp(Math.abs(dir) * 1.4, 0, 1)), planted);
   const Hy = lerp(by, 7.7 + 7 * pt - Math.max(0, 5.5 * Math.sin(toe - flat * sgn)), planted);              // planted, it is exactly on the floor
-  const tip = whole * (1 - air), mid = -2.35 * tip;                // standing on its tip the shoe is seen from the front: centred under the ankle, its sole out of sight
-  ctx.save(); ctx.rotate(rear);
-  ctx.fillStyle = C.sun; rr(-6.5 + 3 * tip, -3 + mid, B + 8.5 - 3 * tip, 10, 5); ctx.fill();
-  if (tip < .98){ ctx.globalAlpha = 1 - tip; ctx.fillStyle = C.paper; rr(-6.5, 4.5 + mid, B + 8.5, 3.2, 1.6); ctx.fill(); ctx.globalAlpha = 1; }
-  ctx.restore();
-  ctx.translate(Hx, Hy); ctx.rotate(toe);
-  ctx.fillStyle = C.sun; rr(-4, -10.7 + mid, len - B + 4, 10, 4.7); ctx.fill();
-  if (tip < .98){ ctx.globalAlpha = 1 - tip; ctx.fillStyle = C.paper; rr(-4, -3.2 + mid, len - B + 4, 3.2, 1.6); ctx.fill(); ctx.globalAlpha = 1; }
+  // The shoe is three round points joined up: heel, ball and toe cap. With the foot fully pointed they fall into one line and the shoe is seen from the
+  // top: a single shape narrowing to its tip, with the heel behind it once he turns side on. On the floor it stands straight up under the ankle; in the
+  // air it carries on the line of the shin.
+  const tp = whole, off = clamp((Math.abs(lift) - 3) / 5, 0, 1), prof = clamp(Math.abs(dir) * 1.4, 0, 1), F = 7.7 + 7 * pt;
+  const sway = off * (mod(Math.atan2(ey - ky, (ex - kx) * sgn) + PI / 2, TAU) - PI), cs = Math.cos(sway), sn = Math.sin(sway);
+  const cr = Math.cos(rear), sr = Math.sin(rear), ct = Math.cos(toe), st = Math.sin(toe);
+  const hlx = lerp(-1.5 * cr - 2 * sr, -2.8 * prof * cs - 2 * sn, tp), hly = lerp(2 * cr - 1.5 * sr, 2 * cs - 2.8 * prof * sn, tp), hlr = lerp(5, 4.4, tp);
+  const blx = lerp((B - 3) * cr - 2 * sr, -1.5 * sn, tp), bly = lerp((B - 3) * sr + 2 * cr, 1.5 * cs, tp), blr = lerp(5, 5.2, tp);
+  const tcx = lerp(Hx + .75 * ct + 5.7 * st, 1.2 * prof * cs - (F - 3.4) * sn, tp), tcy = lerp(Hy + .75 * st - 5.7 * ct, 1.2 * prof * sn + (F - 3.4) * cs, tp), tcr = lerp(4.85, 3.4, tp);
+  // the sole is an edge, and it draws back toward the ball of the foot as the shoe turns to face the viewer: up on its tip, or with the heel lifted while the toe points at him
+  const edge = clamp(1 - 8 * tp, 0, 1), kr = edge * lerp(1, clamp((prof - .45) / .4, 0, 1), planted), L = Math.hypot(blx - hlx, bly - hly);
+  const sole = (x, w, k, r) => { if (k > .05){ const th = .45 + .55 * k; ctx.fillStyle = C.paper; rr(x, r - 2.5 * th, w, 3.2 * th, 1.6 * th); ctx.fill(); } };
+  cap(hlx, hly, hlr, blx, bly, blr, C.sun); cap(blx, bly, blr, tcx, tcy, tcr, C.sun);
+  if (tp > 0) cap(hlx, hly, hlr, lerp(blx, tcx, tp), lerp(bly, tcy, tp), lerp(blr, tcr, tp), C.sun);      // the line from the heel down to the toe
+  ctx.save(); ctx.translate(hlx, hly); ctx.rotate(Math.atan2(bly - hly, blx - hlx)); sole(-5 + (L + 5) * (1 - kr), 5 + (L + 5) * kr, kr, hlr); ctx.restore();
+  oval(tcx, tcy, tcr, tcr, 0, C.sun);                              // the toe cap goes over the end of that sole, and has its own
+  ctx.translate(tcx, tcy); ctx.rotate(lerp(toe, PI / 2, tp)); sole(-4.75 * edge, 9.5 * edge, edge, tcr + .15);
   ctx.restore();
 }
 
