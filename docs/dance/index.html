@@ -58,7 +58,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 .skip svg{width:17px;height:17px;fill:currentColor}
 .skip:active{background:var(--line)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px}
-.tab{position:relative;flex:1 1 14%;min-width:0;font:700 13px/1.1 var(--body);color:var(--muted);background:transparent;border:0;border-bottom:3px solid var(--line);min-height:34px;padding:4px 2px;cursor:pointer}
+.tab{position:relative;flex:1 1 17%;min-width:0;font:700 13px/1.1 var(--body);color:var(--muted);background:transparent;border:0;border-bottom:3px solid var(--line);min-height:34px;padding:4px 2px;cursor:pointer}
 .tab[aria-pressed="true"]{color:var(--paper);border-bottom-color:var(--coral)}
 .styles,.moves{transform-origin:50% 0}
 .flip{animation:flip .28s ease-out}
@@ -129,7 +129,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="tab" data-tab="pop" aria-pressed="false">Pop</button>
       <button type="button" class="tab" data-tab="latin" aria-pressed="false">Latin</button>
       <button type="button" class="tab" data-tab="ballroom" aria-pressed="false">Ballroom</button>
-      <button type="button" class="tab" data-tab="india" aria-pressed="false">India</button>
       <button type="button" class="tab" data-tab="country" aria-pressed="false">Country</button>
       <button type="button" class="tab" data-tab="folk" aria-pressed="false">Folk</button>
       <button type="button" class="tab" data-tab="ballet" aria-pressed="false">Ballet</button>
@@ -159,8 +158,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="pill" data-tab="ballroom" data-style="salsa" aria-pressed="false" hidden>Salsa</button>
       <button type="button" class="pill" data-tab="ballroom" data-style="tango" aria-pressed="false" hidden>Tango</button>
       <button type="button" class="pill" data-tab="ballroom" data-style="waltz" aria-pressed="false" hidden>Waltz</button>
-      <button type="button" class="pill" data-tab="india" data-style="bhangra" aria-pressed="false" hidden>Bhangra</button>
-      <button type="button" class="pill" data-tab="india" data-style="kathak" aria-pressed="false" hidden>Kathak</button>
       <button type="button" class="pill" data-tab="country" data-style="honkytonk" aria-pressed="false" hidden>Honky tonk</button>
       <button type="button" class="pill" data-tab="country" data-style="hoedown" aria-pressed="false" hidden>Hoedown</button>
       <button type="button" class="pill" data-tab="folk" data-style="jig" aria-pressed="false" hidden>Jig</button>
@@ -225,10 +222,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="chip" data-tab="ballroom" data-move="waltz" aria-pressed="false" hidden>Box step</button>
       <button type="button" class="chip" data-tab="ballroom" data-move="whirl" aria-pressed="false" hidden>Whirl</button>
       <button type="button" class="chip" data-tab="ballroom" data-move="balance" aria-pressed="false" hidden>Sway</button>
-      <button type="button" class="chip" data-tab="india" data-move="bhangra" aria-pressed="false" hidden>Bhangra</button>
-      <button type="button" class="chip" data-tab="india" data-move="balle" aria-pressed="false" hidden>Balle balle</button>
-      <button type="button" class="chip" data-tab="india" data-move="chakkar" aria-pressed="false" hidden>Chakkar</button>
-      <button type="button" class="chip" data-tab="india" data-move="tatkar" aria-pressed="false" hidden>Foot&shy;work</button>
       <button type="button" class="chip" data-tab="country" data-move="lasso" aria-pressed="false" hidden>Lasso</button>
       <button type="button" class="chip" data-tab="country" data-move="heeltoe" aria-pressed="false" hidden>Heel toe</button>
       <button type="button" class="chip" data-tab="country" data-move="grapevine" aria-pressed="false" hidden>Grapevine</button>
@@ -332,9 +325,6 @@ const STYLES = {
   // ballroom: an original salsa and an original tango (the waltz is with the classics above)
   salsa:    { label:'Salsa',     wall:'SALSA',     bpm:96,  vol:.63, tune:true, cols:['#FF9A3D', '#FF5D5D', '#FFD23F', '#5FE08A'] },                // one beat here is two of the dancers' counts
   tango:    { label:'Tango',     wall:'TANGO',     bpm:126, vol:.6, tune:true, costume:'fedora', cols:['#FF5D5D', '#F3EEFF', '#8E6BFF', '#FFD23F'] },
-  // India: original tunes. A bhangra on dhol and tumbi, and a kathak piece in raga Yaman that gathers speed
-  bhangra:   { label:'Bhangra',   wall:'BHANGRA',   bpm:100, vol:.88, tune:true, costume:'turban', cols:['#FFD23F', '#FF5D5D', '#5FE08A', '#FF4FD8'] },
-  kathak:    { label:'Kathak',    wall:'KATHAK',    bpm:92, accel:6, vol:.71, tune:true, cols:['#FF9A3D', '#FFD23F', '#8E6BFF', '#F3EEFF'] },
   // folk dances. The jig is "The Irish Washerwoman", a traditional tune first printed in 1788; the others are original tunes in each country's manner
   jig:        { label:'Jig',        wall:'JIG',        bpm:116, vol:.68, tune:true, three:true, cols:['#5FE08A', '#F3EEFF', '#FF9A3D', '#2FBF71'] },
   polka:      { label:'Polka',      wall:'POLKA',      bpm:124, vol:.63, tune:true, costume:'alpine', cols:['#FFD23F', '#FF5D5D', '#F3EEFF', '#5FE08A'] },
@@ -343,8 +333,8 @@ const STYLES = {
   hora:       { label:'Hora',       wall:'HORA',       bpm:128, vol:.54, tune:true, cols:['#BFE3FF', '#FFD23F', '#F3EEFF', '#4D7CFF'] }
 };
 // Auto DJ running order: it opens on house, techno, trap and Italo disco, and after that every change of music is also a change of page
-const STYLE_ORDER = ['house', 'techno', 'trap', 'italo', 'midnight', 'disco', 'synthpop', 'salsa', 'deep', 'nudisco', 'hiphop', 'tango', 'eurodance', 'bhangra', 'slap',
-  'waltz', 'trance', 'dancepop', 'lambada', 'funk', 'kathak', 'swing', 'honkytonk', 'samba', 'rnb', 'jig', 'swan', 'flamenco', 'polka', 'cancan', 'latin', 'hoedown', 'sirtaki',
+const STYLE_ORDER = ['house', 'techno', 'trap', 'italo', 'midnight', 'disco', 'synthpop', 'salsa', 'deep', 'nudisco', 'hiphop', 'tango', 'eurodance', 'slap',
+  'waltz', 'trance', 'dancepop', 'lambada', 'funk', 'swing', 'honkytonk', 'samba', 'rnb', 'jig', 'swan', 'flamenco', 'polka', 'cancan', 'latin', 'hoedown', 'sirtaki',
   'cygnets', 'tarantella', 'trepak', 'hora', 'mountain'];
 const rotate = s => STYLE_ORDER[(STYLE_ORDER.indexOf(s) + 1) % STYLE_ORDER.length];
 const tuneful = s => !!(STYLES[s].classical || STYLES[s].tune);   // styles whose melody plays on through the build
@@ -380,8 +370,6 @@ const AUTO_MOVES = {                             // each style draws on the move
   salsa:     ['salsa', 'salsaturn', 'suzyq', 'salsa'],
   tango:     ['tangowalk', 'ocho', 'corte', 'tangowalk'],
   waltz:     ['waltz', 'whirl', 'balance', 'whirl'],
-  bhangra:   ['bhangra', 'balle', 'bhangra', 'balle'],
-  kathak:    ['tatkar', 'chakkar', 'tatkar', 'chakkar'],
   jig:        ['jigstep', 'sevens', 'trebles', 'jigstep', 'sevens'],
   polka:      ['polka', 'polka', 'polka', 'polka'],
   sirtaki:    ['sirtaki', 'sirtaki', 'sirtaki', 'sirtaki'],
@@ -398,8 +386,7 @@ const LABEL = { bounce:'Bounce', disco:'Point', jump:'Hands up', wave:'Wave', ro
   lambada:'Lambada', dip:'Dip', samba:'Samba', volta:'Volta', zapateado:'Heels', braceo:'Olé',
   polka:'Polka', sirtaki:'Sirtaki', tarantella:'Tarantella', hora:'Hora',
   sixstep:'Six step', windmill:'Windmill', freeze:'Freeze', worm:'Worm',
-  salsa:'Salsa', salsaturn:'Salsa spin', suzyq:'Suzy Q', tangowalk:'Tango walk', ocho:'Ochos', corte:'Lunge', waltz:'Box step', whirl:'Whirl', balance:'Sway',
-  bhangra:'Bhangra', balle:'Balle balle', chakkar:'Chakkar', tatkar:'Footwork' };
+  salsa:'Salsa', salsaturn:'Salsa spin', suzyq:'Suzy Q', tangowalk:'Tango walk', ocho:'Ochos', corte:'Lunge', waltz:'Box step', whirl:'Whirl', balance:'Sway' };
 const KINDS = ['spin', 'clap', 'drop', 'point'];
 
 const STEPX = 70, STEPDROP = 40, STAGE_L = 118, CX = 200, DROP = 4;
@@ -412,14 +399,14 @@ let mix = { t0: 0, base: 0 };                     // Auto mix: the beat in the s
 let introFrom = { x: STEPX, level: STEPDROP };
 const anchor = { x: STEPX, level: STEPDROP, lift: 0 };
 let travel = 0, shake = 0, flash = 0, energy = .3, pop = 0, tapHop = 0, tapHopV = 0;
-const wear = { tutu: 0, hat: 0, cap: 0, cowboy: 0, fedora: 0, cordobes: 0, plume: 0, alpine: 0, turban: 0 };   // how far on each costume piece is, 0 to 1
+const wear = { tutu: 0, hat: 0, cap: 0, cowboy: 0, fedora: 0, cordobes: 0, plume: 0, alpine: 0 };   // how far on each costume piece is, 0 to 1
 let tieA = 0, tieV = 0, hairX = 0, hairXV = 0, hairY = 0, hairYV = 0, lastHX = null, lastHY = null, blink = 0, nextBlink = 2;
 const parts = [], puffs = [];
 
 const basePose = () => ({ x:0, y:0, lean:0, tilt:0, head:0, turn:0, hipTilt:0, shTilt:0, lS:.22, lE:.2, rS:.22, rE:.2,
   lfx:-13, lfy:0, rfx:13, rfy:0, lToe:.7, rToe:.7, lK:.55, rK:.55, lz:0, rz:0, pointe:0, lPt:0, rPt:0, lHeel:0, rHeel:0, mouth:.55, brow:0, browT:0,
-  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, hs:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
-const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF','hs'];
+  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
+const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF'];
 let cur = basePose(); cur.mouth = 0;
 
 /* ---------- dance moves: each fills a pose for beat position b (arm angle 0 hangs down, PI/2 out sideways, PI up) ---------- */
@@ -1227,45 +1214,6 @@ const MOVES = {
     if (n === 0){ p[A[0] + 'fx'] = d * (13 + 9 * q); p[A[0] + 'fy'] = 5 * k; }
     else { p[A[0] + 'fx'] = d * 22; if (n === 1){ p[A[1] + 'fx'] = -d * lerp(13, -6, q); p[A[1] + 'z'] = -q; p[A[1] + 'fy'] = 4 * k; } else { p[A[1] + 'fx'] = d * 6; p[A[1] + 'z'] = -1; p[A[0] + 'fy'] = 3 * k; } p[A[1] + 'Pt'] = .5; }
     p.lS = 1.05 - .4 * sw; p.rS = 1.05 + .4 * sw; p.lE = .3 - .2 * sw; p.rE = .3 + .2 * sw;
-  },
-
-  /* India */
-  bhangra(b, p){                                 // bhangra: both arms up and pumping with the shoulders, hopping on one leg with the other knee lifted out to the side; two hops, then the other leg
-    const f = frac(b), d = mod(Math.floor(b / 2), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], hop = Math.sin(PI * f), sh = dip(b), q = easeOut(mod(b, 2) / .3);
-    p.y = 7 * hop - 4; p.lS = p.rS = 2.2 + .25 * sh; p.lE = p.rE = .75 - .45 * sh;
-    p.shTilt = d * .06; p.lean = -d * .07; p.x = -d * 5; p.head = d * .08 * Math.sin(PI * b);
-    p[A[0] + 'fy'] = (24 + 5 * hop) * q; p[A[0] + 'fx'] = d * lerp(13, 21, q); p[A[0] + 'K'] = 1; p[A[0] + 'Toe'] = .9;
-    p[A[1] + 'fy'] = 6 * hop; p[A[1] + 'fx'] = -d * 5;
-    p.face = 'joy'; p.mouth = .95;
-  },
-  balle(b, p){                                   // balle balle: wide and low, both arms swinging together from one side up over the head and down to the other, the body leaning after them and the far foot coming off the floor; on every fourth beat a jump with the hands clapped overhead
-    const c = mod(b, 4), ph = Math.sin(PI * b), a = (ph + 1) / 2, f = frac(b);
-    p.lS = lerp(1.77, 4.5, a); p.rS = lerp(4.5, 1.77, a); p.lE = p.rE = .12;
-    p.lean = .16 * ph; p.x = 9 * ph; p.y = -14 - 6 * dip(b); p.lfx = -22; p.rfx = 22; p.lK = p.rK = 1; p.head = .08 * ph;
-    p.lfy = 9 * Math.max(0, ph); p.rfy = 9 * Math.max(0, -ph);
-    if (c >= 3){ const k = Math.sin(PI * f); p.y = -14 + 36 * k; p.lfy = p.rfy = 24 * k; p.lS = p.rS = lerp(p.lS, 2.95, k); p.lE = p.rE = .12 + .5 * k; p.lean *= 1 - k; }
-    p.face = 'joy'; p.mouth = 1;
-  },
-  chakkar(b, p){                                 // kathak turns: three spins on the spot, one to a beat, each stamped out with the arms flung wide; then a held pose, one arm curved overhead and the eyes along the other; and the same the other way
-    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, A = d > 0 ? ['r', 'l'] : ['l', 'r'];
-    p.lfx = -7; p.rfx = 7; p.y = -5; p.brow = .5;
-    if (u < 3){
-      const f = frac(u), st = Math.sin(PI * clamp(f / .3, 0, 1));
-      p.yaw = d * TAU * ease(clamp(f / .85, 0, 1)); p.lS = p.rS = 1.5; p.lE = p.rE = .15; p.y = -6 + 2 * st; p.pointe = .3 * Math.sin(PI * f);
-      p[A[0] + 'fy'] = 7 * st; p.mouth = .3;
-    } else {
-      const q = easeOut((u - 3) / .25);
-      p[A[0] + 'S'] = lerp(1.5, 2.75, q); p[A[0] + 'E'] = lerp(.15, .85, q); p[A[1] + 'S'] = 1.5; p[A[1] + 'E'] = lerp(.15, -.2, q);
-      p.x = d * 6 * q; p.hipTilt = -d * .08 * q; p.hs = -d * 3 * q; p.turn = -d * .9 * q;
-      p[A[1] + 'fx'] = d * 3 * q - d * 7 * (1 - q); p[A[1] + 'z'] = -q; p[A[1] + 'Pt'] = .7 * q;
-      p.face = 'joy'; p.mouth = .7;
-    }
-  },
-  tatkar(b, p){                                  // kathak footwork: the body upright and still, one arm held out and the other hand in front of the chest, flat feet beating the floor right, left, right, left and then twice as fast; the arms change sides every four beats
-    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, A = d > 0 ? ['r', 'l'] : ['l', 'r'], g = u < 2 ? u * 2 : 4 + (u - 2) * 4, k = Math.sin(PI * frac(g)), m = ease(clamp(u / .6, 0, 1));
-    p.lfx = -8; p.rfx = 8; p.lToe = p.rToe = .55; p.lK = p.rK = .6; p.y = -6 - 1.5 * k; p[(Math.floor(g) % 2 === 0 ? 'r' : 'l') + 'fy'] = 6 * k;
-    p[A[0] + 'S'] = lerp(.9, 1.5, m); p[A[0] + 'E'] = lerp(-1.7, .12, m); p[A[1] + 'S'] = lerp(1.5, .9, m); p[A[1] + 'E'] = lerp(.12, -1.7, m);
-    p.turn = d * lerp(-.8, .8, m); p.hs = 3 * Math.sin(PI * b); p.brow = .5; p.mouth = .35;
   }
 };
 const waltzTime = b => STYLES[sec.style].bpm < 80 ? b : b / 2;      // a bar of the waltz lasts one beat of its own music, and two of anyone else's
@@ -1635,17 +1583,6 @@ function drawHats(yc, ys, cyS, mir){             // each hat is dropped on from 
     if (cyS > -.15) oval(17.5 * ys, -21 + 3.5 * ys * ys, 3.2 * Math.max(.35, Math.sqrt(Math.max(0, cyS))), 3.2, 0, C.coral);      // the jewel at the front
     ctx.restore();
   }
-  a = wear.turban;
-  if (a > .03){                                  // a turban for the bhangra: wound cloth with its folds meeting above the brow, and a fan of the cloth's end standing up on one side
-    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -26 * (1 - a));
-    ctx.save(); ctx.scale(Math.max(.25, yc), 1); ctx.translate(-10, -33); ctx.rotate(-.32);
-    ctx.fillStyle = C.sun; ctx.beginPath(); ctx.moveTo(-4, 5); ctx.lineTo(-10, -13); ctx.quadraticCurveTo(0, -19, 10, -13); ctx.lineTo(4, 5); ctx.closePath(); ctx.fill(); ctx.restore();
-    ctx.fillStyle = '#FF4FD8'; ctx.beginPath(); ctx.moveTo(-21, -11); ctx.bezierCurveTo(-26, -30, -15, -43, 0, -43); ctx.bezierCurveTo(15, -43, 26, -30, 21, -11); ctx.quadraticCurveTo(0, -18, -21, -11); ctx.closePath(); ctx.fill();
-    const fx = 13 * ys; ctx.strokeStyle = '#C22FA6'; ctx.lineWidth = 2; ctx.lineCap = 'round';
-    for (const k of [-1, 1]) for (const j of [1, 2, 3]){ ctx.beginPath(); ctx.moveTo(fx, -16.5); ctx.quadraticCurveTo(fx + k * 5 * j, -20 - 6 * j, k * (23 - 3 * j), -13 - 8 * j); ctx.stroke(); }
-    if (cyS > -.15) oval(fx, -17.5 + 2 * ys * ys, 3 * Math.max(.35, Math.sqrt(Math.max(0, cyS))), 3, 0, C.sun);
-    ctx.restore();
-  }
   a = wear.alpine;
   if (a > .03){                                  // a green felt hat with a feather for the polka
     ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); lean(.06);
@@ -1681,7 +1618,7 @@ function drawHead(p, yc, ys, cyS, mir){             // yc, ys, cyS: how far roun
   ctx.restore();
   // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion. A hat presses them all flat and covers them, so under
   // one the only hair to see is the short dark sides below its edge, the same from the front, the side and behind
-  const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine, wear.turban), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
+  const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
   ctx.save();
   if (hatOn > .03){ ctx.beginPath(); ctx.rect(-30, -12.5 - 26 * (1 - hatOn), 60, 60); ctx.clip(); }
   ctx.translate(hairX * fluff, hairY * fluff);
@@ -1819,7 +1756,7 @@ function drawDancer(p, ax, ay){
   ctx.quadraticCurveTo(J[12][0], J[12][1], J[0][0], J[0][1]); ctx.closePath(); ctx.fill(); ctx.stroke();
 
   // neck
-  const ha = p.lean * .5 + p.head, hcx = Cx + ux * 3 + (Math.sin(ha) * 27 + p.hs) * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;      // hs: the head slid sideways on the neck without tipping
+  const ha = p.lean * .5 + p.head, hcx = Cx + ux * 3 + Math.sin(ha) * 27 * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;
   cap(Cx + ux * 2, Cy + uy * 2, 5.4, hcx, hcy, 5, SKD);
 
   if (back){
@@ -2040,12 +1977,11 @@ function stringNote(m, bright){
   strings.set(key, note);
   return note;
 }
-function pluck(t, m, g, o){                      // o.bright: steel strings; o.dur: the string is damped after this long; o.send: echo; o.low: through the bass bus; o.cut: a bass guitar's tone knob; o.bend: it slides in from this many semitones away
+function pluck(t, m, g, o){                      // o.bright: steel strings; o.dur: the string is damped after this long; o.send: echo; o.low: through the bass bus; o.cut: a bass guitar's tone knob
   o = o || {};
   const mi = Math.round(m), n = stringNote(mi, o.bright), s = ac.createBufferSource(), v = ac.createGain(), dur = o.dur || 1.2;
   const rate = n.rate * Math.pow(2, (m - mi) / 12);
   s.buffer = n.buf; s.playbackRate.value = rate;
-  if (o.bend){ s.playbackRate.setValueAtTime(rate * Math.pow(2, o.bend / 12), t); s.playbackRate.exponentialRampToValueAtTime(rate, t + .08); }
   v.gain.setValueAtTime(g, t); v.gain.setTargetAtTime(0, t + dur, .03);
   s.connect(v);
   if (o.cut){ const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = o.cut; f.Q.value = .7; v.connect(f); out(f, o.send); } else out(v, o.send, o.low);
@@ -2071,33 +2007,6 @@ function cuica(t, up){                           // the laughing friction drum o
   f.type = 'bandpass'; f.frequency.value = 950; f.Q.value = 2;
   v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(.15, t + .015); v.gain.exponentialRampToValueAtTime(.0001, t + .11);
   o.connect(f); f.connect(v); v.connect(master); o.start(t); o.stop(t + .13);
-}
-function tabla(t, k, g, f){                      // hand drums. k: 'ge' the bass drum's swelling boom, 'na' the ringing stroke on the rim of the small drum (tuned to f), 'tin' the same left to ring, 'ke' a flat slap, 'tak' a stick on the dhol's high skin
-  if (k === 'ge'){
-    const o = ac.createOscillator(), v = ac.createGain();
-    o.type = 'triangle'; o.frequency.setValueAtTime(76, t); o.frequency.exponentialRampToValueAtTime(120, t + .09); o.frequency.exponentialRampToValueAtTime(90, t + .3);
-    v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g, t + .008); v.gain.exponentialRampToValueAtTime(.001, t + .3);
-    o.connect(v); out(v, 0, true); o.start(t); o.stop(t + .33);
-    noise(t, .015, 'bandpass', 900, 1, g * .22);
-  } else if (k === 'ke') noise(t, .03, 'bandpass', 1300, 1.6, g);
-  else if (k === 'tak'){ noise(t, .035, 'bandpass', 2700, 1.5, g); tom(t, 190, g * .5); }
-  else {
-    const dur = k === 'tin' ? .28 : .11;
-    for (const [m, a] of [[1, 1], [2.01, .45], [3.03, .2]]){
-      const o = ac.createOscillator(), v = ac.createGain();
-      o.frequency.value = f * m; v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g * a, t + .004); v.gain.exponentialRampToValueAtTime(.0001, t + dur / m);
-      o.connect(v); v.connect(master); o.start(t); o.stop(t + dur + .02);
-    }
-    noise(t, .012, 'bandpass', 3200, 1.2, g * .45);
-  }
-}
-function shout(t, g){                            // the band shouting "hoy!": a falling buzz through two filters that move from one vowel to the other
-  const o = ac.createOscillator(), f1 = ac.createBiquadFilter(), f2 = ac.createBiquadFilter(), v = ac.createGain();
-  o.type = 'sawtooth'; o.frequency.setValueAtTime(290, t); o.frequency.exponentialRampToValueAtTime(215, t + .17);
-  f1.type = 'bandpass'; f1.Q.value = 3; f1.frequency.setValueAtTime(620, t); f1.frequency.linearRampToValueAtTime(400, t + .17);
-  f2.type = 'bandpass'; f2.Q.value = 4; f2.frequency.setValueAtTime(1050, t); f2.frequency.linearRampToValueAtTime(2200, t + .17);
-  v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g, t + .02); v.gain.exponentialRampToValueAtTime(.0001, t + .21);
-  o.connect(f1); o.connect(f2); f1.connect(v); f2.connect(v); out(v, .15); o.start(t); o.stop(t + .23);
 }
 function riser(t, dur){
   const s = ac.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
@@ -2715,19 +2624,6 @@ const WZ = melody(`d4/t f#4/t a4/t a4/2t a5+f#5/t a5+f#5/t -/t f#5+d5/t f#5+d5/t
   e4/t g4/t b4/t b4/4t g#4/t a4/t f#5/3t | -/t d5/t f#4/t f#4/2t e4/t b4/2t a4/t d4/2t d4/t`);
 const WZ_H = 'DDDDDDAAAAAAAADDDDDDDDGGeeaddaAD';
 const WZ_CH = { D: [38, 45, [66, 69, 74]], A: [45, 40, [64, 67, 73]], G: [43, 38, [67, 71, 74]], e: [40, 47, [64, 67, 71]], a: [45, 45, [61, 64, 73]], d: [45, 45, [66, 69, 74]] };
-// ----- India: original tunes -----
-const bols = k => k === 'dha' ? ['ge', 'na'] : k === 'dhin' ? ['ge', 'tin'] : [k];      // the strokes that are both drums at once
-// Bhangra in A: a riff for the tumbi's one string, two bars long, and a reed tune for the second half
-const TB = melody(`a5 a5/1 c6/1 d6 c6/1 a5/1 g5 a5 -/4 | a5 a5/1 c6/1 d6 c6/1 a5/1 e6 d6/1 c6/1 a5 -/2`);
-const BH = melody(`e6/3 d6/1 c6 a5 c6/3 d6/1 e6/4 | g6/3 e6/1 d6 c6 d6/3 c6/1 a5/4 | e6/3 d6/1 c6 a5 c6/3 d6/1 e6/4 | d6/3 c6/1 a5 g5 a5/8`);
-// Kathak: raga Yaman with D as its home note. Four bars of the sitar's tune, three of it rattled out against the high string, and then one phrase played
-// three times over so that its last note is the first beat of the next round. The tabla keeps the sixteen-beat cycle, two bars to a round
-const KT = melody(`d5/4 c#5 e5 f#5/4 e5 d5 | e5 f#5 g#5 a5/4 g#5 f#5 e5 | c#5 e5 f#5/4 g#5 b5 c#6/4 | d6/4 c#6 b5 a5 g#5 f#5/4 |
-  f#5/1 d6/1 d6/1 d6/1 f#5/1 d6/1 d6/1 d6/1 e5/1 d6/1 d6/1 d6/1 e5/1 d6/1 d6/1 d6/1 | f#5/1 d6/1 d6/1 d6/1 g#5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 |
-  b5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 g#5/1 d6/1 d6/1 d6/1 f#5/1 d6/1 d6/1 d6/1 | b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1`);
-const KF = melody(`f#5/8 e5/8 | f#5/4 g#5/4 a5/8 | b5/4 a5/4 g#5/4 f#5/4 | b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1`);
-const TEEN = [['dha', 'dhin', 'dhin', 'dha', 'dha', 'dhin', 'dhin', 'dha'], ['dha', 'tin', 'tin', 'na', 'na', 'dhin', 'dhin', 'dha']];
-const TIHAI = ['ke', 'ke', 'ke', 'na', 'dha', 0, 'ke', 'ke', 'ke', 'na', 'dha', 0, 'ke', 'ke', 'ke', 'na'];
 Object.assign(PAT, {
   salsa(s, bar, t, spb){                         // salsa: the clave, a piano figure in octaves that leans ahead of the chords, a bass that never plays on the one, congas, and horns: a sung line with a flute, then a punchy riff with the bell
     const b8 = bar % 8, h0 = (bar % 2) * 2, e = s % 8, m = SA_MONT[s];
@@ -2762,24 +2658,6 @@ Object.assign(PAT, {
     }
     if (q === 0){ tone(t, mtof(h[m % 2]), spb * .3, 'sawtooth', .3, 700, { low: true }); pluck(t, h[m % 2] + 12, .3, { cut: 900, dur: spb * .3 }); kick(t, .5); }
     else if (q < 3){ for (const n of h[2]) lead(at, mtof(n), spb * .16, 'strings', .05); hat(at, .03, .07); }
-  },
-  bhangra(s, bar, t, spb){                       // bhangra: the dhol's galloping beat, its low skin landing three times in every eight, a riff on the tumbi's one high string, a bass that follows the drum, the band shouting, and a reed tune over the second half
-    const b8 = bar % 8, e = s % 8, root = b8 % 4 === 3 && s < 8 ? 43 : 45;
-    if (s % 2 === 1) t += spb / 12;
-    if (e === 0 || e === 5 || e === 6){ kick(t, e === 0 ? 1 : .8); tom(t, 66, e === 0 ? .5 : .35); }
-    tabla(t, 'tak', e === 0 || e === 3 || e === 6 ? .36 : .17);
-    if (s === 4 || s === 12) clap(t, .3);
-    if (s === 0 || s === 8) sub(t, mtof(root - 12), spb * .8, .24); else if (e === 5 || e === 6) tone(t, mtof(root), spb * .2, 'sawtooth', .2, 700, { low: true });
-    play(TB[bar % 2], s, t, spb, (at, m) => { pluck(at, m, .36, { bright: true, dur: .16, bend: -1, send: .15 }); pluck(at, m - 12, .16, { bright: true, dur: .12 }); });
-    if (b8 >= 4){ tune(BH[b8 - 4], s, t, spb, 'reed', .1, { up: -12, det: 1.004, len: .9, send: .15 }); tune(BH[b8 - 4], s, t, spb, 'oboe', .05, { up: -12, det: .996, len: .9 }); }
-    if (bar % 2 === 1 && s === 12) shout(t, .2);
-  },
-  kathak(s, bar, t, spb){                        // kathak: the tabla's sixteen-beat cycle, a tanpura drone, a sitar with a flute joining for the second half, all of it gathering speed
-    const b8 = bar % 8, k = b8 === 7 ? TIHAI[s] : s % 2 === 0 ? TEEN[bar % 2][s / 2] : s % 8 === 7 ? 'ke' : 0;
-    if (k) for (const x of bols(k)) tabla(t, x, x === 'ge' ? .8 : x === 'ke' ? .2 : .42, 587);
-    if (s % 4 === 0) pluck(t, [57, 62, 62, 50][s >> 2], .18, { dur: 1.8 });
-    play(KT[b8], s, t, spb, (at, m, d) => pluck(at, m, b8 >= 4 && b8 < 7 && m === 86 ? .1 : b8 < 4 ? .38 : .3, { bright: true, dur: Math.max(.18, d * 1.3), bend: d > spb * .7 ? -2 : 0, send: .15 }));
-    if (b8 >= 4) tune(KF[b8 - 4], s, t, spb, 'whistle', .15, { glide: true, len: 1, send: .2 });
   }
 });
 function fill(style, k, t){                      // the last beat before a new move
