@@ -1426,17 +1426,17 @@ function drawHead(p, yc, ys, cyS, mir){             // yc, ys, cyS: how far roun
   ctx.lineTo(22 * sgn, -32); ctx.lineTo(-22 * sgn, -32); ctx.lineTo(-22 * sgn, 10 - 5 * kb);
   ctx.quadraticCurveTo((H[0][0] - 22 * sgn) / 2, 9 + 4 * kb, H[0][0], 5 * kb); ctx.closePath(); ctx.fill();
   ctx.restore();
-  // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion. A hat presses the top flat and covers it, so under one
-  // there is hair only below its edge: the short sides, and the curls at the back
+  // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion. A hat presses them all flat and covers them, so under
+  // one the only hair to see is the short dark sides below its edge, the same from the front, the side and behind
   const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
   ctx.save();
   if (hatOn > .03){ ctx.beginPath(); ctx.rect(-30, -12.5 - 26 * (1 - hatOn), 60, 60); ctx.clip(); }
   ctx.translate(hairX * fluff, hairY * fluff);
-  for (const c of [[-56, -5, 6.2, HAIRD], [-19, -3.5, 7, HAIRD], [19, -3.5, 7, HAIRD], [56, -5, 6.2, HAIRD], [-38, -10.5, 7, HAIR], [0, -9.5, 7.5, HAIR], [38, -10.5, 7, HAIR]]){
-    const an = c[0] * PI / 180, sa = Math.sin(an), ca = Math.cos(an), w = -(ca * cyS - sa * ys);
-    if (w > .12) oval(-15.5 * (sa * cyS + ca * ys), c[1], c[2] * Math.min(1, w + .4), c[2], 0, c[3]);
-  }
   if (fluff > .02){
+    for (const c of [[-56, -5, 6.2, HAIRD], [-19, -3.5, 7, HAIRD], [19, -3.5, 7, HAIRD], [56, -5, 6.2, HAIRD], [-38, -10.5, 7, HAIR], [0, -9.5, 7.5, HAIR], [38, -10.5, 7, HAIR]]){
+      const an = c[0] * PI / 180, sa = Math.sin(an), ca = Math.cos(an), w = -(ca * cyS - sa * ys);
+      if (w > .12) oval(-15.5 * (sa * cyS + ca * ys), c[1], c[2] * Math.min(1, w + .4) * fluff, c[2] * fluff, 0, c[3]);
+    }
     for (const c of [[-14, -15, 6.5], [-5, -21, 7.5], [6, -22, 7.5], [14, -16, 6.5]]) oval(c[0], c[1], c[2] * fluff, c[2] * fluff, 0, HAIRD);
     for (const c of [[-10, -18, 6.5], [0, -23.5, 7.5], [10, -19, 6.5], [-16, -10, 4.5], [16, -11, 4.5]]) oval(c[0], c[1], c[2] * fluff, c[2] * fluff, 0, HAIR);
   }
