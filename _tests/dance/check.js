@@ -4,6 +4,7 @@
 //   2. fails on drift: any style or move that no longer measures as it did in baseline.json;
 //   3. fails if anything the owner rejected (verdicts.json) is back on the page;
 //   4. reports, without failing, what is new, what nobody has judged yet, and what is unlike the owner's favourites.
+// listen.js, beside this file, asks models that can hear or read music for a second opinion. It needs a key and the network, so it is not part of this check.
 // --update accepts the page as it is now as the new baseline. Do that only for changes that were meant, and say which in the commit.
 const fs = require('fs'), path = require('path');
 const { chromium } = require('playwright');
@@ -14,12 +15,12 @@ const BASE = path.join(HERE, 'baseline.json'), VERD = path.join(HERE, 'verdicts.
 
 // Floors: set at the worst value of anything now on the page, with a little room. They do not say a thing is good, only that it is not broken in a way a number can see.
 const FLOOR = {
-  style: { clash: ['<=', .08, 'notes a semitone apart sounding together'], pulse: ['>=', .45, 'no clear pulse'], repeat: ['>=', .5, 'the bar-to-bar rhythm does not hold'],
+  style: { clash: ['<=', .08, 'notes a semitone apart sounding together'], offKey: ['<=', .16, 'too many notes outside its own scale'], pulse: ['>=', .45, 'no clear pulse'], repeat: ['>=', .5, 'the bar-to-bar rhythm does not hold'],
     harsh: ['<=', -16, 'sustained sound in the 2.5 to 4.5 kHz band, where the ear tires'], low: ['>=', -20, 'no low end'], level: ['within', [-22.5, -11], 'overall level out of line with the other styles'] },
   move: { floor: ['>=', -1, 'a joint goes through the floor'], motion: ['>=', 10, 'he barely moves'], apart: ['>=', 3.5, 'almost the same shapes as another move'] }
 };
 // Drift: how far a measure may differ from the baseline before it counts as a change. Run-to-run noise is under a fifth of each.
-const TOL = { style: { level: .3, low: .4, harsh: .6, fill: .03, onBeat: .1, pulse: .05, repeat: .05, backbeat: .1, loudVar: .04, clash: .005, tuneNotes: .01, voices: 0, lowBeats: .01, drumBeats: .01, sync: .01, bpm: 0 },
+const TOL = { style: { level: .3, low: .4, harsh: .6, fill: .03, onBeat: .1, pulse: .05, repeat: .05, backbeat: .1, loudVar: .04, clash: .005, tuneNotes: .01, voices: 0, lowBeats: .01, drumBeats: .01, sync: .01, bpm: 0, offKey: .01, pitchSum: 0 },
   move: { motion: .5, lock: .02, bob: .3, sway: .3, box: .03, reach: .5, shapes: 0, floor: .3, apart: .3, travel: .5, handsUp: .02 } };
 const pack = g => g.replace(/(\d)\1{4,}/g, (m, d) => d + '(' + m.length + ')'), unpack = g => g.replace(/(\d)\((\d+)\)/g, (m, d, n) => d.repeat(+n));      // the pictures are mostly empty, so runs of one digit are written short
 const ENVELOPE = ['level', 'low', 'harsh', 'fill', 'onBeat', 'pulse', 'repeat', 'backbeat', 'loudVar', 'lowBeats'];   // the measures on which a style is compared with the favourites
@@ -58,8 +59,8 @@ const ENVELOPE = ['level', 'low', 'harsh', 'fill', 'onBeat', 'pulse', 'repeat', 
     for (const id in Q[key]){
       const now = Q[key][id], was = base[key][id]; if (!was){ fresh.push(kind + ' ' + id); continue; }
       const d = [];
-      for (const k in TOL[kind]) if (Math.abs(now[k] - was[k]) > TOL[kind][k] + 1e-9) d.push(`${k} ${was[k]} -> ${now[k]}`);
-      if (kind === 'style'){ let w = 0; now.profile.forEach((v, i) => { w = Math.max(w, Math.abs(v - was.profile[i])); }); if (w > .02) d.push('where in the bar it hits (by ' + w.toFixed(3) + ')'); }
+      for (const k in TOL[kind]) if (was[k] !== undefined && Math.abs(now[k] - was[k]) > TOL[kind][k] + 1e-9) d.push(`${k} ${was[k]} -> ${now[k]}`);
+      if (kind === 'style'){ let w = 0; now.profile.forEach((v, i) => { w = Math.max(w, Math.abs(v - was.profile[i])); }); if (w > .02) d.push('where in the bar it hits (by ' + w.toFixed(3) + ')'); w = 0; if (was.keys) now.keys.forEach((v, i) => { w = Math.max(w, Math.abs(v - was.keys[i])); }); if (w > .005) d.push('which notes it plays (by ' + w.toFixed(3) + ')'); }
       else { const pics = Q.pictures[id], old = (base.pictures[id] || []).map(unpack); let ink = 0; pics.forEach((g, i) => { for (let c = 0; c < g.length; c++) ink += Math.abs(g[c] - ((old[i] || '')[c] || 0)); }); if (ink >= 3) d.push('how it is drawn (by ' + ink + ', where 9 is one whole cell of ' + pics.join('').length + ')'); }
       if (d.length) changed.push(`${kind} ${id}${(verdicts[key][id] || {}).verdict === 'loved' ? ' [a favourite]' : ''}: ${d.join('; ')}`);
     }
@@ -89,7 +90,7 @@ const ENVELOPE = ['level', 'low', 'harsh', 'fill', 'onBeat', 'pulse', 'repeat', 
   if (arg('--update')){
     const keep = (m, tol, extra) => { const o = {}; for (const k of Object.keys(tol).concat(extra)) o[k] = m[k]; return o; }, out = { styles: {}, moves: {}, pictures: {} };
     for (const m in Q.pictures) out.pictures[m] = Q.pictures[m].map(pack);
-    for (const s in Q.styles) out.styles[s] = keep(Q.styles[s], TOL.style, ['profile']);
+    for (const s in Q.styles) out.styles[s] = keep(Q.styles[s], TOL.style, ['profile', 'keys']);
     for (const m in Q.moves) out.moves[m] = keep(Q.moves[m], TOL.move, ['nearest']);
     fs.writeFileSync(BASE, JSON.stringify(out).replace(/("(styles|moves|pictures)":\{|\},|\],")/g, m => m.startsWith('"') ? m + '\n' : m[0] + ',\n' + m.slice(2)) + '\n');
     console.log('\nBaseline updated' + (changed.length + fresh.length + gone.length ? ': ' + (changed.length + fresh.length + gone.length) + ' entries differ from the old one.' : '.'));

@@ -67,13 +67,16 @@
       for (let i = 0; i < 16; i++) if (on[i]){ let R = -9; for (let j = 1; j < 16 && !on[(i + j) % 16]; j++) R = Math.max(R, LHL[(i + j) % 16]); if (R > LHL[i]) sync += R - LHL[i]; }
     }
     const tune = pitched.filter(e => e.m >= 60);
+    // which notes it plays: the weight of each of the twelve pitch classes (length times loudness), the share of that weight outside the best-fitting seven-note scale, and the sum of all the pitches, which moves if any one note does
+    const keys = new Array(12).fill(0); let pitchSum = 0; for (const e of pitched){ keys[((Math.round(e.m) % 12) + 12) % 12] += e.d * e.g; pitchSum += Math.round(e.m); }
+    const kt = keys.reduce((s, v) => s + v, 0) || 1; let inKey = 0; for (let r = 0; r < 12; r++){ let w = 0; for (const iv of [0, 2, 4, 5, 7, 9, 11]) w += keys[(r + iv) % 12]; inKey = Math.max(inKey, w / kt); }
     return {
       level: r3(db(rms(x))), second: r3(db(rms(x.subarray(half)) / (rms(x.subarray(0, half)) + 1e-9))),
       low: r3(db(rms(lowB) / (rms(x) + 1e-9))), harsh: r3(db(pct(eP.subarray(n0, n1), .5) / (pct(env, .5) + 1e-9))), fill: r3(pct(env, .1) / (pct(env, .9) + 1e-9)),
       onBeat: r3(onb / tot / (.07 / spb)), pulse: r3(pc), beatAc: r3(ac(o, 1)), halfAc: r3(ac(o, .5)), barAc: r3(ac(o, 4)), lowAc: r3(Math.max(ac(ol, 1), ac(ol, 2), ac(ol, 4))),
       backbeat: r3(bb / (all / 8 || 1e-9)), repeat: r3(mean(rep)), loudVar: r3(sd / (ms || 1e-9)), lowFlux: r3(lf / (n1 - n0) / (mean(env) || 1e-9)),
       clash: r3(clash / bars), lowBeats: r3(lowBeats / bars), drumBeats: r3(drumBeats / bars), sync: r3(sync / bars), tuneNotes: r3(tune.length / bars), voices: new Set(N.map(e => e.v)).size,
-      profile: fold(P).map(r3), lowProfile: fold(PL).map(r3)
+      offKey: r3(Math.max(0, 1 - inKey)), pitchSum, keys: keys.map(v => r3(v / kt)), profile: fold(P).map(r3), lowProfile: fold(PL).map(r3)
     };
   }
 
