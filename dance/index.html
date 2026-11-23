@@ -159,7 +159,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="pill" data-tab="ballroom" data-style="salsa" aria-pressed="false" hidden>Salsa</button>
       <button type="button" class="pill" data-tab="ballroom" data-style="tango" aria-pressed="false" hidden>Tango</button>
       <button type="button" class="pill" data-tab="ballroom" data-style="waltz" aria-pressed="false" hidden>Waltz</button>
-      <button type="button" class="pill" data-tab="india" data-style="bollywood" aria-pressed="false" hidden>Bollywood</button>
       <button type="button" class="pill" data-tab="india" data-style="bhangra" aria-pressed="false" hidden>Bhangra</button>
       <button type="button" class="pill" data-tab="india" data-style="kathak" aria-pressed="false" hidden>Kathak</button>
       <button type="button" class="pill" data-tab="country" data-style="honkytonk" aria-pressed="false" hidden>Honky tonk</button>
@@ -226,9 +225,6 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="chip" data-tab="ballroom" data-move="waltz" aria-pressed="false" hidden>Box step</button>
       <button type="button" class="chip" data-tab="ballroom" data-move="whirl" aria-pressed="false" hidden>Whirl</button>
       <button type="button" class="chip" data-tab="ballroom" data-move="balance" aria-pressed="false" hidden>Sway</button>
-      <button type="button" class="chip" data-tab="india" data-move="thumka" aria-pressed="false" hidden>Thumka</button>
-      <button type="button" class="chip" data-tab="india" data-move="bulb" aria-pressed="false" hidden>Light bulb</button>
-      <button type="button" class="chip" data-tab="india" data-move="neck" aria-pressed="false" hidden>Head slide</button>
       <button type="button" class="chip" data-tab="india" data-move="bhangra" aria-pressed="false" hidden>Bhangra</button>
       <button type="button" class="chip" data-tab="india" data-move="balle" aria-pressed="false" hidden>Balle balle</button>
       <button type="button" class="chip" data-tab="india" data-move="chakkar" aria-pressed="false" hidden>Chakkar</button>
@@ -336,8 +332,7 @@ const STYLES = {
   // ballroom: an original salsa and an original tango (the waltz is with the classics above)
   salsa:    { label:'Salsa',     wall:'SALSA',     bpm:96,  vol:.63, tune:true, cols:['#FF9A3D', '#FF5D5D', '#FFD23F', '#5FE08A'] },                // one beat here is two of the dancers' counts
   tango:    { label:'Tango',     wall:'TANGO',     bpm:126, vol:.6, tune:true, costume:'fedora', cols:['#FF5D5D', '#F3EEFF', '#8E6BFF', '#FFD23F'] },
-  // India: original tunes. A song in the manner of the old Hindi films, a bhangra on dhol and tumbi, and a kathak piece in raga Yaman that gathers speed
-  bollywood: { label:'Bollywood', wall:'BOLLYWOOD', bpm:112, vol:.49, tune:true, cols:['#FF4FD8', '#FFD23F', '#FF9A3D', '#3DE0D0'] },
+  // India: original tunes. A bhangra on dhol and tumbi, and a kathak piece in raga Yaman that gathers speed
   bhangra:   { label:'Bhangra',   wall:'BHANGRA',   bpm:100, vol:.88, tune:true, costume:'turban', cols:['#FFD23F', '#FF5D5D', '#5FE08A', '#FF4FD8'] },
   kathak:    { label:'Kathak',    wall:'KATHAK',    bpm:92, accel:6, vol:.71, tune:true, cols:['#FF9A3D', '#FFD23F', '#8E6BFF', '#F3EEFF'] },
   // folk dances. The jig is "The Irish Washerwoman", a traditional tune first printed in 1788; the others are original tunes in each country's manner
@@ -348,7 +343,7 @@ const STYLES = {
   hora:       { label:'Hora',       wall:'HORA',       bpm:128, vol:.54, tune:true, cols:['#BFE3FF', '#FFD23F', '#F3EEFF', '#4D7CFF'] }
 };
 // Auto DJ running order: it opens on house, techno, trap and Italo disco, and after that every change of music is also a change of page
-const STYLE_ORDER = ['house', 'techno', 'trap', 'italo', 'midnight', 'disco', 'synthpop', 'bollywood', 'salsa', 'deep', 'nudisco', 'hiphop', 'tango', 'eurodance', 'bhangra', 'slap',
+const STYLE_ORDER = ['house', 'techno', 'trap', 'italo', 'midnight', 'disco', 'synthpop', 'salsa', 'deep', 'nudisco', 'hiphop', 'tango', 'eurodance', 'bhangra', 'slap',
   'waltz', 'trance', 'dancepop', 'lambada', 'funk', 'kathak', 'swing', 'honkytonk', 'samba', 'rnb', 'jig', 'swan', 'flamenco', 'polka', 'cancan', 'latin', 'hoedown', 'sirtaki',
   'cygnets', 'tarantella', 'trepak', 'hora', 'mountain'];
 const rotate = s => STYLE_ORDER[(STYLE_ORDER.indexOf(s) + 1) % STYLE_ORDER.length];
@@ -385,9 +380,8 @@ const AUTO_MOVES = {                             // each style draws on the move
   salsa:     ['salsa', 'salsaturn', 'suzyq', 'salsa'],
   tango:     ['tangowalk', 'ocho', 'corte', 'tangowalk'],
   waltz:     ['waltz', 'whirl', 'balance', 'whirl'],
-  bollywood: ['thumka', 'bulb', 'neck', 'thumka', 'bulb', 'chakkar'],
-  bhangra:   ['bhangra', 'balle', 'bhangra', 'bulb'],
-  kathak:    ['tatkar', 'chakkar', 'neck', 'tatkar', 'chakkar'],
+  bhangra:   ['bhangra', 'balle', 'bhangra', 'balle'],
+  kathak:    ['tatkar', 'chakkar', 'tatkar', 'chakkar'],
   jig:        ['jigstep', 'sevens', 'trebles', 'jigstep', 'sevens'],
   polka:      ['polka', 'polka', 'polka', 'polka'],
   sirtaki:    ['sirtaki', 'sirtaki', 'sirtaki', 'sirtaki'],
@@ -405,7 +399,7 @@ const LABEL = { bounce:'Bounce', disco:'Point', jump:'Hands up', wave:'Wave', ro
   polka:'Polka', sirtaki:'Sirtaki', tarantella:'Tarantella', hora:'Hora',
   sixstep:'Six step', windmill:'Windmill', freeze:'Freeze', worm:'Worm',
   salsa:'Salsa', salsaturn:'Salsa spin', suzyq:'Suzy Q', tangowalk:'Tango walk', ocho:'Ochos', corte:'Lunge', waltz:'Box step', whirl:'Whirl', balance:'Sway',
-  thumka:'Thumka', bulb:'Light bulb', neck:'Head slide', bhangra:'Bhangra', balle:'Balle balle', chakkar:'Chakkar', tatkar:'Footwork' };
+  bhangra:'Bhangra', balle:'Balle balle', chakkar:'Chakkar', tatkar:'Footwork' };
 const KINDS = ['spin', 'clap', 'drop', 'point'];
 
 const STEPX = 70, STEPDROP = 40, STAGE_L = 118, CX = 200, DROP = 4;
@@ -1236,28 +1230,6 @@ const MOVES = {
   },
 
   /* India */
-  thumka(b, p){                                  // thumka: one hand on the hip, the other turning at the wrist above the head, and the hips thrown out to one side and then the other, a throw to every beat; the hands change over every four
-    const i = Math.floor(b), f = frac(b), d = mod(Math.floor(b / 4), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], hd = mod(i, 2) === 0 ? 1 : -1;
-    const hit = easeOut(f / .22) * (1 - ease(clamp((f - .6) / .4, 0, 1)));
-    p.x = hd * 12 * hit; p.hipTilt = -hd * .13 * hit; p.shTilt = hd * .05 * hit; p.y = -9 - 3 * hit; p.lK = p.rK = .8;
-    p[A[0] + 'S'] = 2.55; p[A[0] + 'E'] = .7 + .35 * Math.sin(TAU * 2 * b); p[A[1] + 'S'] = .8; p[A[1] + 'E'] = -1.45;
-    p.hs = hd * 3.5 * hit; p.head = hd * .05 * hit; p.turn = d * .5; p[(hd > 0 ? 'l' : 'r') + 'Pt'] = .5 * hit;
-    p.face = 'joy'; p.mouth = .8; p.brow = .5;
-  },
-  bulb(b, p){                                    // the party step: one hand screws in a light bulb up high while the other pats a dog down low, shoulders bouncing; then the hands change over
-    const d = mod(Math.floor(b / 4), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], s = Math.sin(PI * b), tw = Math.sin(TAU * 2 * b), up = 6 * Math.sin(PI * frac(b));
-    p[A[0] + 'S'] = 2.5 + .08 * tw; p[A[0] + 'E'] = .55 + .4 * tw; p[A[1] + 'S'] = .75; p[A[1] + 'E'] = .25 - .4 * dip(2 * b);
-    p.shTilt = .12 * s; p.x = 7 * s; p.y = -8 - 5 * dip(b); p.lK = p.rK = .8; p.head = .1 * s; p.turn = d * .4; p.lfx = -15; p.rfx = 15;
-    if (mod(Math.floor(b), 2) === 0) p.lfy = up; else p.rfy = up;
-    p.face = 'joy'; p.mouth = .9;
-  },
-  neck(b, p){                                    // the head slides from side to side over still shoulders, the eyes going with it and the palms pressed together above it; then the hands come down in front of the chest and it slides twice as fast
-    const c = mod(b, 8), g = c < 4 ? b : 2 * b, f = frac(g), dir = mod(Math.floor(g), 2) === 0 ? 1 : -1, sl = dir * (2 * easeOut(f / .35) - 1);
-    const m = c < 4 ? 1 - ease(clamp((c - 3.5) / .5, 0, 1)) : ease(clamp((c - 7.5) / .5, 0, 1));
-    p.hs = 6.5 * sl; p.turn = .55 * sl; p.y = -13 - 2 * dip(b); p.lK = p.rK = 1; p.lfx = -17; p.rfx = 17; p.lToe = p.rToe = 1;
-    p.lS = p.rS = lerp(.75, 2.95, m); p.lE = p.rE = lerp(-2.1, .95, m);
-    p[(sl > 0 ? 'l' : 'r') + 'Pt'] = .35 * Math.sin(PI * f); p.brow = .6; p.mouth = .4;
-  },
   bhangra(b, p){                                 // bhangra: both arms up and pumping with the shoulders, hopping on one leg with the other knee lifted out to the side; two hops, then the other leg
     const f = frac(b), d = mod(Math.floor(b / 2), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], hop = Math.sin(PI * f), sh = dip(b), q = easeOut(mod(b, 2) / .3);
     p.y = 7 * hop - 4; p.lS = p.rS = 2.2 + .25 * sh; p.lE = p.rE = .75 - .45 * sh;
@@ -2744,14 +2716,6 @@ const WZ = melody(`d4/t f#4/t a4/t a4/2t a5+f#5/t a5+f#5/t -/t f#5+d5/t f#5+d5/t
 const WZ_H = 'DDDDDDAAAAAAAADDDDDDDDGGeeaddaAD';
 const WZ_CH = { D: [38, 45, [66, 69, 74]], A: [45, 40, [64, 67, 73]], G: [43, 38, [67, 71, 74]], e: [40, 47, [64, 67, 71]], a: [45, 45, [61, 64, 73]], d: [45, 45, [66, 69, 74]] };
 // ----- India: original tunes -----
-// Bollywood: a song in the manner of the Hindi films of the fifties and sixties, in A minor with its raised seventh. The voice sings a line and the violins
-// run up to answer it; the same line comes back a fourth higher, and then in the major for the second half. One letter of harmony for each beat
-const BW = melody(`e5 a5 a5/1 b5/1 c6 b5/1 a5/1 g#5 a5/4 | c6 b5/1 a5/1 g#5 f5 e5/4 -/4 | a5 d6 d6/1 e6/1 f6 e6/1 d6/1 c6 d6/4 | e6 f6/1 e6/1 d6 b5 a5/4 -/4 |
-  g5 c6 c6/1 d6/1 e6 d6/1 c6/1 b5 c6/4 | d6 e6/1 d6/1 b5 a5 g5/4 -/4 | a5 c6 c6/1 d6/1 f6 e6/1 d6/1 c6 d6/4 | e6 f6/1 e6/1 d6 b5 g#5 b5 e5/4`);
-const BW_RUN = melody(`-/16 | -/12 d5/1 e5/1 f5/1 g#5/1 | -/16 | -/12 e6/1 d6/1 c6/1 a5/1 | -/16 | -/12 d6/1 c6/1 b5/1 g5/1 | -/16 | -/16`);
-const BW_CH = { a: [45, [57, 60, 64]], E: [40, [56, 62, 64]], d: [38, [57, 62, 65]], C: [48, [55, 60, 64]], G: [43, [55, 59, 62]], F: [41, [57, 60, 65]] };
-const BW_H = ['aaaa', 'aEEE', 'dddd', 'EEaa', 'CCCC', 'GGGG', 'FFdd', 'EEEE'];
-const KEHERWA = ['dha', 0, 'ge', 'ke', 'na', 0, 'tin', 'ke', 'na', 0, 'ke', 0, 'dhin', 0, 'na', 'ge'];
 const bols = k => k === 'dha' ? ['ge', 'na'] : k === 'dhin' ? ['ge', 'tin'] : [k];      // the strokes that are both drums at once
 // Bhangra in A: a riff for the tumbi's one string, two bars long, and a reed tune for the second half
 const TB = melody(`a5 a5/1 c6/1 d6 c6/1 a5/1 g5 a5 -/4 | a5 a5/1 c6/1 d6 c6/1 a5/1 e6 d6/1 c6/1 a5 -/2`);
@@ -2798,18 +2762,6 @@ Object.assign(PAT, {
     }
     if (q === 0){ tone(t, mtof(h[m % 2]), spb * .3, 'sawtooth', .3, 700, { low: true }); pluck(t, h[m % 2] + 12, .3, { cut: 900, dur: spb * .3 }); kick(t, .5); }
     else if (q < 3){ for (const n of h[2]) lead(at, mtof(n), spb * .16, 'strings', .05); hat(at, .03, .07); }
-  },
-  bollywood(s, bar, t, spb){                     // an old film song: dholak and ankle bells, a mandolin strumming in threes and trembling along with the tune, a voice that slides from note to note, and violins running up to answer it
-    const b8 = bar % 8, H = BW_H[b8], h = BW_CH[H[s >> 2]], k = KEHERWA[s];
-    if (s % 2 === 1) t += spb * .04;
-    if (k) for (const x of bols(k)) tabla(t, x, x === 'ge' ? .8 : x === 'ke' ? .16 : .3, 440);
-    noise(t, .04, 'highpass', 8000, .7, s % 4 === 0 ? .1 : s % 2 === 0 ? .06 : .03);
-    if (s === 0 || s === 8) pluck(t, h[0] + (s === 8 && H[2] === H[0] ? 7 : 0), .4, { cut: 850, dur: spb * .8 });
-    if ('x..x..x.x..x..x.'[s] === 'x') strum(t, h[1], .1, { dur: .12, bright: true, up: s % 2 === 1, gap: .008 });
-    tune(BW[b8], s, t, spb, 'whistle', .2, { glide: true, len: 1, send: .2 });
-    pick(BW[b8], s, t, spb, .1, { bright: true, trem: .075, dur: .14 });
-    tune(BW_RUN[b8], s, t, spb, 'strings', .11, { send: .2 }); tune(BW_RUN[b8], s, t, spb, 'strings', .08, { up: -12 });
-    if (b8 >= 4) tune(BW[b8], s, t, spb, 'silk', .06, { up: -12, glide: true, len: 1 });
   },
   bhangra(s, bar, t, spb){                       // bhangra: the dhol's galloping beat, its low skin landing three times in every eight, a riff on the tumbi's one high string, a bass that follows the drum, the band shouting, and a reed tune over the second half
     const b8 = bar % 8, e = s % 8, root = b8 % 4 === 3 && s < 8 ? 43 : 45;
