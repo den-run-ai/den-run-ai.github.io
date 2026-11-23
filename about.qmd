@@ -1,19 +1,59 @@
 ---
-title: "About Denis A."
-image: profile.jpg
-about: 
-  template: jolla
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://x.com/den-run-ai
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/den-run-ai/
-    - icon: github
-      text: Github
-      href: https://github.com/den-run-ai
-
+title: "About"
+description: "Roles, teaching, board service and recognition."
+body-classes: profile
 ---
 
-Denis. A (Akhiyarov) is an AI Scientist in generative AI, specialized in code-specific LLMs and their fine-tuning.
+I'm an applied AI scientist with 16+ years across enterprise software, industrial R&D and production ML. Today I lead research and engineering on agents, LLM evaluation and document intelligence at ServiceNow. Outside work I run trails around the SF Bay Area and coach youth runners.
+
+## Roles
+
+::: {.cv}
+2024 – now
+:   **Senior Staff AI Scientist**, ServiceNow Core AI\
+    [Agent harnesses, evaluation and post-training for Apriel and compact tool-calling models, multimodal document intelligence.]{.desc}
+
+2021 – 2023
+:   **Founder & CTO**, AiKYNETIX\
+    [AI video analytics for sports and fitness on mobile and web; led a 10-person team.]{.desc}
+
+2019 – 2023
+:   **Senior AI Scientist**, TotalEnergies\
+    [Computer vision, molecular design and 3D generative models, scaled on supercomputers.]{.desc}
+
+2017 – 2019
+:   **Machine Learning Faculty**, North American University\
+    [Designed and taught the machine learning curriculum.]{.desc}
+
+2010 – 2019
+:   **Software Engineer & Data Scientist**, Wood\
+    [Models for gas wells and real-time pipeline systems.]{.desc}
+:::
+
+## Community
+
+::: {.cv}
+Since 2022
+:   **Board Member**, [School of Science and Technology](https://sstschools.org)\
+    [Public charter schools in Texas.]{.desc}
+
+Now
+:   **Board of Directors & Youth Team Coach**, [Quicksilver Running Club](https://www.quicksilver-running.com)\
+    [Trail running club in San Jose; I coach the [youth team](https://www.quicksilver-running.com/youth).]{.desc}
+:::
+
+## Recognition
+
+::: {.plain-list}
+- Google Developer Expert in Machine Learning
+- Core developer of [pythonnet](https://github.com/pythonnet/pythonnet), the Python ↔ .NET bridge (2014–2019)
+- Google Code Jam: top 5% three times
+- Stack Overflow answers read by 6M+ developers
+:::
+
+## Education
+
+::: {.plain-list}
+- MSc, Petroleum Engineering — University of Tulsa, 2010
+- Honors Diploma, Mechanical Engineering — Ufa State Petroleum Technical University, 2008
+:::

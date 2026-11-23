@@ -54,7 +54,7 @@ Given the equation's symmetry, we can assume, without loss of generality, that o
 
 ### Step 2: Introducing Substitution
 
-Let's assume \( c = -k \), where \( k \) is a positive integer. Substituting this into our original equation transforms it into:
+Let's assume $c = -k$, where $k$ is a positive integer. Substituting this into our original equation transforms it into:
 
 
 $\frac{a}{b - k} + \frac{b}{a - k} - \frac{k}{a + b} = 4$
@@ -64,17 +64,17 @@ This substitution simplifies the problem by reducing the number of negative term
 
 ### Step 3: Systematic Trial and Error
 
-With \( c = -k \), we now seek positive integers \( a \) and \( b \) such that \( a > k \) and \( b > k \) to avoid division by zero or negative denominators. Through systematic trial, varying \( k \) and solving for \( a \) and \( b \), we aim to satisfy the equation.
+With $c = -k$, we now seek positive integers $a$ and $b$ such that $a > k$ and $b > k$ to avoid division by zero or negative denominators. Through systematic trial, varying $k$ and solving for $a$ and $b$, we aim to satisfy the equation.
 
-#### Discovering the Solution: \( (a, b, c) = (9, 11, -5) \)
+#### Discovering the Solution: $(a, b, c) = (9, 11, -5)$
 
 It appears O1-mini applied some threshold analysis to find pairs that sum to nearly 4, but without providing any details.
 
 Through diligent testing, one solution stands out:
 
-- **Case \( k = 5 \):**
+- **Case $k = 5$:**
   
-  - Let \( a = 9 \) and \( b = 11 \).
+  - Let $a = 9$ and $b = 11$.
   
   Substituting these values:
   
@@ -82,23 +82,23 @@ Through diligent testing, one solution stands out:
   (9 / (11 - 5)) + (11 / (9 - 5)) - (5 / (9 + 11)) = (9 / 6) + (11 / 4) - (5 / 20) = 1.5 + 2.75 - 0.25 = 4.0
 
   
-  The equation holds true, confirming that \( (9, 11, -5) \) is a valid solution.
+  The equation holds true, confirming that $(9, 11, -5)$ is a valid solution.
 
 
 
 ## The Uniqueness of the Solution
 
-Given the symmetry of the equation, any permutation of \( (9, 11, -5) \) will also satisfy the equation. These permutations include:
+Given the symmetry of the equation, any permutation of $(9, 11, -5)$ will also satisfy the equation. These permutations include:
 
-- \( (11, -5, 9) \)
-- \( (-5, 9, 11) \)
-- \( (9, -5, 11) \)
-- \( (11, 9, -5) \)
-- \( (-5, 11, 9) \)
+- $(11, -5, 9)$
+- $(-5, 9, 11)$
+- $(9, -5, 11)$
+- $(11, 9, -5)$
+- $(-5, 11, 9)$
 
 Each of these triples, when substituted into the equation, will yield a sum of 4, thereby satisfying the equation.
 
 ## Conclusion
 
-Through the exploration of a symmetrical Diophantine equation, we've unveiled a unique set of integer solutions: all permutations of \( (9, 11, -5) \). It is fascinating that AI can solve this now in few minutes when prompted carefully!
+Through the exploration of a symmetrical Diophantine equation, we've unveiled a unique set of integer solutions: all permutations of $(9, 11, -5)$. It is fascinating that AI can solve this now in few minutes when prompted carefully!
 

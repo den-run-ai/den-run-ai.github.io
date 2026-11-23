@@ -1,0 +1,34 @@
+/*-- scss:defaults --*/
+
+// One quiet palette: ink on white, a single slate-blue accent.
+$ink: #1d1f24;
+$muted: #6a6f78;
+$line: #e7e8ec;
+$accent: #2a5a88;
+
+$body-bg: #ffffff;
+$body-color: $ink;
+$primary: $accent;
+$link-color: $accent;
+$link-decoration: none;
+$link-hover-decoration: underline;
+$border-color: $line;
+
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+$font-size-root: 17px;
+$line-height-base: 1.65;
+$headings-font-weight: 600;
+$headings-color: $ink;
+
+$navbar-bg: #ffffff;
+$navbar-fg: $muted;
+$navbar-hl: $ink;
+$footer-bg: #ffffff;
+$footer-fg: $muted;
+
+/*-- scss:rules --*/
+
+.navbar {
+  border-bottom: 1px solid $line;
+}

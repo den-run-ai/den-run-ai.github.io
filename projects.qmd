@@ -1,0 +1,67 @@
+---
+title: "Projects"
+description: "Side projects and open source."
+body-classes: profile
+---
+
+Small things I build on weekends, mostly in the browser. Everything is on [GitHub](https://github.com/den-run-ai).
+
+::: {.projects}
+
+::: {.project}
+### pdfmini
+Compress and combine PDFs privately — files never leave the browser.
+
+[Open](https://den-run-ai.github.io/pdfmini/) · [Code](https://github.com/den-run-ai/pdfmini)
+:::
+
+::: {.project}
+### Chessy
+An offline chess engine in Rust and WebAssembly, with AI coaching.
+
+[Open](https://den-run-ai.github.io/chessy/) · [Code](https://github.com/den-run-ai/chessy)
+:::
+
+::: {.project}
+### SnowGlider
+A snowman on skis shredding powder in a playful Three.js game.
+
+[Play](https://snowglider.ai) · [Code](https://github.com/den-run-ai/snowglider)
+:::
+
+::: {.project}
+### Riemann in Pictures
+The intuition behind the Riemann hypothesis, told with pictures.
+
+[Open](https://den-run-ai.github.io/riemann/) · [Code](https://github.com/den-run-ai/riemann)
+:::
+
+::: {.project}
+### Pystachy
+A fast, compiled subset of Python built on LLVM.
+
+[Code](https://github.com/den-run-ai/pystachy)
+:::
+
+::: {.project}
+### askme
+A minimal AI agent that runs coding tasks locally.
+
+[Code](https://github.com/den-run-ai/askme)
+:::
+
+::: {.project}
+### Dance Stage
+Dancers, moves and original music in one browser toy.
+
+[Open](dance/)
+:::
+
+:::
+
+## Open source
+
+::: {.plain-list}
+- **[pythonnet](https://github.com/pythonnet/pythonnet)** — core developer, 2014–2019. Calls .NET from Python and Python from .NET.
+- **[clrmagic](https://github.com/pythonnet/clrmagic)** — IPython magic for running C#, VB.NET and F# in Jupyter.
+:::

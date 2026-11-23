@@ -1,0 +1,50 @@
+---
+title: "Research"
+description: "Selected papers, talks and patents."
+body-classes: profile
+---
+
+::: {.link-row}
+[Google Scholar](https://scholar.google.com/citations?user=TfBvStoAAAAJ&hl=en) [arXiv](https://arxiv.org/search/?searchtype=author&query=Akhiyarov%2C+Denis)
+:::
+
+## Papers
+
+::: {.pubs}
+- **StarHarness: Evolving Harnesses with Stratified Search for Enterprise Environments**\
+  arXiv, 2026 · [arXiv](https://arxiv.org/abs/2608.24804)
+- **Therefore I Am. I Think**\
+  arXiv, 2026 · [arXiv](https://arxiv.org/abs/2604.01202)
+- **DeepCodeSeek: Real-Time API Retrieval for Context-Aware Code Generation**\
+  GeCoIn Workshop at ECAI 2025 · [arXiv](https://arxiv.org/abs/2509.25716)
+- **SnowContext: Code Context Search Specific to ServiceNow**\
+  NowAI 2025 · oral, one of 12 papers selected
+- **STRIDE: Structure-guided Generation for Inverse Design of Molecules**\
+  NeurIPS 2023 workshops · [arXiv](https://arxiv.org/abs/2311.06297)
+- **Distributed Reinforcement Learning for Molecular Design: Antioxidant Case**\
+  NeurIPS 2023 workshops · [arXiv](https://arxiv.org/abs/2312.01267)
+- **ParticleGrid: Enabling Deep Learning using 3D Representation of Materials**\
+  IEEE eScience 2022 · [arXiv](https://arxiv.org/abs/2211.08506) · [Code](https://github.com/ParticleGrid/ParticleGrid)
+:::
+
+[Earlier work on multiphase flow and flow assurance is on [Google Scholar](https://scholar.google.com/citations?user=TfBvStoAAAAJ&hl=en).]{.note}
+
+## Talks
+
+::: {.pubs}
+- **Are Small LLMs Ready for Coding Agents?**\
+  Agentic AI Summit, UC Berkeley, 2026 · [Video](https://www.youtube.com/watch?v=N1XoiJGyNpM)
+- **Bridging .NET with PyData**\
+  PyData NYC, 2017 · [Abstract](https://pydata.org/nyc2017/schedule/presentation/13/)
+- **Python for .NET or .NET for Python**\
+  PyData Seattle, 2017 · [Abstract](https://pydata.org/seattle2017/schedule/presentation/61/)
+:::
+
+[More recordings on [PyVideo](https://pyvideo.org/speaker/denis-akhiyarov.html).]{.note}
+
+## Patents
+
+::: {.pubs}
+- **Systems and Methods for Measurement and Analysis of Human Biomechanics with Single Camera Viewpoint**\
+  WO 2024/006969 · AiKYNETIX, 2024 · [Google Patents](https://patents.google.com/patent/WO2024006969A2/en)
+:::

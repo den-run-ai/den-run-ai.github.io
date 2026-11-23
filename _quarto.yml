@@ -5,20 +5,56 @@ project:
     - "dance/"
     - "ceo-keynote-dance/"
     - "404.html"
+    - "assets/"
 
 website:
-  title: "blog"
+  title: "Denis Akhiyarov"
+  description: "AI scientist working on agents, LLM evaluation and post-training, and document intelligence. Notes on math, code, AI, chess and running."
+  site-url: https://den-run-ai.github.io
+  favicon: assets/favicon.svg
+  image: assets/avatar.jpg
+  search: false
+  open-graph: true
+  twitter-card:
+    creator: "@den_run_ai"
+    card-style: summary
   navbar:
+    title: "Denis Akhiyarov"
     right:
-      - about.qmd
+      - text: Writing
+        href: index.qmd#writing
+      - text: Research
+        href: research.qmd
+      - text: Projects
+        href: projects.qmd
+      - text: About
+        href: about.qmd
+  page-footer:
+    left: "© 2026 Denis Akhiyarov"
+    right:
       - icon: github
         href: https://github.com/den-run-ai
-      - icon: twitter
-        href: https://x.com/den-run-ai
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://www.linkedin.com/in/den-run-ai
+        aria-label: LinkedIn
+      - icon: twitter-x
+        href: https://x.com/den_run_ai
+        aria-label: X
+      - icon: mortarboard
+        href: https://scholar.google.com/citations?user=TfBvStoAAAAJ&hl=en
+        aria-label: Google Scholar
+      - icon: rss
+        href: index.xml
+        aria-label: RSS feed
+
 format:
   html:
-    theme: cosmo
+    theme: [cosmo, theme.scss]
     css: styles.css
-
-
-
+    include-in-header: _fonts.html
+    toc: false
+    grid:
+      body-width: 740px
+    smooth-scroll: true
+    link-external-newwindow: false
