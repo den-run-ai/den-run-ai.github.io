@@ -405,8 +405,8 @@ const parts = [], puffs = [];
 
 const basePose = () => ({ x:0, y:0, lean:0, tilt:0, head:0, turn:0, hipTilt:0, shTilt:0, lS:.22, lE:.2, rS:.22, rE:.2,
   lfx:-13, lfy:0, rfx:13, rfy:0, lToe:.7, rToe:.7, lK:.55, rK:.55, lz:0, rz:0, pointe:0, lPt:0, rPt:0, lHeel:0, rHeel:0, mouth:.55, brow:0, browT:0,
-  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
-const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF'];
+  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, curl:0, bend:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
+const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF','curl','bend'];
 let cur = basePose(); cur.mouth = 0;
 
 /* ---------- dance moves: each fills a pose for beat position b (arm angle 0 hangs down, PI/2 out sideways, PI up) ---------- */
@@ -634,7 +634,7 @@ const MOVES = {
     } else if (c < 6.6){
       const up = ease(clamp(c - 1, 0, 1)), dn = ease(clamp((c - 6) / .6, 0, 1)), k = up * (1 - dn), spin = c >= 2 && c < 6;
       const sp = clamp((c - 2) / 4, 0, 1), sc = Math.sin(TAU * b);
-      p.rot = PI * (up + dn); p.y = lerp(-34, -26, up) + 18 * dn;
+      p.rot = PI * (up + dn); p.bend = .16 * sc * k; p.curl = .3 * k; p.y = lerp(-34, -26, up) + 18 * dn;
       if (spin) p.yaw = TAU * 3 * sp * sp * (3 - 2 * sp);
       p.lfx = -20 - (12 + 5 * sc) * k; p.rfx = 20 + (12 - 5 * sc) * k; p.lfy = p.rfy = -28 * k; p.pointe = k; p.lK = p.rK = .5;
       p.lS = p.rS = spin ? 1.95 : 2.5; p.lE = p.rE = spin ? .3 : .5;       // hands on the floor going up and coming down, out wide in the spin
@@ -1065,7 +1065,7 @@ const MOVES = {
   /* breakdance */
   sixstep(b, p){                                 // floor work: down in a crouch with one hand on the floor while the far leg sweeps out and round in front, then the other hand and the other leg
     const c = mod(b, 4), d = c < 2 ? 1 : -1, u = c % 2, A = d > 0 ? ['r', 'l'] : ['l', 'r'], k = Math.sin(PI * u / 2);
-    p.y = -46 - 9 * k; p.lean = d * .56 * k; p.x = d * 9 * k; p.shTilt = d * .45 * k; p.head = -d * .4 * k; p.turn = -d * k;
+    p.y = -46 - 9 * k; p.lean = d * .56 * k; p.x = d * 9 * k; p.shTilt = d * .3 * k; p.bend = d * .5 * k; p.head = -d * .55 * k; p.turn = -d * k;
     p[A[0] + 'S'] = lerp(.3, .7, k); p[A[0] + 'E'] = 0; p[A[1] + 'S'] = lerp(.3, 2.1, k); p[A[1] + 'E'] = .35 * k;
     p[A[0] + 'fx'] = d * 15; p[A[0] + 'K'] = 1;
     p[A[1] + 'fx'] = -d * lerp(15, 60, k); p[A[1] + 'K'] = lerp(1, .12, k); p[A[1] + 'Toe'] = 1; p[A[1] + 'z'] = Math.sin(PI * u); p[A[1] + 'fy'] = 3 * k;
@@ -1078,7 +1078,7 @@ const MOVES = {
       p.y = -34 * q; p.lean = .08 * q; p.lfx = -20; p.rfx = 20; p.lS = p.rS = lerp(.3, .8, q); p.lE = p.rE = lerp(.2, -.3, q); p.browT = -q; p.mouth = .2;
     } else if (c < 6.6){
       const up = ease(clamp(c - 1, 0, 1)), dn = ease(clamp((c - 6) / .6, 0, 1)), k = up * (1 - dn), ph = TAU * (c - 2), tip = .95 * Math.cos(ph) * ease(clamp(c - 2, 0, 1)) * (1 - dn);
-      p.rot = PI * (up + dn) + Math.abs(tip); p.y = lerp(-34, -105 + 77 * Math.cos(tip), k) + 18 * dn;      // seen from behind he is drawn as his mirror image, so the same lean tips him the other way
+      p.rot = PI * (up + dn) + Math.abs(tip); p.curl = .55 * k; p.bend = -.35 * Math.sin(ph) * ease(clamp(c - 2, 0, 1)) * (1 - dn); p.y = lerp(-34, -105 + 77 * Math.cos(tip), k) + 18 * dn;      // seen from behind he is drawn as his mirror image, so the same lean tips him the other way
       if (c >= 2 && c < 6) p.yaw = mod(ph, TAU);
       p.lfx = -20 - 24 * k; p.rfx = 20 + 24 * k; p.lfy = p.rfy = (6 + p.y) * k; p.pointe = k; p.lK = p.rK = .3;
       p.lS = p.rS = 2.2; p.lE = p.rE = .4; p.face = 'joy'; p.mouth = 1;
@@ -1096,7 +1096,7 @@ const MOVES = {
       p.y = -8 - 24 * q; p.lean = d * .16 * q; p.lfx = -19; p.rfx = 19; p.lS = p.rS = lerp(.5, .9, q); p.lE = p.rE = lerp(-.4, .2, q); p.browT = -q; p.mouth = .2;
     } else if (c < 3.3){
       const k = easeOut((c - 1) / .4) * (1 - ease(clamp((c - 2.8) / .5, 0, 1)));
-      p.rot = d * (PI - .3) * k; p.y = lerp(-32, -8, k);
+      p.rot = d * (PI - .3) * k; p.bend = -d * .5 * k; p.y = lerp(-32, -8, k);
       p[A[0] + 'S'] = lerp(.9, 2.95, k); p[A[0] + 'E'] = .05; p[A[1] + 'S'] = lerp(.9, 1.5, k); p[A[1] + 'E'] = .3;
       p[A[0] + 'fx'] = d * lerp(19, 4, k); p[A[0] + 'fy'] = -9 * k; p[A[0] + 'K'] = lerp(.55, .15, k); p[A[0] + 'Toe'] = 1;
       p[A[1] + 'fx'] = -d * lerp(19, 36, k); p[A[1] + 'fy'] = 30 * k; p[A[1] + 'K'] = 1;
@@ -1107,13 +1107,26 @@ const MOVES = {
       p.head = d * .1; p.turn = d * .5; p.brow = .8; p.mouth = .15;
     }
   },
-  worm(b, p){                                    // the worm, side on: he drops flat and rocks along the floor, chest up as the feet come down and feet up as the chest comes down; then he gets up and comes back the other way
-    const c = mod(b, 16), d = c < 8 ? 1 : -1, u = c % 8, k = ease(clamp(u, 0, 1)) * (1 - ease(clamp(u - 7, 0, 1))), wv = .3 * Math.sin(TAU * b) * k;
-    p.yaw = d * 1.25; p.rot = d * (PI / 2 * k + wv); p.y = lerp(-6, -84 + 72 * Math.abs(Math.sin(wv)), k);
-    p.lfx = -5; p.rfx = 5; p.lfy = p.rfy = -93 * k; p.lK = p.rK = .3; p.lToe = p.rToe = .2; p.pointe = k;
-    p.lF = p.rF = 1; p.lS = p.rS = lerp(.4, -.9 + .25 * Math.sin(TAU * b), k); p.lE = p.rE = lerp(.5, 2.3, k);      // elbows up behind him, hands on the floor by his chest
+  worm(b, p){                                    // the worm, side on: he drops flat and a wave runs down him from chest to toes. The chest dives as the legs whip up behind, he rolls flat, the feet come down and the chest pushes up with the back arched; then he gets up and comes back the other way
+    const c = mod(b, 16), d = c < 8 ? 1 : -1, u = c % 8, k = ease(clamp(u, 0, 1)) * (1 - ease(clamp(u - 7, 0, 1))), ph = TAU * b - PI / 2;
+    // how far chest, loins and legs are pitched up off the floor, each a quarter of a beat behind the one before; the chest lands on the beat
+    const tc = (.2 + .62 * Math.sin(ph)) * k, tp = .36 * Math.sin(ph - 1.5) * k, tl = (.2 + .55 * Math.sin(ph - 3)) * k, tm = (tc + tp) / 2;
+    // he rests on whichever part is lowest: chest, chin, belly, hips or toes
+    const hr = (.45 - .25 * Math.sin(ph)) * k;      // the head is held back, most when the chest is down, so the chin clears the floor
+    const hi = 25 * Math.sin(tm) + Math.max(13 - 25 * Math.sin(tp) - 25 * Math.sin(tc), 20 - 27 * Math.sin(tc + hr) - 25 * Math.sin(tp) - 25 * Math.sin(tc), 11 - 25 * Math.sin(tp), 10, 5 - 76 * Math.sin(tl));
+    const yc = Math.cos(1.25), L = 76 - 9 * k * (.5 + .5 * Math.sin(ph - 3.9)), la = tl + tm;
+    p.yaw = d * 1.25; p.rot = d * (PI / 2 * k - tm); p.curl = tp - tc; p.y = lerp(-6, hi - 105, k); p.head = -d * hr;
+    p.lfx = lerp(-5, -d * L * Math.sin(la) / yc - 1.5, k); p.rfx = lerp(5, -d * L * Math.sin(la) / yc + 1.5, k);
+    p.lfy = p.rfy = (p.y + 74 - 7 * k - L * Math.cos(la)) * k; p.lK = p.rK = .3; p.lToe = p.rToe = .2; p.pointe = k;
+    // the hands stay planted on the floor under the shoulders, elbows up behind him, and the arms straighten as the chest comes up
+    const bx = -25 * Math.cos(tm) + 25 * Math.cos(tp), bh = hi - 25 * Math.sin(tm) + 25 * Math.sin(tp), sx = bx + 22 * Math.cos(tc), sh = bh + 22 * Math.sin(tc);
+    const rx = 5, rh = 5 - sh, D = clamp(Math.hypot(rx, rh), 14, 59), A = Math.acos(clamp((28 * 28 + D * D - 33 * 33) / (56 * D), -1, 1)), g = Math.atan2(rh, rx);
+    const ex = sx + 28 * Math.cos(g - A), eh = sh + 28 * Math.sin(g - A), ar = PI / 2 - tm;      // the elbow, on the side of the reach that is behind him
+    const loc = (x, h) => Math.atan2((x * Math.cos(ar) - h * Math.sin(ar)) / .95, -x * Math.sin(ar) - h * Math.cos(ar));      // a direction along the floor and up from it, as an arm angle in his own frame
+    const s1 = loc(ex - sx, eh - sh), s2 = loc(sx + rx - ex, 5 - eh);
+    p.lF = p.rF = 1; p.lS = p.rS = lerp(.4, s1, k); p.lE = p.rE = lerp(.5, mod(s2 - s1 + PI, TAU) - PI, k);
     p.mouth = .7; p.brow = .5; if (k > .5) p.face = 'joy';
-    return d * lerp(-56, 56, clamp((u - .5) / 7, 0, 1));
+    return d * (lerp(-56, 56, clamp((u - .5) / 7, 0, 1)) + 5 * k * Math.sin(ph));
   },
 
   /* ballroom */
@@ -1721,13 +1734,16 @@ function drawDancer(p, ax, ay){
   ctx.scale(sg, 1);                                                                  // seen from behind he is a mirror image
   const hx = p.x * yc, hy = -(HIP + p.y);
   if (p.rot){ ctx.translate(hx, hy - 25); ctx.rotate(p.rot); ctx.translate(-hx, -(hy - 25)); }
-  const ux = Math.sin(p.lean) * yc + Math.sin(p.pitch) * ys, uy = -Math.cos(p.lean);  // spine "up"; pitch bends him forward, which shows once he is side on
-  const aS = p.lean + p.shTilt, aH = p.lean * .3 + p.hipTilt;
+  const ux0 = Math.sin(p.lean) * yc + Math.sin(p.pitch) * ys, uy0 = -Math.cos(p.lean);  // spine "up"; pitch bends him forward, which shows once he is side on
+  // The spine flexes at the waist: the chest turns one way and the hips the other. bend is to the side and shows from the front; curl is forward (or, below zero, an arched back) and shows side on
+  const fl = (p.bend * yc + p.curl * ys) / 2, cf = Math.cos(fl), sf = Math.sin(fl);
+  const ux = ux0 * cf - uy0 * sf, uy = ux0 * sf + uy0 * cf, wx = ux0 * cf + uy0 * sf, wy = -ux0 * sf + uy0 * cf;      // "up" for the chest and for the hips
+  const aS = p.lean + p.shTilt + fl, aH = p.lean * .3 + p.hipTilt - fl;
   const sxv = Math.cos(aS), syv = Math.sin(aS), hxv = Math.cos(aH), hyv = Math.sin(aH);   // shoulder line and hip line
-  const Cx = hx + ux * T, Cy = hy + uy * T;                                   // top of the chest
+  const Cx = hx + (wx + ux) * T / 2, Cy = hy + (wy + uy) * T / 2;             // top of the chest
   // (r, u): r along the hip or shoulder line, u up the spine. No z: on the outline. z: that far in front of the body's axis (0 for a joint).
-  const at = (bx, by, vx, vy) => (r, u, z) => { const q = z === undefined ? r * yw : r * yc + z * ys; return [bx + vx * q + ux * u, by + vy * q + uy * u]; };
-  const HP = at(hx, hy, hxv, hyv), CP = at(Cx, Cy, sxv, syv);
+  const at = (bx, by, vx, vy, px, py) => (r, u, z) => { const q = z === undefined ? r * yw : r * yc + z * ys; return [bx + vx * q + px * u, by + vy * q + py * u]; };
+  const HP = at(hx, hy, hxv, hyv, wx, wy), CP = at(Cx, Cy, sxv, syv, ux, uy);
   const zC = r => 11.5 * Math.sqrt(Math.max(0, 1 - r * r / 484));            // how far the chest stands out at r
   const shL = CP(-20, -3, 0), shR = CP(20, -3, 0);
 
@@ -1743,9 +1759,9 @@ function drawDancer(p, ax, ay){
       side * toe * yc + 1.1 * ys, fyUp, z * yc, pt, heel, -p.tilt * sg);
   };
   const legL = () => leg(hipL, -1, p.lfx, p.lfy, p.lK, p.lToe, p.lz, p.lHeel, p.lPt), legR = () => leg(hipR, 1, p.rfx, p.rfy, p.rK, p.rToe, p.rz, p.rHeel, p.rPt);
-  drawTutu(hx + ux * 5, hy + uy * 5, aH, false);
+  drawTutu(hx + wx * 5, hy + wy * 5, aH, false);
   if (9.5 * sy + 12 * p.lz * cy <= -9.5 * sy + 12 * p.rz * cy){ legL(); legR(); } else { legR(); legL(); }      // the leg nearer the audience goes on top
-  oval(hx - ux * 2, hy - uy * 2, 16 * Math.sqrt(cy * cy + .45 * sy * sy), 9.5, aH, LEGC);
+  oval(hx - wx * 2, hy - wy * 2, 16 * Math.sqrt(cy * cy + .45 * sy * sy), 9.5, aH, LEGC);
 
   // jacket
   const J = [HP(-17.5, -8), HP(-15, 14), CP(-21, -12), CP(-25, 4), CP(-17, 4), CP(-7, 5), CP(7, 5), CP(17, 4), CP(25, 4), CP(21, -12), HP(15, 14), HP(17.5, -8), HP(0, -11)];
@@ -1756,7 +1772,7 @@ function drawDancer(p, ax, ay){
   ctx.quadraticCurveTo(J[12][0], J[12][1], J[0][0], J[0][1]); ctx.closePath(); ctx.fill(); ctx.stroke();
 
   // neck
-  const ha = p.lean * .5 + p.head, hcx = Cx + ux * 3 + Math.sin(ha) * 27 * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;
+  const ha = p.lean * .5 + p.head + fl, hcx = Cx + ux * 3 + Math.sin(ha) * 27 * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;
   cap(Cx + ux * 2, Cy + uy * 2, 5.4, hcx, hcy, 5, SKD);
 
   if (back){
@@ -1780,14 +1796,22 @@ function drawDancer(p, ax, ay){
       for (let i = 0; i < 10; i++){ const r = i % 2 ? 2.5 : 5.8, an = -PI / 2 + i * PI / 5; ctx.lineTo(sb[0] + r * tw * Math.cos(an), sb[1] + r * Math.sin(an)); }
       ctx.closePath(); ctx.fill();
     }
-    // the tie goes on last, so that when it swings it flies out over the lapel instead of sliding under it
-    ctx.save(); ctx.translate(kn[0], kn[1]); ctx.rotate(p.lean + tieA + mod(PI - p.rot - p.tilt, TAU) - PI); ctx.scale(Math.max(.25, yc), 1); ctx.fillStyle = C.sun;   // it hangs toward the floor, however he is tipped or turned over
+    // The tie goes on last, so that when it swings it flies out over the lapel instead of sliding under it. It hangs toward the floor however he is tipped or
+    // turned over, but it is cloth on a body: side on it cannot swing back through his chest, and where there is no room under him it drapes along the floor
+    const tipd = p.rot + p.tilt, wrap = a => mod(a + PI, TAU) - PI, down = Math.atan2(ux, -uy) + tipd;      // down: the way his chest runs, collar to belt
+    let th = wrap(p.lean + tieA), rel = wrap(th - down);
+    const bk = rel * Math.sign(ys), lim = (1 - Math.abs(ys)) * PI / 2;      // bk above zero: it has swung round behind him; it may only do that as far as he is turned to face us
+    if (bk > lim && bk < PI - lim) th = wrap(down + Math.sign(ys) * (bk < 2 ? lim : PI - lim));      // so it falls back along his chest, toward the belt or, upside down, toward the collar
+    const cr = Math.cos(p.rot), sr = Math.sin(p.rot), kx = hx + (kn[0] - hx) * cr - (kn[1] - hy + 25) * sr, ky = hy - 25 + (kn[0] - hx) * sr + (kn[1] - hy + 25) * cr;
+    const room = (6 - (kx * st + (ky + 6) * ct) - 2) / 28;      // how high the knot is above the floor, in tie lengths
+    if (room < Math.cos(th)) th = (Math.sin(down) < 0 ? -1 : 1) * Math.acos(clamp(room, -1, 1));
+    ctx.save(); ctx.translate(kn[0], kn[1]); ctx.rotate(th - tipd); ctx.scale(Math.max(.25, yc), 1); ctx.fillStyle = C.sun;
     ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(3.6, 3); ctx.lineTo(0, 6); ctx.lineTo(-3.6, 3); ctx.closePath(); ctx.fill();
     ctx.beginPath(); ctx.moveTo(-2.2, 5); ctx.lineTo(2.2, 5); ctx.lineTo(4.8, 21); ctx.lineTo(0, 26); ctx.lineTo(-4.8, 21); ctx.closePath(); ctx.fill();
     ctx.restore();
   }
 
-  drawTutu(hx + ux * 5, hy + uy * 5, aH, true);
+  drawTutu(hx + wx * 5, hy + wy * 5, aH, true);
   const arms = () => { if (!lB) drawArm(-1, p.lS, p.lE, shL[0], shL[1], yc, ys, p.lF); if (!rB) hand = drawArm(1, p.rS, p.rE, shR[0], shR[1], yc, ys, p.rF); };
   const hyaw = p.yaw + .32 * p.turn, hc = Math.cos(hyaw);        // the head turns a little further than the body when he looks to one side, and its hat and hair go with it
   const head = () => { ctx.save(); ctx.translate(hcx, hcy); ctx.rotate(ha); drawHead(p, Math.abs(hc), Math.sin(hyaw) * sg, hc, back); ctx.restore(); };
@@ -2861,13 +2885,14 @@ function frame(now){
   if (tapHop > 0 || tapHopV > 0){ tapHop += tapHopV * dt; tapHopV -= 1100 * dt; if (tapHop <= 0){ tapHop = 0; tapHopV = 0; } }
   const dp = Object.assign({}, cur);
   if (tapHop > 0){ dp.y += tapHop; dp.lfy += tapHop * .85; dp.rfy += tapHop * .85; }
+  ground(dp);
 
   // tie and curls trail behind the body, then catch up
   const headX = anchor.x + dp.x + Math.sin(dp.lean) * D.T, headY = anchor.lift + dp.y;
   const vx = lastHX === null || dt === 0 ? 0 : clamp((headX - lastHX) / dt, -400, 400);
   const vy = lastHY === null || dt === 0 ? 0 : clamp((headY - lastHY) / dt, -500, 500);
   lastHX = headX; lastHY = headY;
-  tieV += ((-vx * .003 - dp.lean - tieA) * 90 - tieV * 7) * dt; tieA = clamp(tieA + tieV * dt, -.8, .8);
+  tieV += ((-vx * .003 - dp.lean - tieA) * 90 - tieV * 12) * dt; tieA = clamp(tieA + tieV * dt, -.8, .8);
   hairXV += ((-vx * .006 - hairX) * 160 - hairXV * 10) * dt; hairX = clamp(hairX + hairXV * dt, -3, 3);
   hairYV += ((vy * .008 - hairY) * 160 - hairYV * 9) * dt; hairY = clamp(hairY + hairYV * dt, -3.5, 3.5);
   blink -= dt; nextBlink -= dt; if (nextBlink <= 0){ blink = .12; nextBlink = 2 + Math.random() * 3; }
@@ -2902,20 +2927,24 @@ function frame(now){
 
 /* ---------- self-test: the Test button checks the buttons against the code, every move's poses, and every music style rendered offline ---------- */
 const NUM = SMOOTH.concat(['sx', 'sy', 'yaw', 'rot']), LOUD = [-23.5, -15.5];   // LOUD: allowed level, in dB, of the part of the mix a phone speaker can play
-async function renderStyle(style, bars){         // plays a style into an offline buffer instead of the speaker, and measures it
+async function offline(style, bars, sr){         // plays a style into a buffer instead of the speaker. Channel 0: everything; channel 1: above 300 Hz only, which is all a phone speaker gives. The first step sounds .05 s in
   const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
   if (!OAC) return null;
-  const sr = 22050, spb = 60 / STYLES[style].bpm, off = new OAC(2, Math.ceil((bars * 4 * spb + .4) * sr), sr);
+  const spb = 60 / STYLES[style].bpm, off = new OAC(2, Math.ceil((bars * 4 * spb + .4) * sr), sr);
   const live = [ac, master, outGain, bassBus, echoIn, delayN, noiseBuf, muted];
   try {                                          // borrow the synth for a moment: everything below is scheduled before the page does anything else
     ac = off; outGain = null; muted = false; prepShared();
     const tap = off.createGain(), h1 = off.createBiquadFilter(), h2 = off.createBiquadFilter(), mg = off.createChannelMerger(2);
     h1.type = h2.type = 'highpass'; h1.frequency.value = h2.frequency.value = 300;
-    tap.connect(mg, 0, 0); tap.connect(h1); h1.connect(h2); h2.connect(mg, 0, 1); mg.connect(off.destination);   // channel 0: everything; channel 1: above 300 Hz only
+    tap.connect(mg, 0, 0); tap.connect(h1); h1.connect(h2); h2.connect(mg, 0, 1); mg.connect(off.destination);
     buildBus(tap); master.gain.value = STYLES[style].vol;
     for (let n = 0; n < bars * 16; n++) PAT[style](n % 16, n >> 4, .05 + n * spb / 4, spb);
   } finally { [ac, master, outGain, bassBus, echoIn, delayN, noiseBuf, muted] = live; }
-  const buf = await new Promise((res, rej) => { off.oncomplete = e => res(e.renderedBuffer); const pr = off.startRendering(); if (pr && pr.catch) pr.catch(rej); });
+  return new Promise((res, rej) => { off.oncomplete = e => res(e.renderedBuffer); const pr = off.startRendering(); if (pr && pr.catch) pr.catch(rej); });
+}
+async function renderStyle(style, bars){         // measures a style as it would sound
+  const buf = await offline(style, bars, 22050);
+  if (!buf) return null;
   const level = ch => {
     const d = buf.getChannelData(ch); let sq = 0, peak = 0, bad = 0;
     for (let i = 0; i < d.length; i++){ const v = d[i]; if (!isFinite(v)) bad++; else { sq += v * v; if (Math.abs(v) > peak) peak = Math.abs(v); } }
@@ -2949,7 +2978,7 @@ async function selfTest(){
       const { p, tx } = poseAt(m, b), f = NUM.find(x => !isFinite(p[x]));
       if (f) why = f + ' is not a number at beat ' + b;
       else if (!(Math.abs(tx) <= 84)) why = 'he leaves the stage at beat ' + b;
-      else if (Math.abs(p.x) > 40 || p.y < (p.rot ? -100 : -60) || p.y > 80 || Math.abs(p.lfx) > 90 || Math.abs(p.rfx) > 90 || Math.abs(p.lean) > .6) why = 'the pose is out of range at beat ' + b;
+      else if (Math.abs(p.x) > 40 || p.y < (p.rot ? -100 : -60) || p.y > 80 || Math.abs(p.lfx * Math.cos(p.yaw)) > 90 || Math.abs(p.rfx * Math.cos(p.yaw)) > 90 || Math.abs(p.lean) > .6) why = 'the pose is out of range at beat ' + b;
     }
     if (!why){ const a = poseAt(m, 0), z = poseAt(m, 16); if (Math.abs(a.tx - z.tx) > .01 || NUM.some(x => Math.abs(a.p[x] - z.p[x]) > .01)) why = 'the loop jumps after 16 beats'; }
     check('Moves', !why, m + ': ' + why);
@@ -2989,6 +3018,101 @@ function showReport(res){
   $('report').hidden = false; $('reportClose').focus();
 }
 window.ceoDanceSelfTest = selfTest;
+
+/* ---------- test bench ---------- */
+// For the quality tests kept beside the page (_tests/dance in the repository), which measure sound and movement without a speaker or a screen.
+// It plays a style into a buffer, lists the notes and drum hits a style plays, follows a move as the points of a stick figure, and draws a pose alone.
+function skeleton(p, tx){                        // where his joints are, as the drawing code places them: x to the right of his mark and y up from the floor, in the units the poses are written in
+  const cy = Math.cos(p.yaw), sy = Math.sin(p.yaw), sg = cy < 0 ? -1 : 1, yc = Math.abs(cy), ys = sy * sg, rot = p.rot || 0;
+  const hx = p.x * yc, hy = -(D.HIP + p.y), ux0 = Math.sin(p.lean) * yc + Math.sin(p.pitch) * ys, uy0 = -Math.cos(p.lean);
+  const fl = ((p.bend || 0) * yc + (p.curl || 0) * ys) / 2, cf = Math.cos(fl), sf = Math.sin(fl);
+  const ux = ux0 * cf - uy0 * sf, uy = ux0 * sf + uy0 * cf, wx = ux0 * cf + uy0 * sf, wy = -ux0 * sf + uy0 * cf, aS = p.lean + p.shTilt + fl;
+  const Cx = hx + (wx + ux) * D.T / 2, Cy = hy + (wy + uy) * D.T / 2, ha = p.lean * .5 + p.head + fl;
+  const cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(p.tilt), st = Math.sin(p.tilt);
+  const put = (x, y) => {                        // the same turns the drawing makes: about the middle of the body, the mirror for a back view, and the tip from the ankles
+    const dx = x - hx, dy = y - hy + 25, X = sg * (hx + dx * cr - dy * sr), Y = hy - 25 + dx * sr + dy * cr + 6;
+    return [(X * ct - Y * st) * p.sx + (tx || 0), (6 - X * st - Y * ct) * p.sy];
+  };
+  const arm = (side, a, e, fw) => {
+    const shx = Cx + Math.cos(aS) * side * 20 * yc - ux * 3, shy = Cy + Math.sin(aS) * side * 20 * yc - uy * 3, reach = side * Math.cos(fw * PI / 2) * yc + Math.sin(fw * PI / 2) * ys;
+    const ex = shx + Math.sin(a) * D.U * reach, ey = shy + Math.cos(a) * D.U;
+    return [put(ex, ey), put(ex + Math.sin(a + e) * reach * (D.F + 7.5), ey + Math.cos(a + e) * (D.F + 7.5))];
+  };
+  const foot = (fx, up, z, onToe) => { const X = sg * (fx * yc + 12 * z * ys), Y = -up - 7 * Math.max(p.pointe, onToe); return put(sg * (X * ct + Y * st), -6 - X * st + Y * ct); };
+  const l = arm(-1, p.lS, p.lE, p.lF), r = arm(1, p.rS, p.rE, p.rF);
+  return { head: put(Cx + ux * 3 + Math.sin(ha) * 27 * yc, Cy + uy * 3 - Math.cos(ha) * 27), chest: put(Cx, Cy), hip: put(hx, hy), lHand: l[1], rHand: r[1], lElbow: l[0], rElbow: r[0],
+    lFoot: foot(p.lfx, p.lfy, p.lz, p.lPt), rFoot: foot(p.rfx, p.rfy, p.rz, p.rPt) };
+}
+const CLEAR = { head: 20, chest: 12, hip: 10, lElbow: 5, rElbow: 5, lHand: 5, rHand: 5, lFoot: 6, rFoot: 6 };      // how far the middle of each part stays above the floor
+function ground(p){                              // nothing goes through the floor. An arm that would reach below it swings at the shoulder until the elbow clears, then folds at the elbow until the hand rests on it; a foot is brought up to it; and if anything is still under, the whole body rides up by that much
+  const fix = (a, key, joint) => {
+    const h = v => { const o = p[a + key]; p[a + key] = v; const y = skeleton(p, 0)[a + joint][1] - CLEAR.lHand; p[a + key] = o; return y; }, v0 = p[a + key];
+    if (h(v0) >= 0) return;
+    const dir = h(v0 + .3) > h(v0 - .3) ? 1 : -1; let far = 0;
+    for (let w = .3; w <= 2.7 && !far; w += .3) if (h(v0 + dir * w) >= 0) far = w;
+    if (!far) return;
+    let lo = far - .3, hi = far; for (let i = 0; i < 7; i++){ const m = (lo + hi) / 2; if (h(v0 + dir * m) >= 0) hi = m; else lo = m; }
+    p[a + key] = v0 + dir * hi;
+  };
+  for (const a of ['l', 'r']){ fix(a, 'S', 'Elbow'); fix(a, 'E', 'Hand'); }
+  const cr = Math.cos(p.rot || 0);
+  for (let i = 0; i < 3; i++){
+    let j = skeleton(p, 0), d = 0;
+    if (Math.abs(cr) > .35) for (const a of ['l', 'r']){ const u = CLEAR.lFoot - j[a + 'Foot'][1]; if (u > 0){ p[a + 'fy'] += u / cr; d = 1; } }      // a foot under the floor is brought up to it, where his own "up" still points up or down
+    if (d) j = skeleton(p, 0);
+    d = 0; for (const n in CLEAR) d = Math.max(d, CLEAR[n] - j[n][1]); if (d < .05) break; p.y += d;
+  }
+  return p;
+}
+window.ceoDanceLab = {
+  joints: ['head', 'chest', 'hip', 'lHand', 'rHand', 'lElbow', 'rElbow', 'lFoot', 'rFoot'],
+  styles: () => Object.keys(STYLES).map(s => ({ id: s, bpm: STYLES[s].bpm, tab: TAB_OF[s], auto: AUTO_MOVES[s], three: !!STYLES[s].three, accel: STYLES[s].accel || 0 })),
+  moves: () => Object.keys(MOVES).map(m => ({ id: m, tab: TAB_OF_MOVE[m] })),
+  async sound(style, bars, sr){ const buf = await offline(style, bars, sr || 22050); return buf && buf.getChannelData(0); },
+  notes(style, bars){                            // every note and drum hit the pattern asks for: t in seconds from the first step, m the pitch as a MIDI number, d how long, g how loud, v the voice
+    const L = [], mid = f => 69 + 12 * Math.log2(f / 440), spb = 60 / STYLES[style].bpm, OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    const live = [ac, master, outGain, bassBus, echoIn, delayN, noiseBuf, muted], voices = [tone, lead, pluck, ep, sub, kick, snare, tom, noise];
+    try {
+      ac = new OAC(1, 4410, 44100); outGain = null; muted = false; prepShared(); buildBus(ac.destination);
+      tone = (t, f, dur, type, g, cut, o) => { L.push({ t, m: mid(f), d: dur, g, v: 'tone', low: !!(o && o.low) }); };
+      lead = (t, f, dur, kind, g) => { L.push({ t, m: mid(f), d: dur, g, v: kind }); };
+      pluck = (t, m, g, o) => { L.push({ t, m, d: Math.min((o && o.dur) || 1.2, 1.2), g, v: 'pluck', low: !!(o && o.cut) }); };
+      ep = (t, m, dur, g) => { L.push({ t, m, d: dur, g, v: 'ep' }); };
+      sub = (t, f, dur, g) => { L.push({ t, m: mid(f), d: dur, g, v: 'sub', low: true }); };
+      kick = (t, g) => { L.push({ t, g, v: 'kick', drum: 'low' }); };
+      snare = (t, g) => { L.push({ t, g, v: 'snare', drum: 'mid' }); };
+      tom = (t, f, g) => { L.push({ t, g, v: 'tom', drum: f < 120 ? 'low' : 'mid' }); };
+      noise = (t, dur, type, freq, q, g) => { L.push({ t, g, v: 'noise', drum: type === 'highpass' && freq >= 5000 ? 'high' : 'mid' }); };
+      for (let n = 0; n < bars * 16; n++){ const from = L.length; PAT[style](n % 16, n >> 4, n * spb / 4, spb); for (let i = from; i < L.length; i++) L[i].n = n; }
+    } finally { [tone, lead, pluck, ep, sub, kick, snare, tom, noise] = voices; [ac, master, outGain, bassBus, echoIn, delayN, noiseBuf, muted] = live; }
+    return L;
+  },
+  track(move, bpm, beats, per){                  // the move danced at a tempo with the page's own easing: one row of joint positions (x, y for each of `joints`) for each of `per` steps to the beat
+    const rows = [], k = 1 - Math.exp(-60 / bpm / per * 22), c = basePose(); let tx = 0;
+    for (let i = -2 * per; i < beats * per; i++){
+      const p = basePose(), t = MOVES[move](i / per, p) || 0;
+      if (i === -2 * per){ Object.assign(c, p); tx = t; }
+      for (const f of SMOOTH) c[f] = lerp(c[f], p[f], k);
+      c.rot += (mod(p.rot - c.rot + PI, TAU) - PI) * k; c.sx = p.sx; c.sy = p.sy; c.yaw = p.yaw; tx = lerp(tx, t, k);
+      if (i >= 0){ const j = skeleton(ground(Object.assign({}, c)), tx); rows.push([].concat(...this.joints.map(n => j[n]))); }
+    }
+    return rows;
+  },
+  picture(move, beat, W, H){                     // the dancer alone in the pose of that beat, as W by H cells each saying how much of it he fills and how brightly, 0 to 9
+    const p = basePose(); MOVES[move](beat, p); ground(p);
+    const ow = cv.width, oh = cv.height, c = 20, g = [];
+    cv.width = W * c; cv.height = H * c;         // a canvas of its own size for the moment, so that the picture does not depend on the window
+    const sc = Math.min(cv.width / 340, cv.height / 300);
+    ctx.setTransform(sc, 0, 0, sc, cv.width / 2, cv.height * .82); drawDancer(p, 0, 0);
+    const d = ctx.getImageData(0, 0, cv.width, cv.height).data;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){
+      let a = 0; for (let j = 0; j < c; j++) for (let i = 0; i < c; i++){ const q = 4 * ((y * c + j) * cv.width + x * c + i); a += d[q + 3] * (.5 + (d[q] * .3 + d[q + 1] * .59 + d[q + 2] * .11) / 510); }
+      g.push(Math.round(a / (c * c) / 255 * 9));
+    }
+    cv.width = ow; cv.height = oh;
+    return g.join('');
+  }
+};
 
 /* ---------- controls ---------- */
 $('start').addEventListener('click', startShow);

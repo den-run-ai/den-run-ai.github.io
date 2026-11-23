@@ -1,0 +1,34 @@
+{
+  "about": "What the site's owner has said about the Dance Stage's music and moves, in their own words. check.js reads it: favourites are watched most closely, and nothing under \"rejected\" may come back. Anything not listed has not been judged. Add to it whenever the owner gives a verdict; never record a guess as a verdict.",
+  "styles": {
+    "house": { "verdict": "loved", "said": "Put my favorite music upfront, e.g. club house, club techno, hip hop trap, italian disco" },
+    "techno": { "verdict": "loved", "said": "Put my favorite music upfront, e.g. club house, club techno, hip hop trap, italian disco" },
+    "trap": { "verdict": "loved", "said": "Put my favorite music upfront, e.g. club house, club techno, hip hop trap, italian disco" },
+    "italo": { "verdict": "loved", "said": "Put my favorite music upfront, e.g. club house, club techno, hip hop trap, italian disco" },
+    "midnight": { "verdict": "loved", "said": "midnight shuffle was very well designed in multiple attempts" },
+    "salsa": { "verdict": "fine", "said": "tango and salsa felt not that bad", "when": "2026-11-23" },
+    "tango": { "verdict": "fine", "said": "tango and salsa felt not that bad", "when": "2026-11-23" },
+    "disco": { "verdict": "reworked", "said": "disco disco is not on theme and very poor notes", "note": "Rewritten after that. The rewrite has not been judged." },
+    "synthpop": { "verdict": "reworked", "said": "pop music looks very weak", "note": "Rewritten after that. The rewrite has not been judged." },
+    "dancepop": { "verdict": "reworked", "said": "pop music looks very weak", "note": "Rewritten after that. The rewrite has not been judged." }
+  },
+  "moves": {
+    "worm": { "verdict": "reworked", "said": "fix this bad tie jumping in breakdance, the body should flex more", "when": "2026-11-23", "note": "Rebuilt as a wave through a spine that bends. The rebuild has not been judged." }
+  },
+  "rejected": {
+    "styles": {
+      "bollywood": { "said": "Bollywood turned out to be really bad, both music and dance moves are really bad and not rhythmic", "when": "2026-11-23", "last": "78a0fba" },
+      "bhangra": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" },
+      "kathak": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" }
+    },
+    "moves": {
+      "thumka": { "said": "Bollywood turned out to be really bad, both music and dance moves are really bad and not rhythmic", "when": "2026-11-23", "last": "78a0fba" },
+      "bulb": { "said": "Bollywood turned out to be really bad, both music and dance moves are really bad and not rhythmic", "when": "2026-11-23", "last": "78a0fba" },
+      "neck": { "said": "Bollywood turned out to be really bad, both music and dance moves are really bad and not rhythmic", "when": "2026-11-23", "last": "78a0fba" },
+      "bhangra": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" },
+      "balle": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" },
+      "chakkar": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" },
+      "tatkar": { "said": "All of india is very bad, remove", "when": "2026-11-23", "last": "31b46b2" }
+    }
+  }
+}
