@@ -58,7 +58,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 .skip svg{width:17px;height:17px;fill:currentColor}
 .skip:active{background:var(--line)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px}
-.tab{position:relative;flex:1 1 18%;font:700 13px/1.1 var(--body);color:var(--muted);background:transparent;border:0;border-bottom:3px solid var(--line);min-height:34px;padding:4px 2px;cursor:pointer}
+.tab{position:relative;flex:1 1 14%;min-width:0;font:700 13px/1.1 var(--body);color:var(--muted);background:transparent;border:0;border-bottom:3px solid var(--line);min-height:34px;padding:4px 2px;cursor:pointer}
 .tab[aria-pressed="true"]{color:var(--paper);border-bottom-color:var(--coral)}
 .styles,.moves{transform-origin:50% 0}
 .flip{animation:flip .28s ease-out}
@@ -93,6 +93,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
   .chip{font-size:11.5px}
 }
 @media (max-width:339px){
+  .tab{font-size:11.5px}
   .pill{font-size:10.5px;padding:4px 2px}
 }
 </style>
@@ -121,36 +122,46 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" id="skipmix" class="chip skip" aria-label="Skip to the next move" title="Next move"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5v15l11-7.5z"/><rect x="17" y="4.5" width="3" height="15" rx="1"/></svg></button>
     </div>
     <div class="tabs" role="group" aria-label="Program">
-      <button type="button" class="tab" data-tab="pop" aria-pressed="true">Pop</button>
+      <button type="button" class="tab" data-tab="club" aria-pressed="true">Club</button>
       <button type="button" class="tab" data-tab="hiphop" aria-pressed="false">Hip hop</button>
-      <button type="button" class="tab" data-tab="shuffle" aria-pressed="false">Shuffle</button>
-      <button type="button" class="tab" data-tab="club" aria-pressed="false">Club</button>
       <button type="button" class="tab" data-tab="disco" aria-pressed="false">Disco</button>
+      <button type="button" class="tab" data-tab="shuffle" aria-pressed="false">Shuffle</button>
+      <button type="button" class="tab" data-tab="pop" aria-pressed="false">Pop</button>
       <button type="button" class="tab" data-tab="latin" aria-pressed="false">Latin</button>
+      <button type="button" class="tab" data-tab="ballroom" aria-pressed="false">Ballroom</button>
+      <button type="button" class="tab" data-tab="india" aria-pressed="false">India</button>
       <button type="button" class="tab" data-tab="country" aria-pressed="false">Country</button>
       <button type="button" class="tab" data-tab="folk" aria-pressed="false">Folk</button>
       <button type="button" class="tab" data-tab="ballet" aria-pressed="false">Ballet</button>
     </div>
     <div class="styles" role="group" aria-label="Music style">
-      <button type="button" class="pill" data-tab="pop" data-style="synthpop" aria-pressed="false">Synth pop</button>
-      <button type="button" class="pill" data-tab="pop" data-style="dancepop" aria-pressed="false">Dance pop</button>
-      <button type="button" class="pill" data-tab="hiphop" data-style="hiphop" aria-pressed="false" hidden>Boom bap</button>
+      <button type="button" class="pill" data-tab="club" data-style="house" aria-pressed="false">House</button>
+      <button type="button" class="pill" data-tab="club" data-style="techno" aria-pressed="false">Techno</button>
+      <button type="button" class="pill" data-tab="club" data-style="trance" aria-pressed="false">Trance</button>
+      <button type="button" class="pill" data-tab="club" data-style="deep" aria-pressed="false">Deep house</button>
       <button type="button" class="pill" data-tab="hiphop" data-style="trap" aria-pressed="false" hidden>Trap</button>
+      <button type="button" class="pill" data-tab="hiphop" data-style="hiphop" aria-pressed="false" hidden>Boom bap</button>
       <button type="button" class="pill" data-tab="hiphop" data-style="rnb" aria-pressed="false" hidden>R&amp;B</button>
       <button type="button" class="pill" data-tab="hiphop" data-style="funk" aria-pressed="false" hidden>Funk</button>
-      <button type="button" class="pill" data-tab="shuffle" data-style="swing" aria-pressed="false" hidden>Electro swing</button>
-      <button type="button" class="pill" data-tab="shuffle" data-style="slap" aria-pressed="false" hidden>Slap house</button>
-      <button type="button" class="pill" data-tab="shuffle" data-style="midnight" aria-pressed="false" hidden>Midnight shuffle</button>
-      <button type="button" class="pill" data-tab="club" data-style="house" aria-pressed="false" hidden>House</button>
-      <button type="button" class="pill" data-tab="club" data-style="trance" aria-pressed="false" hidden>Trance</button>
-      <button type="button" class="pill" data-tab="club" data-style="techno" aria-pressed="false" hidden>Techno</button>
-      <button type="button" class="pill" data-tab="club" data-style="deep" aria-pressed="false" hidden>Deep house</button>
-      <button type="button" class="pill" data-tab="disco" data-style="disco" aria-pressed="false" hidden>Disco</button>
       <button type="button" class="pill" data-tab="disco" data-style="italo" aria-pressed="false" hidden>Italo disco</button>
+      <button type="button" class="pill" data-tab="disco" data-style="disco" aria-pressed="false" hidden>Disco</button>
+      <button type="button" class="pill" data-tab="disco" data-style="nudisco" aria-pressed="false" hidden>Nu disco</button>
+      <button type="button" class="pill" data-tab="shuffle" data-style="midnight" aria-pressed="false" hidden>Midnight shuffle</button>
+      <button type="button" class="pill" data-tab="shuffle" data-style="slap" aria-pressed="false" hidden>Slap house</button>
+      <button type="button" class="pill" data-tab="shuffle" data-style="swing" aria-pressed="false" hidden>Electro swing</button>
+      <button type="button" class="pill" data-tab="pop" data-style="synthpop" aria-pressed="false" hidden>Synth pop</button>
+      <button type="button" class="pill" data-tab="pop" data-style="dancepop" aria-pressed="false" hidden>Dance pop</button>
+      <button type="button" class="pill" data-tab="pop" data-style="eurodance" aria-pressed="false" hidden>Eurodance</button>
       <button type="button" class="pill" data-tab="latin" data-style="lambada" aria-pressed="false" hidden>Lambada</button>
       <button type="button" class="pill" data-tab="latin" data-style="samba" aria-pressed="false" hidden>Samba</button>
       <button type="button" class="pill" data-tab="latin" data-style="flamenco" aria-pressed="false" hidden>Flamenco</button>
       <button type="button" class="pill" data-tab="latin" data-style="latin" aria-pressed="false" hidden>Latin pop</button>
+      <button type="button" class="pill" data-tab="ballroom" data-style="salsa" aria-pressed="false" hidden>Salsa</button>
+      <button type="button" class="pill" data-tab="ballroom" data-style="tango" aria-pressed="false" hidden>Tango</button>
+      <button type="button" class="pill" data-tab="ballroom" data-style="waltz" aria-pressed="false" hidden>Waltz</button>
+      <button type="button" class="pill" data-tab="india" data-style="bollywood" aria-pressed="false" hidden>Bollywood</button>
+      <button type="button" class="pill" data-tab="india" data-style="bhangra" aria-pressed="false" hidden>Bhangra</button>
+      <button type="button" class="pill" data-tab="india" data-style="kathak" aria-pressed="false" hidden>Kathak</button>
       <button type="button" class="pill" data-tab="country" data-style="honkytonk" aria-pressed="false" hidden>Honky tonk</button>
       <button type="button" class="pill" data-tab="country" data-style="hoedown" aria-pressed="false" hidden>Hoedown</button>
       <button type="button" class="pill" data-tab="folk" data-style="jig" aria-pressed="false" hidden>Jig</button>
@@ -165,36 +176,40 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="pill" data-tab="ballet" data-style="mountain" aria-pressed="false" hidden>Mtn King</button>
     </div>
     <div class="moves" role="group" aria-label="Dance move">
-      <button type="button" class="chip" data-tab="pop" data-move="moonwalk" aria-pressed="false">Moonwalk</button>
-      <button type="button" class="chip" data-tab="pop" data-move="toestand" aria-pressed="false">Toe stand</button>
-      <button type="button" class="chip" data-tab="pop" data-move="lean" aria-pressed="false">Lean</button>
-      <button type="button" class="chip" data-tab="pop" data-move="zombie" aria-pressed="false">Zombie</button>
-      <button type="button" class="chip" data-tab="pop" data-move="slide" aria-pressed="false">Slide</button>
-      <button type="button" class="chip" data-tab="pop" data-move="handflip" aria-pressed="false">Hand flip</button>
+      <button type="button" class="chip" data-tab="club" data-move="floss" aria-pressed="false">Floss</button>
+      <button type="button" class="chip" data-tab="club" data-move="bounce" aria-pressed="false">Bounce</button>
+      <button type="button" class="chip" data-tab="club" data-move="jump" aria-pressed="false">Hands up</button>
+      <button type="button" class="chip" data-tab="club" data-move="spin" aria-pressed="false">Spin jump</button>
+      <button type="button" class="chip" data-tab="club" data-move="glide" aria-pressed="false">Glide</button>
+      <button type="button" class="chip" data-tab="club" data-move="skank" aria-pressed="false">Skank</button>
+      <button type="button" class="chip" data-tab="club" data-move="robot" aria-pressed="false">Robot</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="toprock" aria-pressed="false" hidden>Top rock</button>
+      <button type="button" class="chip" data-tab="hiphop" data-move="sixstep" aria-pressed="false" hidden>Six step</button>
+      <button type="button" class="chip" data-tab="hiphop" data-move="windmill" aria-pressed="false" hidden>Windmill</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="headspin" aria-pressed="false" hidden>Headspin</button>
+      <button type="button" class="chip" data-tab="hiphop" data-move="freeze" aria-pressed="false" hidden>Freeze</button>
+      <button type="button" class="chip" data-tab="hiphop" data-move="worm" aria-pressed="false" hidden>Worm</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="dab" aria-pressed="false" hidden>Dab</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="nae" aria-pressed="false" hidden>Nae nae</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="gallop" aria-pressed="false" hidden>Gallop</button>
       <button type="button" class="chip" data-tab="hiphop" data-move="wave" aria-pressed="false" hidden>Wave</button>
+      <button type="button" class="chip" data-tab="disco" data-move="disco" aria-pressed="false" hidden>Point</button>
+      <button type="button" class="chip" data-tab="disco" data-move="hustle" aria-pressed="false" hidden>Hustle</button>
+      <button type="button" class="chip" data-tab="disco" data-move="bump" aria-pressed="false" hidden>Bump</button>
+      <button type="button" class="chip" data-tab="disco" data-move="roll" aria-pressed="false" hidden>Roll</button>
+      <button type="button" class="chip" data-tab="disco" data-move="twist" aria-pressed="false" hidden>Twist</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="runman" aria-pressed="false" hidden>Running man</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="tstep" aria-pressed="false" hidden>T-step</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="charleston" aria-pressed="false" hidden>Charleston</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="rubber" aria-pressed="false" hidden>Rubber legs</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="sidekick" aria-pressed="false" hidden>Side kicks</button>
       <button type="button" class="chip" data-tab="shuffle" data-move="xjump" aria-pressed="false" hidden>X jump</button>
-      <button type="button" class="chip" data-tab="club" data-move="floss" aria-pressed="false" hidden>Floss</button>
-      <button type="button" class="chip" data-tab="club" data-move="bounce" aria-pressed="false" hidden>Bounce</button>
-      <button type="button" class="chip" data-tab="club" data-move="jump" aria-pressed="false" hidden>Hands up</button>
-      <button type="button" class="chip" data-tab="club" data-move="spin" aria-pressed="false" hidden>Spin jump</button>
-      <button type="button" class="chip" data-tab="club" data-move="glide" aria-pressed="false" hidden>Glide</button>
-      <button type="button" class="chip" data-tab="club" data-move="skank" aria-pressed="false" hidden>Skank</button>
-      <button type="button" class="chip" data-tab="club" data-move="robot" aria-pressed="false" hidden>Robot</button>
-      <button type="button" class="chip" data-tab="disco" data-move="disco" aria-pressed="false" hidden>Point</button>
-      <button type="button" class="chip" data-tab="disco" data-move="hustle" aria-pressed="false" hidden>Hustle</button>
-      <button type="button" class="chip" data-tab="disco" data-move="bump" aria-pressed="false" hidden>Bump</button>
-      <button type="button" class="chip" data-tab="disco" data-move="roll" aria-pressed="false" hidden>Roll</button>
-      <button type="button" class="chip" data-tab="disco" data-move="twist" aria-pressed="false" hidden>Twist</button>
+      <button type="button" class="chip" data-tab="pop" data-move="moonwalk" aria-pressed="false" hidden>Moonwalk</button>
+      <button type="button" class="chip" data-tab="pop" data-move="toestand" aria-pressed="false" hidden>Toe stand</button>
+      <button type="button" class="chip" data-tab="pop" data-move="lean" aria-pressed="false" hidden>Lean</button>
+      <button type="button" class="chip" data-tab="pop" data-move="zombie" aria-pressed="false" hidden>Zombie</button>
+      <button type="button" class="chip" data-tab="pop" data-move="slide" aria-pressed="false" hidden>Slide</button>
+      <button type="button" class="chip" data-tab="pop" data-move="handflip" aria-pressed="false" hidden>Hand flip</button>
       <button type="button" class="chip" data-tab="latin" data-move="lambada" aria-pressed="false" hidden>Lambada</button>
       <button type="button" class="chip" data-tab="latin" data-move="dip" aria-pressed="false" hidden>Dip</button>
       <button type="button" class="chip" data-tab="latin" data-move="samba" aria-pressed="false" hidden>Samba</button>
@@ -202,6 +217,22 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="chip" data-tab="latin" data-move="zapateado" aria-pressed="false" hidden>Heels</button>
       <button type="button" class="chip" data-tab="latin" data-move="braceo" aria-pressed="false" hidden>Ol&eacute;</button>
       <button type="button" class="chip" data-tab="latin" data-move="macarena" aria-pressed="false" hidden>Macarena</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="salsa" aria-pressed="false" hidden>Salsa</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="salsaturn" aria-pressed="false" hidden>Salsa spin</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="suzyq" aria-pressed="false" hidden>Suzy Q</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="tangowalk" aria-pressed="false" hidden>Tango walk</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="ocho" aria-pressed="false" hidden>Ochos</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="corte" aria-pressed="false" hidden>Lunge</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="waltz" aria-pressed="false" hidden>Box step</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="whirl" aria-pressed="false" hidden>Whirl</button>
+      <button type="button" class="chip" data-tab="ballroom" data-move="balance" aria-pressed="false" hidden>Sway</button>
+      <button type="button" class="chip" data-tab="india" data-move="thumka" aria-pressed="false" hidden>Thumka</button>
+      <button type="button" class="chip" data-tab="india" data-move="bulb" aria-pressed="false" hidden>Light bulb</button>
+      <button type="button" class="chip" data-tab="india" data-move="neck" aria-pressed="false" hidden>Head slide</button>
+      <button type="button" class="chip" data-tab="india" data-move="bhangra" aria-pressed="false" hidden>Bhangra</button>
+      <button type="button" class="chip" data-tab="india" data-move="balle" aria-pressed="false" hidden>Balle balle</button>
+      <button type="button" class="chip" data-tab="india" data-move="chakkar" aria-pressed="false" hidden>Chakkar</button>
+      <button type="button" class="chip" data-tab="india" data-move="tatkar" aria-pressed="false" hidden>Foot&shy;work</button>
       <button type="button" class="chip" data-tab="country" data-move="lasso" aria-pressed="false" hidden>Lasso</button>
       <button type="button" class="chip" data-tab="country" data-move="heeltoe" aria-pressed="false" hidden>Heel toe</button>
       <button type="button" class="chip" data-tab="country" data-move="grapevine" aria-pressed="false" hidden>Grapevine</button>
@@ -224,8 +255,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--aqua);outline-o
       <button type="button" class="chip" data-tab="ballet" data-move="sneak" aria-pressed="false" hidden>Sneak</button>
     </div>
     <div class="row">
-      <label class="tempo" for="tempo">Tempo <output id="bpm" for="tempo">116</output>
-        <input id="tempo" type="range" min="84" max="180" step="2" value="116">
+      <label class="tempo" for="tempo">Tempo <output id="bpm" for="tempo">126</output>
+        <input id="tempo" type="range" min="56" max="180" step="2" value="126">
       </label>
       <button id="sound" class="btn" type="button" aria-pressed="true">Sound on</button>
       <button id="encore" class="btn" type="button" disabled>Encore</button>
@@ -273,12 +304,13 @@ const STYLES = {
   trance: { label:'Trance', wall:'TRANCE', bpm:136, vol:1.25, cols:['#4D7CFF', '#3DE0D0', '#FF4FD8', '#F3EEFF'] },
   techno: { label:'Techno', wall:'TECHNO', bpm:130, vol:1, cols:['#3DE0D0', '#F3EEFF', '#4D7CFF', '#8E6BFF'] },
   deep:   { label:'Deep house', wall:'DEEP HOUSE', bpm:122, vol:.71, tune:true, cols:['#5FE08A', '#3DE0D0', '#8E6BFF', '#FFD23F'] },
-  // public-domain classics: Tchaikovsky (Swan Lake 1877, The Nutcracker 1892), Offenbach (1858), Grieg (1875)
+  // public-domain classics: Tchaikovsky (Swan Lake 1877, The Nutcracker 1892), Offenbach (1858), Grieg (1875), Johann Strauss II (1866)
   swan:     { label:'Swan Lake', wall:'SWAN LAKE',     bpm:108, vol:.42, classical:true, costume:'tutu', cols:['#BFE3FF', '#F3EEFF', '#FFB7D5', '#8E6BFF'] },
   cygnets:  { label:'Cygnets',   wall:'CYGNETS',  bpm:108, vol:.5, classical:true, costume:'tutu', cols:['#FFB7D5', '#F3EEFF', '#BFE3FF', '#FFD23F'] },
   cancan:   { label:'Can-can',   wall:'CAN-CAN',       bpm:152, vol:.85, classical:true, costume:'tutu', cols:['#FF5D5D', '#FFD23F', '#FF4FD8', '#F3EEFF'] },
   trepak:   { label:'Trepak',    wall:'TREPAK',        bpm:150, vol:1, classical:true, costume:'hat',  cols:['#FF5D5D', '#F3EEFF', '#FFD23F', '#4D7CFF'] },
   mountain: { label:'Mtn King',  wall:'MOUNTAIN KING', bpm:100, accel:9, vol:1, classical:true, cols:['#5FE08A', '#FF9A3D', '#8E6BFF', '#FF5D5D'] },
+  waltz:    { label:'Waltz',     wall:'BLUE DANUBE',   bpm:60, vol:.58, classical:true, three:true, cols:['#BFE3FF', '#FFD23F', '#F3EEFF', '#4D7CFF'] },   // one beat here is one whole bar of the waltz
   // hip hop, funk and country: original grooves written for this page
   hiphop:    { label:'Boom bap',   wall:'BOOM BAP', bpm:94,  vol:.66, costume:'cap', cols:['#FFD23F', '#FF5D5D', '#3DE0D0', '#F3EEFF'] },
   trap:      { label:'Trap',       wall:'TRAP',  bpm:140, vol:1.3, costume:'cap', cols:['#FF5D5D', '#8E6BFF', '#FF4FD8', '#4D7CFF'] },
@@ -287,27 +319,38 @@ const STYLES = {
   honkytonk: { label:'Honky tonk', wall:'HONKY TONK',  bpm:120, vol:1.5, tune:true, costume:'cowboy', cols:['#FFB347', '#FFD23F', '#FF5D5D', '#F3EEFF'] },
   hoedown:   { label:'Hoedown',    wall:'HOEDOWN',  bpm:132, vol:.72, tune:true, costume:'cowboy', cols:['#FFD23F', '#5FE08A', '#FF9A3D', '#F3EEFF'] },
   // pop, shuffle and disco: more original grooves
-  synthpop: { label:'Synth pop',     wall:'SYNTH POP',       bpm:116, vol:1.35, costume:'fedora', cols:['#FF4FD8', '#3DE0D0', '#FFD23F', '#8E6BFF'] },
-  dancepop: { label:'Dance pop',     wall:'DANCE POP',       bpm:118, vol:.66, tune:true, costume:'fedora', cols:['#F3EEFF', '#FF4FD8', '#8E6BFF', '#FFD23F'] },
+  synthpop:  { label:'Synth pop',     wall:'SYNTH POP',       bpm:118, vol:.78, tune:true, costume:'fedora', cols:['#FF4FD8', '#3DE0D0', '#FFD23F', '#8E6BFF'] },
+  dancepop:  { label:'Dance pop',     wall:'DANCE POP',       bpm:120, vol:.56, tune:true, costume:'fedora', cols:['#F3EEFF', '#FF4FD8', '#8E6BFF', '#FFD23F'] },
+  eurodance: { label:'Eurodance',     wall:'EURODANCE',       bpm:132, vol:.72, tune:true, costume:'fedora', cols:['#3DE0D0', '#FF4FD8', '#FFD23F', '#4D7CFF'] },
   swing:    { label:'Electro swing', wall:'ELECTRO SWING',    bpm:126, vol:.88, tune:true, cols:['#FFD23F', '#F3EEFF', '#FF9A3D', '#FF5D5D'] },
   slap:     { label:'Slap house',    wall:'SLAP HOUSE', bpm:124, vol:1.35, cols:['#3DE0D0', '#4D7CFF', '#FF4FD8', '#F3EEFF'] },
   midnight: { label:'Midnight shuffle', wall:'MIDNIGHT SHUFFLE', bpm:100, vol:.88, tune:true, cols:['#57C8D9', '#858CFF', '#B5DFFF', '#D79CE8'] },
-  disco:    { label:'Disco',         wall:'DISCO',   bpm:118, vol:.61, tune:true, cols:['#FF4FD8', '#FFD23F', '#3DE0D0', '#FF5D5D'] },
+  disco:    { label:'Disco',         wall:'DISCO',   bpm:120, vol:.65, tune:true, cols:['#FF4FD8', '#FFD23F', '#3DE0D0', '#FF5D5D'] },
   italo:    { label:'Italo disco',   wall:'ITALO DISCO', bpm:124, vol:1.14, tune:true, cols:['#4D7CFF', '#FF4FD8', '#F3EEFF', '#3DE0D0'] },
+  nudisco:  { label:'Nu disco',      wall:'NU DISCO', bpm:122, vol:.46, tune:true, cols:['#FF9A3D', '#FF4FD8', '#8E6BFF', '#3DE0D0'] },
   // Latin: original tunes in each style, on plucked strings
   latin:    { label:'Latin pop', wall:'LATIN POP', bpm:104, vol:.84, tune:true, costume:'fedora', cols:['#FF5D5D', '#FFD23F', '#5FE08A', '#FF9A3D'] },
   lambada:  { label:'Lambada',   wall:'LAMBADA',   bpm:120, vol:.72, tune:true, cols:['#FF9A3D', '#FF4FD8', '#FFD23F', '#3DE0D0'] },
   samba:    { label:'Samba',     wall:'SAMBA',     bpm:104, vol:.5, tune:true, costume:'plume', cols:['#5FE08A', '#FFD23F', '#4D7CFF', '#FF4FD8'] },
   flamenco: { label:'Flamenco',  wall:'FLAMENCO',  bpm:112, vol:.88, tune:true, costume:'cordobes', cols:['#FF5D5D', '#FF9A3D', '#FFD23F', '#F3EEFF'] },
+  // ballroom: an original salsa and an original tango (the waltz is with the classics above)
+  salsa:    { label:'Salsa',     wall:'SALSA',     bpm:96,  vol:.63, tune:true, cols:['#FF9A3D', '#FF5D5D', '#FFD23F', '#5FE08A'] },                // one beat here is two of the dancers' counts
+  tango:    { label:'Tango',     wall:'TANGO',     bpm:126, vol:.6, tune:true, costume:'fedora', cols:['#FF5D5D', '#F3EEFF', '#8E6BFF', '#FFD23F'] },
+  // India: original tunes. A song in the manner of the old Hindi films, a bhangra on dhol and tumbi, and a kathak piece in raga Yaman that gathers speed
+  bollywood: { label:'Bollywood', wall:'BOLLYWOOD', bpm:112, vol:.49, tune:true, cols:['#FF4FD8', '#FFD23F', '#FF9A3D', '#3DE0D0'] },
+  bhangra:   { label:'Bhangra',   wall:'BHANGRA',   bpm:100, vol:.88, tune:true, costume:'turban', cols:['#FFD23F', '#FF5D5D', '#5FE08A', '#FF4FD8'] },
+  kathak:    { label:'Kathak',    wall:'KATHAK',    bpm:92, accel:6, vol:.71, tune:true, cols:['#FF9A3D', '#FFD23F', '#8E6BFF', '#F3EEFF'] },
   // folk dances. The jig is "The Irish Washerwoman", a traditional tune first printed in 1788; the others are original tunes in each country's manner
-  jig:        { label:'Jig',        wall:'JIG',        bpm:116, vol:.68, tune:true, cols:['#5FE08A', '#F3EEFF', '#FF9A3D', '#2FBF71'] },
+  jig:        { label:'Jig',        wall:'JIG',        bpm:116, vol:.68, tune:true, three:true, cols:['#5FE08A', '#F3EEFF', '#FF9A3D', '#2FBF71'] },
   polka:      { label:'Polka',      wall:'POLKA',      bpm:124, vol:.63, tune:true, costume:'alpine', cols:['#FFD23F', '#FF5D5D', '#F3EEFF', '#5FE08A'] },
   sirtaki:    { label:'Sirtaki',    wall:'SIRTAKI',    bpm:96, accel:7, vol:1.3, tune:true, cols:['#4D7CFF', '#F3EEFF', '#BFE3FF', '#FFD23F'] },
-  tarantella: { label:'Tarantella', wall:'TARANTELLA', bpm:132, vol:1.18, tune:true, cols:['#FF5D5D', '#F3EEFF', '#5FE08A', '#FFD23F'] },
+  tarantella: { label:'Tarantella', wall:'TARANTELLA', bpm:132, vol:1.18, tune:true, three:true, cols:['#FF5D5D', '#F3EEFF', '#5FE08A', '#FFD23F'] },
   hora:       { label:'Hora',       wall:'HORA',       bpm:128, vol:.54, tune:true, cols:['#BFE3FF', '#FFD23F', '#F3EEFF', '#4D7CFF'] }
 };
-const STYLE_ORDER = ['synthpop', 'swing', 'disco', 'lambada', 'jig', 'hiphop', 'house', 'honkytonk', 'swan', 'samba', 'slap', 'dancepop', 'polka', 'rnb', 'trance', 'cancan',
-  'flamenco', 'italo', 'techno', 'hoedown', 'sirtaki', 'funk', 'cygnets', 'deep', 'latin', 'trap', 'midnight', 'tarantella', 'trepak', 'hora', 'mountain'];   // Auto DJ running order
+// Auto DJ running order: it opens on house, techno, trap and Italo disco, and after that every change of music is also a change of page
+const STYLE_ORDER = ['house', 'techno', 'trap', 'italo', 'midnight', 'disco', 'synthpop', 'bollywood', 'salsa', 'deep', 'nudisco', 'hiphop', 'tango', 'eurodance', 'bhangra', 'slap',
+  'waltz', 'trance', 'dancepop', 'lambada', 'funk', 'kathak', 'swing', 'honkytonk', 'samba', 'rnb', 'jig', 'swan', 'flamenco', 'polka', 'cancan', 'latin', 'hoedown', 'sirtaki',
+  'cygnets', 'tarantella', 'trepak', 'hora', 'mountain'];
 const rotate = s => STYLE_ORDER[(STYLE_ORDER.indexOf(s) + 1) % STYLE_ORDER.length];
 const tuneful = s => !!(STYLES[s].classical || STYLES[s].tune);   // styles whose melody plays on through the build
 const AUTO_MOVES = {                             // each style draws on the moves of its own page, so the page of buttons only turns when the music does
@@ -320,23 +363,31 @@ const AUTO_MOVES = {                             // each style draws on the move
   cancan:   ['cancan', 'cancan', 'leap', 'cancan'],
   trepak:   ['squat', 'squat', 'pirouette', 'squat'],
   mountain: ['sneak', 'sneak', 'sneak', 'sneak'],
-  hiphop:    ['toprock', 'headspin', 'dab', 'nae', 'gallop', 'wave'],
-  trap:      ['dab', 'nae', 'headspin', 'toprock', 'wave', 'gallop'],
+  hiphop:    ['toprock', 'sixstep', 'windmill', 'freeze', 'headspin', 'worm'],
+  trap:      ['dab', 'nae', 'headspin', 'worm', 'wave', 'gallop'],
   rnb:       ['wave', 'nae', 'toprock', 'wave', 'dab', 'gallop'],
-  funk:      ['toprock', 'gallop', 'headspin', 'wave', 'nae', 'dab'],
+  funk:      ['toprock', 'sixstep', 'gallop', 'windmill', 'wave', 'freeze'],
   honkytonk: ['heeltoe', 'lasso', 'grapevine', 'kneeslap', 'rodeo', 'heelclick'],
   hoedown:   ['heelclick', 'kneeslap', 'grapevine', 'rodeo', 'lasso', 'heeltoe'],
   synthpop:  ['toestand', 'moonwalk', 'lean', 'zombie', 'slide', 'moonwalk'],
   dancepop:  ['slide', 'handflip', 'toestand', 'moonwalk', 'lean', 'handflip'],
+  eurodance: ['handflip', 'slide', 'zombie', 'toestand', 'moonwalk', 'lean'],
   swing:     ['charleston', 'rubber', 'xjump', 'runman', 'sidekick', 'tstep'],
   slap:      ['runman', 'tstep', 'sidekick', 'xjump', 'charleston', 'rubber'],
   midnight:  ['tstep', 'runman', 'sidekick', 'charleston'],
   disco:     ['disco', 'hustle', 'bump', 'roll', 'twist'],
   italo:     ['roll', 'disco', 'twist', 'hustle', 'bump'],
+  nudisco:   ['hustle', 'bump', 'disco', 'twist', 'roll'],
   latin:     ['macarena', 'macarena', 'volta', 'lambada'],
   lambada:   ['lambada', 'dip', 'lambada', 'volta'],
   samba:     ['samba', 'volta', 'samba', 'dip'],
   flamenco:  ['zapateado', 'braceo', 'zapateado', 'braceo'],
+  salsa:     ['salsa', 'salsaturn', 'suzyq', 'salsa'],
+  tango:     ['tangowalk', 'ocho', 'corte', 'tangowalk'],
+  waltz:     ['waltz', 'whirl', 'balance', 'whirl'],
+  bollywood: ['thumka', 'bulb', 'neck', 'thumka', 'bulb', 'chakkar'],
+  bhangra:   ['bhangra', 'balle', 'bhangra', 'bulb'],
+  kathak:    ['tatkar', 'chakkar', 'neck', 'tatkar', 'chakkar'],
   jig:        ['jigstep', 'sevens', 'trebles', 'jigstep', 'sevens'],
   polka:      ['polka', 'polka', 'polka', 'polka'],
   sirtaki:    ['sirtaki', 'sirtaki', 'sirtaki', 'sirtaki'],
@@ -351,27 +402,30 @@ const LABEL = { bounce:'Bounce', disco:'Point', jump:'Hands up', wave:'Wave', ro
   runman:'Running man', tstep:'T-step', charleston:'Charleston', rubber:'Rubber legs', sidekick:'Side kicks', xjump:'X jump',
   hustle:'Hustle', bump:'Bump', roll:'Roll', jigstep:'Jig step', sevens:'Sevens', trebles:'Trebles',
   lambada:'Lambada', dip:'Dip', samba:'Samba', volta:'Volta', zapateado:'Heels', braceo:'Olé',
-  polka:'Polka', sirtaki:'Sirtaki', tarantella:'Tarantella', hora:'Hora' };
+  polka:'Polka', sirtaki:'Sirtaki', tarantella:'Tarantella', hora:'Hora',
+  sixstep:'Six step', windmill:'Windmill', freeze:'Freeze', worm:'Worm',
+  salsa:'Salsa', salsaturn:'Salsa spin', suzyq:'Suzy Q', tangowalk:'Tango walk', ocho:'Ochos', corte:'Lunge', waltz:'Box step', whirl:'Whirl', balance:'Sway',
+  thumka:'Thumka', bulb:'Light bulb', neck:'Head slide', bhangra:'Bhangra', balle:'Balle balle', chakkar:'Chakkar', tatkar:'Footwork' };
 const KINDS = ['spin', 'clap', 'drop', 'point'];
 
 const STEPX = 70, STEPDROP = 40, STAGE_L = 118, CX = 200, DROP = 4;
-let started = false, beat = 0, bpm = 116, idleT = 0, lastT = 0;
+let started = false, beat = 0, bpm = 126, idleT = 0, lastT = 0;
 // Beats below are counted from the moment he lands. A section is 32 beats and ends in a build and a drop.
-let sec = { start: 0, style: 'synthpop' }, next = { at: 32, style: 'swing', build: 4, riser: false };
+let sec = { start: 0, style: 'house' }, next = { at: 32, style: 'techno', build: 4, riser: false };
 let autoDJ = true, pickedStyle = 'auto', phraseBase = 0;
 let mode = 'auto', manualMove = 'bounce', sw = null, swCount = 0, moveName = 'bounce', phase = 'idle';
 let mix = { t0: 0, base: 0 };                     // Auto mix: the beat in the section its eight-beat phrases count from, and how far along the list a skip has pushed it
 let introFrom = { x: STEPX, level: STEPDROP };
 const anchor = { x: STEPX, level: STEPDROP, lift: 0 };
 let travel = 0, shake = 0, flash = 0, energy = .3, pop = 0, tapHop = 0, tapHopV = 0;
-const wear = { tutu: 0, hat: 0, cap: 0, cowboy: 0, fedora: 0, cordobes: 0, plume: 0, alpine: 0 };   // how far on each costume piece is, 0 to 1
+const wear = { tutu: 0, hat: 0, cap: 0, cowboy: 0, fedora: 0, cordobes: 0, plume: 0, alpine: 0, turban: 0 };   // how far on each costume piece is, 0 to 1
 let tieA = 0, tieV = 0, hairX = 0, hairXV = 0, hairY = 0, hairYV = 0, lastHX = null, lastHY = null, blink = 0, nextBlink = 2;
 const parts = [], puffs = [];
 
 const basePose = () => ({ x:0, y:0, lean:0, tilt:0, head:0, turn:0, hipTilt:0, shTilt:0, lS:.22, lE:.2, rS:.22, rE:.2,
   lfx:-13, lfy:0, rfx:13, rfy:0, lToe:.7, rToe:.7, lK:.55, rK:.55, lz:0, rz:0, pointe:0, lPt:0, rPt:0, lHeel:0, rHeel:0, mouth:.55, brow:0, browT:0,
-  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
-const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF'];
+  sx:1, sy:1, yaw:0, pitch:0, lF:0, rF:0, rot:0, hs:0, lBack:false, rBack:false, over:false, rope:null, tamb:null, face:'smile' });
+const SMOOTH = ['x','y','lean','tilt','head','turn','hipTilt','shTilt','lS','lE','rS','rE','lfx','lfy','rfx','rfy','lToe','rToe','lK','rK','lz','rz','pointe','lPt','rPt','lHeel','rHeel','mouth','brow','browT','pitch','lF','rF','hs'];
 let cur = basePose(); cur.mouth = 0;
 
 /* ---------- dance moves: each fills a pose for beat position b (arm angle 0 hangs down, PI/2 out sideways, PI up) ---------- */
@@ -1025,8 +1079,224 @@ const MOVES = {
       p.y = 3 + 18 * k; p[A[0] + 'fx'] = d * (10 + 44 * k); p[A[0] + 'fy'] = 140 * k; p[A[0] + 'K'] = .12; p[A[0] + 'Toe'] = 1; p[A[1] + 'fy'] = 14 * k;
       p.lean = -d * .08 * k; p.face = 'joy'; p.mouth = 1;
     }
+  },
+
+  /* breakdance */
+  sixstep(b, p){                                 // floor work: down in a crouch with one hand on the floor while the far leg sweeps out and round in front, then the other hand and the other leg
+    const c = mod(b, 4), d = c < 2 ? 1 : -1, u = c % 2, A = d > 0 ? ['r', 'l'] : ['l', 'r'], k = Math.sin(PI * u / 2);
+    p.y = -46 - 9 * k; p.lean = d * .56 * k; p.x = d * 9 * k; p.shTilt = d * .45 * k; p.head = -d * .4 * k; p.turn = -d * k;
+    p[A[0] + 'S'] = lerp(.3, .7, k); p[A[0] + 'E'] = 0; p[A[1] + 'S'] = lerp(.3, 2.1, k); p[A[1] + 'E'] = .35 * k;
+    p[A[0] + 'fx'] = d * 15; p[A[0] + 'K'] = 1;
+    p[A[1] + 'fx'] = -d * lerp(15, 60, k); p[A[1] + 'K'] = lerp(1, .12, k); p[A[1] + 'Toe'] = 1; p[A[1] + 'z'] = Math.sin(PI * u); p[A[1] + 'fy'] = 3 * k;
+    p.face = 'joy'; p.mouth = .8; p.brow = .4;
+  },
+  windmill(b, p){                                // crouch, kick over onto the shoulders, and wheel: the body tipped far over and swinging round the spot where the head is, the legs flung wide; then roll out
+    const c = mod(b, 8);
+    if (c < 1){
+      const q = ease(c);
+      p.y = -34 * q; p.lean = .08 * q; p.lfx = -20; p.rfx = 20; p.lS = p.rS = lerp(.3, .8, q); p.lE = p.rE = lerp(.2, -.3, q); p.browT = -q; p.mouth = .2;
+    } else if (c < 6.6){
+      const up = ease(clamp(c - 1, 0, 1)), dn = ease(clamp((c - 6) / .6, 0, 1)), k = up * (1 - dn), ph = TAU * (c - 2), tip = .95 * Math.cos(ph) * ease(clamp(c - 2, 0, 1)) * (1 - dn);
+      p.rot = PI * (up + dn) + Math.abs(tip); p.y = lerp(-34, -105 + 77 * Math.cos(tip), k) + 18 * dn;      // seen from behind he is drawn as his mirror image, so the same lean tips him the other way
+      if (c >= 2 && c < 6) p.yaw = mod(ph, TAU);
+      p.lfx = -20 - 24 * k; p.rfx = 20 + 24 * k; p.lfy = p.rfy = (6 + p.y) * k; p.pointe = k; p.lK = p.rK = .3;
+      p.lS = p.rS = 2.2; p.lE = p.rE = .4; p.face = 'joy'; p.mouth = 1;
+      return 77 * Math.sin(tip);                  // the head stays where it is on the floor
+    } else {
+      const q = easeOut((c - 6.6) / .5);
+      p.y = -4 - 14 * (1 - q); p.lean = -.08; p.lS = .66; p.lE = -2.23; p.rS = .46; p.rE = -2.03; p.lfx = -19; p.rfx = 19;
+      p.head = .1; p.turn = .5; p.brow = .8; p.mouth = .15;
+    }
+  },
+  freeze(b, p){                                  // wind up, kick over onto one hand with the legs split, and hold it dead still; down again into a b-boy stance, and the next one goes up on the other hand
+    const c = mod(b, 4), d = mod(Math.floor(b / 4), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'];
+    if (c < 1){
+      const q = ease(c);
+      p.y = -8 - 24 * q; p.lean = d * .16 * q; p.lfx = -19; p.rfx = 19; p.lS = p.rS = lerp(.5, .9, q); p.lE = p.rE = lerp(-.4, .2, q); p.browT = -q; p.mouth = .2;
+    } else if (c < 3.3){
+      const k = easeOut((c - 1) / .4) * (1 - ease(clamp((c - 2.8) / .5, 0, 1)));
+      p.rot = d * (PI - .3) * k; p.y = lerp(-32, -8, k);
+      p[A[0] + 'S'] = lerp(.9, 2.95, k); p[A[0] + 'E'] = .05; p[A[1] + 'S'] = lerp(.9, 1.5, k); p[A[1] + 'E'] = .3;
+      p[A[0] + 'fx'] = d * lerp(19, 4, k); p[A[0] + 'fy'] = -9 * k; p[A[0] + 'K'] = lerp(.55, .15, k); p[A[0] + 'Toe'] = 1;
+      p[A[1] + 'fx'] = -d * lerp(19, 36, k); p[A[1] + 'fy'] = 30 * k; p[A[1] + 'K'] = 1;
+      p.pointe = k; p.face = 'joy'; p.mouth = 1;
+    } else {
+      const q = easeOut((c - 3.3) / .4);
+      p.y = -4 - 14 * (1 - q); p.lean = -d * .08; p.lS = .66; p.lE = -2.23; p.rS = .46; p.rE = -2.03; p.lfx = -19; p.rfx = 19;
+      p.head = d * .1; p.turn = d * .5; p.brow = .8; p.mouth = .15;
+    }
+  },
+  worm(b, p){                                    // the worm, side on: he drops flat and rocks along the floor, chest up as the feet come down and feet up as the chest comes down; then he gets up and comes back the other way
+    const c = mod(b, 16), d = c < 8 ? 1 : -1, u = c % 8, k = ease(clamp(u, 0, 1)) * (1 - ease(clamp(u - 7, 0, 1))), wv = .3 * Math.sin(TAU * b) * k;
+    p.yaw = d * 1.25; p.rot = d * (PI / 2 * k + wv); p.y = lerp(-6, -84 + 72 * Math.abs(Math.sin(wv)), k);
+    p.lfx = -5; p.rfx = 5; p.lfy = p.rfy = -93 * k; p.lK = p.rK = .3; p.lToe = p.rToe = .2; p.pointe = k;
+    p.lF = p.rF = 1; p.lS = p.rS = lerp(.4, -.9 + .25 * Math.sin(TAU * b), k); p.lE = p.rE = lerp(.5, 2.3, k);      // elbows up behind him, hands on the floor by his chest
+    p.mouth = .7; p.brow = .5; if (k > .5) p.face = 'joy';
+    return d * lerp(-56, 56, clamp((u - .5) / 7, 0, 1));
+  },
+
+  /* ballroom */
+  salsa(b, p){                                   // the basic step, two counts to a beat: a foot goes back behind the other, the other steps on the spot, together, wait; then the other foot; after eight counts the steps go out to the side instead. Soft knees, rolling hips, hands circling in front
+    const g = 2 * b, i = Math.floor(g), f = frac(g), q = easeOut(f / .5), k = Math.sin(PI * clamp(f / .6, 0, 1)), side = mod(g, 16) >= 8;
+    const lo = j => mod(j, 8) < 2 ? 1 : 0, ro = j => mod(j, 8) === 4 || mod(j, 8) === 5 ? 1 : 0, W = [-1, 1, -1, -1, 1, -1, 1, 1], st = 'lrl.rlr.'[mod(i, 8)];
+    const L = lerp(lo(i - 1), lo(i), q), R = lerp(ro(i - 1), ro(i), q), w = lerp(W[mod(i - 1, 8)], W[mod(i, 8)], ease(clamp(f / .6, 0, 1))), a = Math.sin(PI * g / 2);
+    if (side){ p.lfx = -13 - 15 * L; p.rfx = 13 + 15 * R; } else { p.lfx = lerp(-13, 2, L); p.lz = -L; p.lPt = .5 * L; p.rfx = lerp(13, -2, R); p.rz = -R; p.rPt = .5 * R; p.yaw = .4 * (R - L); }
+    if (st !== '.') p[st + 'fy'] = 7 * k;
+    p.x = 10 * w; p.hipTilt = -.15 * w; p.shTilt = .07 * w; p.y = -8 - 2 * k; p.lK = p.rK = .75; p.head = .06 * w;
+    p.lS = .55 - .1 * a; p.rS = .55 + .1 * a; p.lE = -1.15 + .5 * a; p.rE = -1.15 - .5 * a;
+    p.face = 'joy'; p.mouth = .7;
+  },
+  salsaturn(b, p){                               // two beats of side steps, then a quick turn on the spot under a raised hand and a finish with the arms thrown open; the next one turns the other way
+    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, g = 2 * u, f = frac(g), k = Math.sin(PI * clamp(f / .6, 0, 1)), A = d > 0 ? ['r', 'l'] : ['l', 'r'];
+    p.y = -8 - 2 * k; p.lK = p.rK = .75; p.face = 'joy'; p.mouth = .7;
+    if (u < 2){
+      const w = d * Math.sin(PI * g / 2), a = Math.sin(PI * g / 2);
+      p.x = 8 * w; p.hipTilt = -.13 * w; p.shTilt = .05 * w; p[(Math.floor(g) % 2 === 0 ? A[0] : A[1]) + 'fy'] = 6 * k;
+      p.x = 10 * w; p.lS = .55 - .1 * a; p.rS = .55 + .1 * a; p.lE = -1.15 + .5 * a; p.rE = -1.15 - .5 * a;
+    } else if (u < 3.5){
+      const q = (u - 2) / 1.5;
+      p.yaw = d * TAU * ease(q); p.lfx = -6; p.rfx = 6; p.pointe = .45 * Math.sin(PI * q); p.y = -4;
+      p[A[0] + 'S'] = 2.6; p[A[0] + 'E'] = .7; p[A[1] + 'S'] = .6; p[A[1] + 'E'] = -1.3;
+    } else {
+      const q = easeOut((u - 3.5) / .2);
+      p.lS = p.rS = lerp(.6, 1.45, q); p.lE = p.rE = lerp(-1.3, .2, q); p.x = d * 9 * q; p.hipTilt = -d * .13 * q; p.head = d * .08; p.turn = d * .6; p.mouth = 1;
+      p[A[1] + 'fx'] = -d * 20; p[A[1] + 'Toe'] = 1; p[A[1] + 'Pt'] = .5 * q;
+    }
+  },
+  suzyq(b, p){                                   // the Suzy Q: one foot crosses in front as the hips twist after it, the other steps out from behind, and so on sideways with the shoulders shaking; two crossings one way and two back
+    const c = mod(b, 4), d = c < 2 ? 1 : -1, u = c % 2, g = 2 * u, cross = Math.floor(g) % 2 === 0, f = frac(g), k = Math.sin(PI * clamp(f / .6, 0, 1)), A = d > 0 ? ['r', 'l'] : ['l', 'r'];
+    const o = cross ? easeOut(f / .5) : 1 - easeOut(f / .5), sh = Math.sin(TAU * 2 * b);
+    p[A[1] + 'fx'] = d * lerp(-13, 11, o); p[A[1] + 'z'] = o; p[A[0] + 'fx'] = d * 14; p[(cross ? A[1] : A[0]) + 'fy'] = 8 * k;
+    p.yaw = d * .6 * o; p.x = d * 6 * o; p.hipTilt = -d * .12 * o; p.y = -10 - 2 * k; p.lK = p.rK = .8; p[A[0] + 'Toe'] = .7 - .9 * o;
+    p.lS = .75 + .1 * sh; p.rS = .75 - .1 * sh; p.lE = p.rE = .25; p.shTilt = .1 * sh; p.head = .05 * sh; p.turn = d * .5;
+    p.face = 'joy'; p.mouth = .85;
+    return d * (-16 + 16 * u);
+  },
+  tangowalk(b, p){                               // the tango walk, side on and stalking: slow, slow, quick, quick, slow, knees bent and never bobbing, one arm held out ahead as if round a partner; then a flick of the heel, a snap round, and back the other way
+    const c = mod(b, 16), d = c < 8 ? 1 : -1, u = c % 8, v = u % 4, g = Math.min(u, 7) + clamp(v - 2, 0, 1) + (u >= 4 ? 1 : 0), f = frac(g), L = Math.floor(g) % 2 === 0;
+    const swing = lerp(-.85, .85, ease(f)), plant = lerp(.85, -.85, f), lift = 5 * Math.sin(PI * f);
+    p.yaw = d * 1.1; p.pitch = .05; p.y = -11; p.lfx = -4; p.rfx = 4; p.lToe = p.rToe = .2; p.lK = p.rK = .3;
+    if (L){ p.lz = swing; p.rz = plant; p.lfy = lift; p.rPt = .35 * f; } else { p.rz = swing; p.lz = plant; p.rfy = lift; p.lPt = .35 * f; }
+    p.lfx += d * 26 * p.lz; p.rfx += d * 26 * p.rz;                 // a long stride, which the depth of the stage alone would not show
+    p.lF = p.rF = 1; p.lS = 1.5; p.lE = .3; p.rS = .95; p.rE = 1.2; p.head = -d * .05; p.brow = .7; p.browT = .3; p.mouth = .1;
+    if (u >= 7){                                  // feet together, a heel flicked up behind, and round to face the other way
+      const q = u - 7, k = Math.sin(PI * clamp(q / .5, 0, 1));
+      p.lz = p.rz = 0; p.lfx = -4; p.rfx = 4; p.lPt = p.rPt = 0; p.lfy = 0; p.rfy = 24 * k; p.rz = -k; p.rK = lerp(.3, 1, k);
+      p.yaw = d * 1.1 * Math.cos(PI * ease(clamp((q - .35) / .65, 0, 1)));
+    }
+    return d * lerp(-62, 62, clamp(g / 10, 0, 1));
+  },
+  ocho(b, p){                                    // ochos: he swivels on one foot until the hips face the corner, steps across, and swivels back the other way, the free foot drawing its curve on the floor; every fourth one ends with the heel flicked up behind
+    const i = Math.floor(b), f = frac(b), d = mod(i, 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], q = ease(clamp(f / .6, 0, 1)), k = Math.sin(PI * clamp(f / .6, 0, 1));
+    p.yaw = d * lerp(-.95, .95, q); p.y = -12; p.lK = p.rK = .5; p.x = -d * lerp(-5, 5, q);
+    p[A[1] + 'fx'] = -d * 4; p[A[1] + 'Pt'] = .3 * k; p[A[0] + 'fx'] = d * lerp(32, -9, q); p[A[0] + 'z'] = Math.sin(PI * q); p[A[0] + 'fy'] = 2 * k; p[A[0] + 'Toe'] = 1; p[A[0] + 'K'] = .2; p[A[0] + 'Pt'] = .45 * (1 - q);
+    if (mod(i, 4) === 3){ const h = Math.sin(PI * clamp((f - .5) / .5, 0, 1)); p[A[0] + 'fy'] = 24 * h; p[A[0] + 'z'] = lerp(.9 * k, -1, h); p[A[0] + 'K'] = lerp(.5, 1, h); }
+    p.lS = 1.5; p.lE = .9; p.rS = 1.2; p.rE = -2; p.turn = -d * lerp(-.8, .8, q); p.head = .04 * d; p.brow = .7; p.browT = .3; p.mouth = .1;
+  },
+  corte(b, p){                                   // a lunge: a walking step, then a long low step to the side with the other leg left stretched out behind it and an arm swept over the head; held, and pulled sharply back up
+    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, A = d > 0 ? ['r', 'l'] : ['l', 'r'];
+    const k = u < 1 ? 0 : u < 1.5 ? ease((u - 1) / .5) : u < 3.4 ? 1 : 1 - ease((u - 3.4) / .6);
+    p.y = -8 - 20 * k; p.x = d * 15 * k; p.lean = -d * .1 * k; p.head = -d * .2 * k; p.turn = d * lerp(.6, -.9, k); p.shTilt = -d * .08 * k;
+    p[A[0] + 'fx'] = d * (13 + 17 * k); p[A[0] + 'K'] = lerp(.55, 1, k);
+    p[A[1] + 'fx'] = -d * (13 + 40 * k); p[A[1] + 'K'] = lerp(.55, .1, k); p[A[1] + 'Toe'] = lerp(.7, 1, k); p[A[1] + 'Pt'] = .5 * k;
+    p[A[0] + 'S'] = lerp(1.1, 2.7, k); p[A[0] + 'E'] = lerp(-1.15, .7, k); p[A[1] + 'S'] = lerp(1.5, 1.3, k); p[A[1] + 'E'] = lerp(.9, .1, k);
+    if (u < 1) p[A[0] + 'fy'] = 6 * Math.sin(PI * u);
+    p.brow = .7; p.browT = .3; p.mouth = k > .5 ? 0 : .1; if (k > .5) p.face = 'calm';
+  },
+  waltz(b, p){                                   // the box step, three steps to the bar: forward, side, close; back, side, close. He sinks into the first step of each bar and rises onto his toes for the other two, arms held as if round a partner
+    const w = waltzTime(b), f = frac(w), n = Math.floor(f * 3), g = frac(f * 3), q = easeOut(g / .6), k = Math.sin(PI * clamp(g / .7, 0, 1)), m = mod(Math.floor(w), 2) * 3 + n;
+    const K = [[-13, 0, 13, 0], [-13, 1, 13, 0], [-13, 1, 26, 1], [13, 1, 26, 1], [13, 1, 26, 0], [-13, 0, 26, 0], [-13, 0, 13, 0]], A = K[m], B = K[m + 1];
+    p.lfx = lerp(A[0], B[0], q); p.lz = lerp(A[1], B[1], q); p.rfx = lerp(A[2], B[2], q); p.rz = lerp(A[3], B[3], q);
+    p[(m % 2 === 0 ? 'l' : 'r') + 'fy'] = 5 * k; p.x = (p.lfx + p.rfx) / 2;
+    const rise = n === 0 ? 1 - ease(clamp(g / .5, 0, 1)) : n === 1 ? ease(clamp(g / .6, 0, 1)) : 1;
+    p.pointe = .55 * rise; p.y = -7 + 7 * rise; p.lK = p.rK = .5; p.lean = .06 * Math.sin(PI * w); p.yaw = .3 * Math.sin(PI * w);
+    p.lS = 1.5; p.lE = .95; p.rS = 1.2; p.rE = -2; p.turn = -.5; p.head = -.05; p.mouth = .35;
+  },
+  whirl(b, p){                                   // the turning waltz: round and round, three steps and half a turn to every bar, rising on two and three, and sweeping across the floor and back as he goes
+    const w = waltzTime(b), f = frac(w), n = Math.floor(f * 3), g = frac(f * 3), k = Math.sin(PI * clamp(g / .7, 0, 1));
+    const rise = n === 0 ? 1 - ease(clamp(g / .5, 0, 1)) : n === 1 ? ease(clamp(g / .6, 0, 1)) : 1;
+    p.yaw = mod(PI * (Math.floor(w) + ease(f)), TAU); p.pointe = .55 * rise; p.y = -7 + 7 * rise; p.lK = p.rK = .5;
+    p.lfx = -9; p.rfx = 9; p[(Math.floor(w * 3) % 2 === 0 ? 'l' : 'r') + 'fy'] = 5 * k;
+    p.lS = 1.5; p.lE = .95; p.rS = 1.2; p.rE = -2; p.lean = .07 * Math.cos(TAU * w / 8); p.head = -.05; p.mouth = .5; p.face = 'joy';
+    return 56 * Math.sin(TAU * w / 8);
+  },
+  balance(b, p){                                 // balance steps: a step to the side and two small ones on the spot, the body swaying over and the arms opening wide, then the same to the other side; in every fourth bar he turns once under his own raised arm
+    const w = waltzTime(b), bar = mod(Math.floor(w), 4), f = frac(w), n = Math.floor(f * 3), g = frac(f * 3), q = easeOut(g / .6), k = Math.sin(PI * clamp(g / .7, 0, 1));
+    const d = bar % 2 === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], sw = Math.sin(PI * w), rise = n === 0 ? 1 - ease(clamp(g / .5, 0, 1)) : n === 1 ? ease(clamp(g / .6, 0, 1)) : 1;
+    p.pointe = .5 * rise; p.y = -6 + 6 * rise; p.lK = p.rK = .5; p.mouth = .5;
+    if (bar === 3){
+      p.yaw = -TAU * ease(f); p.lfx = -7; p.rfx = 7; p[(n % 2 === 0 ? 'l' : 'r') + 'fy'] = 4 * k;
+      p.lS = 2.75; p.lE = .6; p.rS = .8; p.rE = -1.45; p.face = 'joy';
+      return;
+    }
+    p.x = 10 * sw; p.lean = .1 * sw; p.head = .08 * sw; p.turn = .6 * sw;
+    if (n === 0){ p[A[0] + 'fx'] = d * (13 + 9 * q); p[A[0] + 'fy'] = 5 * k; }
+    else { p[A[0] + 'fx'] = d * 22; if (n === 1){ p[A[1] + 'fx'] = -d * lerp(13, -6, q); p[A[1] + 'z'] = -q; p[A[1] + 'fy'] = 4 * k; } else { p[A[1] + 'fx'] = d * 6; p[A[1] + 'z'] = -1; p[A[0] + 'fy'] = 3 * k; } p[A[1] + 'Pt'] = .5; }
+    p.lS = 1.05 - .4 * sw; p.rS = 1.05 + .4 * sw; p.lE = .3 - .2 * sw; p.rE = .3 + .2 * sw;
+  },
+
+  /* India */
+  thumka(b, p){                                  // thumka: one hand on the hip, the other turning at the wrist above the head, and the hips thrown out to one side and then the other, a throw to every beat; the hands change over every four
+    const i = Math.floor(b), f = frac(b), d = mod(Math.floor(b / 4), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], hd = mod(i, 2) === 0 ? 1 : -1;
+    const hit = easeOut(f / .22) * (1 - ease(clamp((f - .6) / .4, 0, 1)));
+    p.x = hd * 12 * hit; p.hipTilt = -hd * .13 * hit; p.shTilt = hd * .05 * hit; p.y = -9 - 3 * hit; p.lK = p.rK = .8;
+    p[A[0] + 'S'] = 2.55; p[A[0] + 'E'] = .7 + .35 * Math.sin(TAU * 2 * b); p[A[1] + 'S'] = .8; p[A[1] + 'E'] = -1.45;
+    p.hs = hd * 3.5 * hit; p.head = hd * .05 * hit; p.turn = d * .5; p[(hd > 0 ? 'l' : 'r') + 'Pt'] = .5 * hit;
+    p.face = 'joy'; p.mouth = .8; p.brow = .5;
+  },
+  bulb(b, p){                                    // the party step: one hand screws in a light bulb up high while the other pats a dog down low, shoulders bouncing; then the hands change over
+    const d = mod(Math.floor(b / 4), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], s = Math.sin(PI * b), tw = Math.sin(TAU * 2 * b), up = 6 * Math.sin(PI * frac(b));
+    p[A[0] + 'S'] = 2.5 + .08 * tw; p[A[0] + 'E'] = .55 + .4 * tw; p[A[1] + 'S'] = .75; p[A[1] + 'E'] = .25 - .4 * dip(2 * b);
+    p.shTilt = .12 * s; p.x = 7 * s; p.y = -8 - 5 * dip(b); p.lK = p.rK = .8; p.head = .1 * s; p.turn = d * .4; p.lfx = -15; p.rfx = 15;
+    if (mod(Math.floor(b), 2) === 0) p.lfy = up; else p.rfy = up;
+    p.face = 'joy'; p.mouth = .9;
+  },
+  neck(b, p){                                    // the head slides from side to side over still shoulders, the eyes going with it and the palms pressed together above it; then the hands come down in front of the chest and it slides twice as fast
+    const c = mod(b, 8), g = c < 4 ? b : 2 * b, f = frac(g), dir = mod(Math.floor(g), 2) === 0 ? 1 : -1, sl = dir * (2 * easeOut(f / .35) - 1);
+    const m = c < 4 ? 1 - ease(clamp((c - 3.5) / .5, 0, 1)) : ease(clamp((c - 7.5) / .5, 0, 1));
+    p.hs = 6.5 * sl; p.turn = .55 * sl; p.y = -13 - 2 * dip(b); p.lK = p.rK = 1; p.lfx = -17; p.rfx = 17; p.lToe = p.rToe = 1;
+    p.lS = p.rS = lerp(.75, 2.95, m); p.lE = p.rE = lerp(-2.1, .95, m);
+    p[(sl > 0 ? 'l' : 'r') + 'Pt'] = .35 * Math.sin(PI * f); p.brow = .6; p.mouth = .4;
+  },
+  bhangra(b, p){                                 // bhangra: both arms up and pumping with the shoulders, hopping on one leg with the other knee lifted out to the side; two hops, then the other leg
+    const f = frac(b), d = mod(Math.floor(b / 2), 2) === 0 ? 1 : -1, A = d > 0 ? ['r', 'l'] : ['l', 'r'], hop = Math.sin(PI * f), sh = dip(b), q = easeOut(mod(b, 2) / .3);
+    p.y = 7 * hop - 4; p.lS = p.rS = 2.2 + .25 * sh; p.lE = p.rE = .75 - .45 * sh;
+    p.shTilt = d * .06; p.lean = -d * .07; p.x = -d * 5; p.head = d * .08 * Math.sin(PI * b);
+    p[A[0] + 'fy'] = (24 + 5 * hop) * q; p[A[0] + 'fx'] = d * lerp(13, 21, q); p[A[0] + 'K'] = 1; p[A[0] + 'Toe'] = .9;
+    p[A[1] + 'fy'] = 6 * hop; p[A[1] + 'fx'] = -d * 5;
+    p.face = 'joy'; p.mouth = .95;
+  },
+  balle(b, p){                                   // balle balle: wide and low, both arms swinging together from one side up over the head and down to the other, the body leaning after them and the far foot coming off the floor; on every fourth beat a jump with the hands clapped overhead
+    const c = mod(b, 4), ph = Math.sin(PI * b), a = (ph + 1) / 2, f = frac(b);
+    p.lS = lerp(1.77, 4.5, a); p.rS = lerp(4.5, 1.77, a); p.lE = p.rE = .12;
+    p.lean = .16 * ph; p.x = 9 * ph; p.y = -14 - 6 * dip(b); p.lfx = -22; p.rfx = 22; p.lK = p.rK = 1; p.head = .08 * ph;
+    p.lfy = 9 * Math.max(0, ph); p.rfy = 9 * Math.max(0, -ph);
+    if (c >= 3){ const k = Math.sin(PI * f); p.y = -14 + 36 * k; p.lfy = p.rfy = 24 * k; p.lS = p.rS = lerp(p.lS, 2.95, k); p.lE = p.rE = .12 + .5 * k; p.lean *= 1 - k; }
+    p.face = 'joy'; p.mouth = 1;
+  },
+  chakkar(b, p){                                 // kathak turns: three spins on the spot, one to a beat, each stamped out with the arms flung wide; then a held pose, one arm curved overhead and the eyes along the other; and the same the other way
+    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, A = d > 0 ? ['r', 'l'] : ['l', 'r'];
+    p.lfx = -7; p.rfx = 7; p.y = -5; p.brow = .5;
+    if (u < 3){
+      const f = frac(u), st = Math.sin(PI * clamp(f / .3, 0, 1));
+      p.yaw = d * TAU * ease(clamp(f / .85, 0, 1)); p.lS = p.rS = 1.5; p.lE = p.rE = .15; p.y = -6 + 2 * st; p.pointe = .3 * Math.sin(PI * f);
+      p[A[0] + 'fy'] = 7 * st; p.mouth = .3;
+    } else {
+      const q = easeOut((u - 3) / .25);
+      p[A[0] + 'S'] = lerp(1.5, 2.75, q); p[A[0] + 'E'] = lerp(.15, .85, q); p[A[1] + 'S'] = 1.5; p[A[1] + 'E'] = lerp(.15, -.2, q);
+      p.x = d * 6 * q; p.hipTilt = -d * .08 * q; p.hs = -d * 3 * q; p.turn = -d * .9 * q;
+      p[A[1] + 'fx'] = d * 3 * q - d * 7 * (1 - q); p[A[1] + 'z'] = -q; p[A[1] + 'Pt'] = .7 * q;
+      p.face = 'joy'; p.mouth = .7;
+    }
+  },
+  tatkar(b, p){                                  // kathak footwork: the body upright and still, one arm held out and the other hand in front of the chest, flat feet beating the floor right, left, right, left and then twice as fast; the arms change sides every four beats
+    const c = mod(b, 8), d = c < 4 ? 1 : -1, u = c % 4, A = d > 0 ? ['r', 'l'] : ['l', 'r'], g = u < 2 ? u * 2 : 4 + (u - 2) * 4, k = Math.sin(PI * frac(g)), m = ease(clamp(u / .6, 0, 1));
+    p.lfx = -8; p.rfx = 8; p.lToe = p.rToe = .55; p.lK = p.rK = .6; p.y = -6 - 1.5 * k; p[(Math.floor(g) % 2 === 0 ? 'r' : 'l') + 'fy'] = 6 * k;
+    p[A[0] + 'S'] = lerp(.9, 1.5, m); p[A[0] + 'E'] = lerp(-1.7, .12, m); p[A[1] + 'S'] = lerp(1.5, .9, m); p[A[1] + 'E'] = lerp(.12, -1.7, m);
+    p.turn = d * lerp(-.8, .8, m); p.hs = 3 * Math.sin(PI * b); p.brow = .5; p.mouth = .35;
   }
 };
+const waltzTime = b => STYLES[sec.style].bpm < 80 ? b : b / 2;      // a bar of the waltz lasts one beat of its own music, and two of anyone else's
 
 /* one-beat flourishes that carry him from one move into the next */
 const TRANS = {
@@ -1393,6 +1663,17 @@ function drawHats(yc, ys, cyS, mir){             // each hat is dropped on from 
     if (cyS > -.15) oval(17.5 * ys, -21 + 3.5 * ys * ys, 3.2 * Math.max(.35, Math.sqrt(Math.max(0, cyS))), 3.2, 0, C.coral);      // the jewel at the front
     ctx.restore();
   }
+  a = wear.turban;
+  if (a > .03){                                  // a turban for the bhangra: wound cloth with its folds meeting above the brow, and a fan of the cloth's end standing up on one side
+    ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -26 * (1 - a));
+    ctx.save(); ctx.scale(Math.max(.25, yc), 1); ctx.translate(-10, -33); ctx.rotate(-.32);
+    ctx.fillStyle = C.sun; ctx.beginPath(); ctx.moveTo(-4, 5); ctx.lineTo(-10, -13); ctx.quadraticCurveTo(0, -19, 10, -13); ctx.lineTo(4, 5); ctx.closePath(); ctx.fill(); ctx.restore();
+    ctx.fillStyle = '#FF4FD8'; ctx.beginPath(); ctx.moveTo(-21, -11); ctx.bezierCurveTo(-26, -30, -15, -43, 0, -43); ctx.bezierCurveTo(15, -43, 26, -30, 21, -11); ctx.quadraticCurveTo(0, -18, -21, -11); ctx.closePath(); ctx.fill();
+    const fx = 13 * ys; ctx.strokeStyle = '#C22FA6'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+    for (const k of [-1, 1]) for (const j of [1, 2, 3]){ ctx.beginPath(); ctx.moveTo(fx, -16.5); ctx.quadraticCurveTo(fx + k * 5 * j, -20 - 6 * j, k * (23 - 3 * j), -13 - 8 * j); ctx.stroke(); }
+    if (cyS > -.15) oval(fx, -17.5 + 2 * ys * ys, 3 * Math.max(.35, Math.sqrt(Math.max(0, cyS))), 3, 0, C.sun);
+    ctx.restore();
+  }
   a = wear.alpine;
   if (a > .03){                                  // a green felt hat with a feather for the polka
     ctx.save(); ctx.globalAlpha = Math.min(1, a * 1.5); ctx.translate(0, -2 - 26 * (1 - a)); lean(.06);
@@ -1428,7 +1709,7 @@ function drawHead(p, yc, ys, cyS, mir){             // yc, ys, cyS: how far roun
   ctx.restore();
   // curls: a few on the back of the head, then the curly top, bouncing behind the head's motion. A hat presses them all flat and covers them, so under
   // one the only hair to see is the short dark sides below its edge, the same from the front, the side and behind
-  const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
+  const hatOn = Math.max(wear.hat, wear.cap, wear.fedora, wear.cowboy, wear.cordobes, wear.alpine, wear.turban), fluff = 1 - ease(clamp(hatOn * 1.4, 0, 1));
   ctx.save();
   if (hatOn > .03){ ctx.beginPath(); ctx.rect(-30, -12.5 - 26 * (1 - hatOn), 60, 60); ctx.clip(); }
   ctx.translate(hairX * fluff, hairY * fluff);
@@ -1566,7 +1847,7 @@ function drawDancer(p, ax, ay){
   ctx.quadraticCurveTo(J[12][0], J[12][1], J[0][0], J[0][1]); ctx.closePath(); ctx.fill(); ctx.stroke();
 
   // neck
-  const ha = p.lean * .5 + p.head, hcx = Cx + ux * 3 + Math.sin(ha) * 27 * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;
+  const ha = p.lean * .5 + p.head, hcx = Cx + ux * 3 + (Math.sin(ha) * 27 + p.hs) * yc, hcy = Cy + uy * 3 - Math.cos(ha) * 27;      // hs: the head slid sideways on the neck without tipping
   cap(Cx + ux * 2, Cy + uy * 2, 5.4, hcx, hcy, 5, SKD);
 
   if (back){
@@ -1787,10 +2068,12 @@ function stringNote(m, bright){
   strings.set(key, note);
   return note;
 }
-function pluck(t, m, g, o){                      // o.bright: steel strings; o.dur: the string is damped after this long; o.send: echo; o.low: through the bass bus; o.cut: a bass guitar's tone knob
+function pluck(t, m, g, o){                      // o.bright: steel strings; o.dur: the string is damped after this long; o.send: echo; o.low: through the bass bus; o.cut: a bass guitar's tone knob; o.bend: it slides in from this many semitones away
   o = o || {};
   const mi = Math.round(m), n = stringNote(mi, o.bright), s = ac.createBufferSource(), v = ac.createGain(), dur = o.dur || 1.2;
-  s.buffer = n.buf; s.playbackRate.value = n.rate * Math.pow(2, (m - mi) / 12);
+  const rate = n.rate * Math.pow(2, (m - mi) / 12);
+  s.buffer = n.buf; s.playbackRate.value = rate;
+  if (o.bend){ s.playbackRate.setValueAtTime(rate * Math.pow(2, o.bend / 12), t); s.playbackRate.exponentialRampToValueAtTime(rate, t + .08); }
   v.gain.setValueAtTime(g, t); v.gain.setTargetAtTime(0, t + dur, .03);
   s.connect(v);
   if (o.cut){ const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = o.cut; f.Q.value = .7; v.connect(f); out(f, o.send); } else out(v, o.send, o.low);
@@ -1816,6 +2099,33 @@ function cuica(t, up){                           // the laughing friction drum o
   f.type = 'bandpass'; f.frequency.value = 950; f.Q.value = 2;
   v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(.15, t + .015); v.gain.exponentialRampToValueAtTime(.0001, t + .11);
   o.connect(f); f.connect(v); v.connect(master); o.start(t); o.stop(t + .13);
+}
+function tabla(t, k, g, f){                      // hand drums. k: 'ge' the bass drum's swelling boom, 'na' the ringing stroke on the rim of the small drum (tuned to f), 'tin' the same left to ring, 'ke' a flat slap, 'tak' a stick on the dhol's high skin
+  if (k === 'ge'){
+    const o = ac.createOscillator(), v = ac.createGain();
+    o.type = 'triangle'; o.frequency.setValueAtTime(76, t); o.frequency.exponentialRampToValueAtTime(120, t + .09); o.frequency.exponentialRampToValueAtTime(90, t + .3);
+    v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g, t + .008); v.gain.exponentialRampToValueAtTime(.001, t + .3);
+    o.connect(v); out(v, 0, true); o.start(t); o.stop(t + .33);
+    noise(t, .015, 'bandpass', 900, 1, g * .22);
+  } else if (k === 'ke') noise(t, .03, 'bandpass', 1300, 1.6, g);
+  else if (k === 'tak'){ noise(t, .035, 'bandpass', 2700, 1.5, g); tom(t, 190, g * .5); }
+  else {
+    const dur = k === 'tin' ? .28 : .11;
+    for (const [m, a] of [[1, 1], [2.01, .45], [3.03, .2]]){
+      const o = ac.createOscillator(), v = ac.createGain();
+      o.frequency.value = f * m; v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g * a, t + .004); v.gain.exponentialRampToValueAtTime(.0001, t + dur / m);
+      o.connect(v); v.connect(master); o.start(t); o.stop(t + dur + .02);
+    }
+    noise(t, .012, 'bandpass', 3200, 1.2, g * .45);
+  }
+}
+function shout(t, g){                            // the band shouting "hoy!": a falling buzz through two filters that move from one vowel to the other
+  const o = ac.createOscillator(), f1 = ac.createBiquadFilter(), f2 = ac.createBiquadFilter(), v = ac.createGain();
+  o.type = 'sawtooth'; o.frequency.setValueAtTime(290, t); o.frequency.exponentialRampToValueAtTime(215, t + .17);
+  f1.type = 'bandpass'; f1.Q.value = 3; f1.frequency.setValueAtTime(620, t); f1.frequency.linearRampToValueAtTime(400, t + .17);
+  f2.type = 'bandpass'; f2.Q.value = 4; f2.frequency.setValueAtTime(1050, t); f2.frequency.linearRampToValueAtTime(2200, t + .17);
+  v.gain.setValueAtTime(.0001, t); v.gain.exponentialRampToValueAtTime(g, t + .02); v.gain.exponentialRampToValueAtTime(.0001, t + .21);
+  o.connect(f1); o.connect(f2); f1.connect(v); f2.connect(v); out(v, .15); o.start(t); o.stop(t + .23);
 }
 function riser(t, dur){
   const s = ac.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
@@ -1932,7 +2242,8 @@ const LEADS = {
   fiddle:  { type:'sawtooth', cut:2400, atk:.018, rel:.04, vib:1 },
   twang:   { type:'sawtooth', cut:2700, atk:.004, pluck:1 },
   tack:    { type:'square',   cut:2600, atk:.004, pluck:1 },
-  whistle: { type:'triangle', cut:5200, atk:.02,  rel:.03, vib:1 }
+  whistle: { type:'triangle', cut:5200, atk:.02,  rel:.03, vib:1 },
+  saw:     { type:'sawtooth', cut:2400, atk:.008, rel:.05, vib:1 }
 };
 function lead(t, f, dur, kind, g, send, from){   // from: the pitch it slides in from
   const K = LEADS[kind], o = ac.createOscillator(), fl = ac.createBiquadFilter(), v = ac.createGain();
@@ -2124,17 +2435,23 @@ Object.assign(PAT, {
   }
 });
 // ----- pop, shuffle and disco: more original grooves -----
-const SP_ROOT = [40, 36, 38, 35], SP_CH = [[59, 64, 67], [60, 64, 67], [57, 62, 66], [59, 62, 66]];
-const SP_LEAD = [{ 0:71, 4:76, 8:79, 10:78, 12:76 }, { 0:76, 4:79, 8:84, 10:83, 12:79 }, { 0:78, 4:81, 8:78, 10:76, 12:74 }, { 0:74, 4:78, 8:74, 10:71, 12:66 }];
+// Synth pop in A minor (Am, F, C, G). The hook is one bouncing figure that climbs with the chords, and then lets go into four long falling phrases
+const SP_ROOT = [33, 29, 36, 31], SP_CH = [[57, 60, 64], [57, 60, 65], [55, 60, 64], [55, 59, 62]];
+const SP = melody(`e5 a5 -/1 c6/3 d6 c6 a5/4 | f5 a5 -/1 c6/3 d6 c6 a5/4 | g5 c6 -/1 d6/3 e6 d6 c6/4 | g5 b5 -/1 d6/3 e6 d6 b5 g5 |
+  e6/6 d6 c6/4 a5/4 | f6/6 d6 c6/4 a5/4 | g6/6 e6 d6/4 c6/4 | d6/6 b5 g5/4 b5 d6`);
 // R&B in E flat, the slow-jam turnaround Fm9, Bb13, Ebmaj9, Cm9, each chord voiced without its root so the bass can have it
 const RB_ROOT = [41, 46, 39, 36], RB_CH = [[56, 60, 63, 67], [56, 60, 62, 67], [55, 58, 62, 65], [58, 62, 63, 67]];
 const RB_K = ['x.....x...x.....', 'x..x..x...x.....'];
 const RB = melody(`- c5 eb5 g5/3 f5/3 eb5/4 | - d5 f5 g5/3 f5/3 d5/4 | - bb4 eb5 g5/3 bb5/3 g5/4 | f5/3 eb5/3 c5 - bb4 c5/4 |
   - c5 eb5 g5/3 ab5/3 g5/4 | - d5 f5 ab5/3 g5/3 f5/4 | - g5 bb5 c6/3 bb5/3 g5/4 | f5/3 eb5/3 c5 eb5/8`);
-// Dance pop in A (A, E, F#m, D): a tune on the five-note scale that climbs in the second half
-const DN_ROOT = [45, 40, 42, 38], DN_CH = [[57, 61, 64], [56, 59, 64], [57, 61, 66], [57, 62, 66]];
-const DN = melody(`c#5 e5 f#5/3 e5/3 c#5 e5/4 | b4 e5 g#5/3 f#5/3 e5 b4/4 | a4 c#5 f#5/3 e5/3 c#5 a4/4 | f#5/3 e5/3 d5 - a4 b4 c#5 |
-  e5 a5 a5/3 g#5/3 e5 c#5/4 | e5 g#5 b5/3 g#5/3 e5 b4/4 | a4 c#5 f#5/3 e5/3 c#5 f#5/4 | f#5/3 e5/3 d5 c#5 b4 a4/4`);
+// Dance pop in A (F#m, D, A, E): each line of the hook waits for the beat, climbs, and settles; the second half sings the same shape a fifth higher
+const DN_ROOT = [42, 38, 45, 40], DN_CH = [[57, 61, 66], [57, 62, 66], [57, 61, 64], [56, 59, 64]];
+const DN = melody(`-/2 f#5 a5 b5/3 a5/3 f#5/4 | -/2 f#5 a5 b5/3 d6/3 a5/4 | -/2 e5 a5 b5/3 c#6/3 a5/4 | b5/3 g#5/3 e5 g#5 b5 e6/4 |
+  -/2 c#6 e6 f#6/3 e6/3 c#6/4 | -/2 d6 e6 f#6/3 e6/3 d6/4 | -/2 e6 c#6 b5/3 c#6/3 e6/4 | b5/3 c#6/3 b5 g#5 b5 e5/4`);
+// Eurodance in C minor (Cm, Ab, Bb, Gm): a riff in threes that runs up each chord and falls back in the fourth bar, and over the second half a long tune
+const ED_ROOT = [36, 32, 34, 31], ED_CH = [[60, 63, 67], [60, 63, 68], [58, 62, 65], [58, 62, 67]];
+const ED = melody(`g5/3 c6/3 eb6 g6/3 eb6/3 c6 | ab5/3 c6/3 eb6 f6/3 eb6/3 c6 | bb5/3 d6/3 f6 g6/3 f6/3 d6 | bb5/3 d6/3 f6 d6/3 bb5/3 g5 |
+  g6/6 f6 eb6/4 c6/4 | eb6/6 f6 eb6/4 c6/4 | f6/6 g6 f6/4 d6/4 | d6/6 c6 bb5/4 d6 g6`);
 const LT_CH = [[45, [69, 72, 76]], [43, [67, 71, 74]], [41, [65, 69, 72]], [40, [64, 68, 71]]], LT_CLAVE = [0, 3, 6, 10, 12];
 const LT = [[[0,2,76,72],[2,2,76,72],[4,4,81,76],[10,2,79,76],[12,4,76,72]], [[0,2,74,71],[2,2,74,71],[4,4,79,74],[10,2,77,74],[12,4,74,71]],
             [[0,2,72,69],[2,2,72,69],[4,4,77,72],[10,2,76,72],[12,4,72,69]], [[0,2,71,68],[2,2,76,71],[4,2,80,76],[6,6,83,80],[12,2,80,76],[14,2,76,71]]];
@@ -2151,12 +2468,18 @@ const SL_RIFF = [{ 0:79, 3:82, 6:84, 8:82, 11:79, 14:77 }, { 0:79, 3:77, 6:74, 8
 const MN_ROOT = [48, 44, 51, 46], MN_CH = [[60, 63, 67, 70], [60, 63, 67, 68], [58, 63, 67, 70], [58, 62, 65, 69]];
 const MN = melody(`- g5 g5/1 f5/1 eb5 f5 g5 c6/4 | - bb5 bb5/1 ab5/1 g5 ab5 g5 eb5/4 | - g5 g5/1 f5/1 eb5 f5 g5 bb5/4 | - f5 f5/1 eb5/1 d5 eb5 f5 d5/4 |
   c6/3 bb5/1 g5 eb5 - g5 bb5 c6 | c6/3 bb5/1 ab5 eb5 - ab5 bb5 c6 | d6/3 c6/1 bb5 g5 - g5 bb5 g5 | f5/4 d5/4 f5 g5 bb5 -`);
-// Disco in A minor, round the circle of fifths: Am7, Dm7, G7, Cmaj7, Fmaj7, Bm7b5, E7sus, E7. The tune steps through each chord in a three-three-two
-// rhythm; under it two string lines fall a step at a time, the way the sevenths and thirds of those chords lead into one another
-const DS_ROOT = [45, 38, 43, 36, 41, 47, 40, 40], DS_STR = [[67, 72], [65, 72], [65, 71], [64, 71], [64, 69], [62, 69], [62, 69], [62, 68]];
-const DS_CH = [[57, 60, 64, 67], [57, 60, 62, 65], [55, 59, 62, 65], [55, 59, 60, 64], [53, 57, 60, 64], [57, 59, 62, 65], [57, 59, 62, 64], [56, 59, 62, 64]];
-const DS = melody(`a5/3 e5/3 c5 e5 a5 g5/4 | f5/3 d5/3 a4 d5 f5 e5/4 | g5/3 d5/3 b4 d5 g5 f5/4 | e5/3 c5/3 g4 c5 e5 d5/4 |
-  c5/3 a4/3 f4 a4 c5 e5/4 | d5/3 b4/3 f4 b4 d5 f5/4 | e5/3 e5/3 e5 d5 e5 a5/4 | g#5/3 e5/3 b4 e5/8`);
+// Disco in E minor, the way the records with strings and horns went. Four bars rock between Em7 and A7 while a horn riff is answered by high strings; then the
+// strings take the tune, falling a step with each chord (Cmaj7, Bm7, Am7) and climbing the B7 back to the top. The bass walks into every change
+const DS_ROOT = [40, 45, 40, 45, 48, 47, 45, 47], DS_WALK = [[42, 43], [43, 42], [42, 43], [45, 47], [60, 0], [59, 0], [43, 45], [45, 42]];
+const DS_CH = [[62, 67, 71, 74], [61, 64, 67, 71], [62, 67, 71, 74], [61, 64, 67, 71], [60, 64, 67, 71], [59, 62, 66, 69], [57, 60, 64, 67], [57, 59, 64, 66]];
+const DS_HORN = melody(`e5/3 g5/1 a5 b5/4 -/2 d6/1 b5/1 a5 | -/16 | e5/3 g5/1 a5 b5/4 -/2 d6/1 e6/1 d6 | -/16 |
+  -/3 e5+b4/1 -/2 e5+b4 -/8 | -/3 d5+a4/1 -/2 d5+a4 -/8 | -/3 c5+g4/1 -/2 c5+g4 -/8 | -/8 f#5+d#5/1 -/1 f#5+d#5/1 -/1 a5+f#5/4`);
+const DS_STR = melody(`-/16 | -/2 e6/6 c#6 b5 a5/4 | -/16 | -/2 e6/4 g6 f#6 e6 c#6/4 |
+  e6/6 d6 e6 g6/6 | f#6/6 e6 d6 b5/6 | e6/6 d6 c6 a5/6 | b5/3 a5/3 f#5 d#5/1 f#5/1 a5/1 b5/1 d#6/4`);
+// Nu disco in F (Bbmaj7, Am7, Gm7, and the same chord again over a C in the bass): a line sung through a talk box, answered a step lower each bar
+const ND_ROOT = [46, 45, 43, 48], ND_CH = [[58, 62, 65, 69], [57, 60, 64, 67], [55, 58, 62, 65], [55, 58, 62, 65]];
+const ND = melody(`-/2 c6 a5/1 c6/3 a5 g5 f5/4 | -/2 g5 a5/1 g5/3 e5 d5 e5/4 | -/2 f5 g5/1 f5/3 d5 f5 g5/4 | a5/3 bb5/1 a5 g5 a5 c6/6 |
+  -/2 c6 d6/1 f6/3 d6 c6 a5/4 | -/2 c6 d6/1 e6/3 d6 c6 g5/4 | -/2 bb5 c6/1 d6/3 c6 bb5 g5/4 | a5/3 bb5/1 c6 d6 f6 c6/6`);
 // Italo disco in F sharp minor (F#m, D, E, C#m): a square-wave hook over a running arpeggio and an octave bass
 const IT_ROOT = [42, 38, 40, 37], IT_CH = [[57, 61, 66], [57, 62, 66], [56, 59, 64], [56, 61, 64]];
 const IT = melody(`f#5/3 f#5/3 e5 c#5/4 -/4 | d5/3 d5/3 c#5 a4/4 -/4 | e5/3 e5/3 d5 b4/4 g#4/4 | c#5/3 b4/3 g#4 c#5/8 |
@@ -2177,16 +2500,17 @@ const JIG = jigBars('BGG DGG BGB dcB  cAA EAA cAc edc  BGG DGG BGB dcB  cBc Adc 
                     'gdg gdg gdg bag  fdf fdf fdf agf  egg dgg cgg Bgg  cBc Adc BGG G2d');
 const JIG_CH = { G: [43, [59, 62, 67]], A: [45, [57, 60, 64]], D: [50, [57, 62, 66]], C: [48, [60, 64, 67]] }, JIG_H = ['GGGG', 'AADD', 'GGGG', 'DDGG', 'GGGG', 'DDDD', 'CGCG', 'DDGG'];
 Object.assign(PAT, {
-  synthpop(s, bar, t, spb){                      // eighties dance pop: octave synth bass, a big gated snare, bright stabs and a square-wave hook
-    const b4 = bar % 4, root = SP_ROOT[b4], ln = SP_LEAD[b4][s];
-    if (s === 0 || s === 8 || s === 10) kick(t, 1);
-    if (s === 4 || s === 12){ snare(t, .55, .25, true); clap(t, .25); }
-    hat(t, s % 4 === 2 ? .07 : .03, s % 2 === 0 ? .13 : .06);
-    if (s % 2 === 0) tone(t, mtof(root + (s % 4 === 2 ? 24 : 12)), spb * .22, 'sawtooth', .26, 1300, { q: 5, envTo: 450 });
-    if (s === 0) sub(t, mtof(root), spb * .9, .28);
-    if (s === 3 || s === 6 || s === 11) chord(t, SP_CH[b4], spb * .2, 'sawtooth', .06, 3000, .35);
-    if (ln) tone(t, mtof(ln), spb * (s === 12 ? .9 : .45), 'square', .1, 2400, { send: .3 });
-    if (b4 === 3 && s >= 12) tom(t, [260, 220, 180, 140][s - 12], .3, .2);
+  synthpop(s, bar, t, spb){                      // eighties synth pop: a drum machine with a big gated snare, a bass sequencer in octaves, a pad, bright stabs, and a hook that bounces through four bars and soars over the next four
+    const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = SP_ROOT[b4], ch = SP_CH[b4];
+    if (q === 0 || s === 10) kick(t, s === 10 ? .7 : 1);
+    if (s === 4 || s === 12){ snare(t, .5, .25, true); clap(t, .22); }
+    hat(t, s === 14 ? .12 : .03, s % 2 === 0 ? .13 : .06);
+    if (s % 2 === 0) tone(t, mtof(root + (s === 6 || s === 14 ? 24 : 12)), spb * .22, 'sawtooth', .26, 1300, { q: 5, envTo: 450 });
+    if (s === 0){ sub(t, mtof(root + 12), spb * .9, .24); for (const n of ch) lead(t, mtof(n + 12), spb * 3.9, 'silk', .028); }
+    if (s === 3 || s === 6 || s === 11) chord(t, ch, spb * .2, 'sawtooth', .055, 3000, .3);
+    if (b8 < 4) play(SP[b8], s, t, spb, (at, m, d) => { tone(at, mtof(m - 12), Math.max(.12, d * .8), 'square', .16, 2600, { send: .3 }); lead(at, mtof(m), Math.max(.12, d * .8), 'pluck', .15, .25); });
+    else { tune(SP[b8], s, t, spb, 'saw', .1, { up: -12, send: .3, len: .96 }); tune(SP[b8], s, t, spb, 'whistle', .08, { len: .96, send: .2 }); lead(t, mtof(ch[[0, 1, 2, 1][q]] + 12), spb * .2, 'pluck', .06, .25); }
+    if (b4 === 3 && s >= 12) tom(t, [260, 220, 180, 140][s - 12], .28, .2);
   },
   rnb(s, bar, t, spb){                           // a slow jam: electric-piano chords leaning into the beat, a round bass, hand claps, and a tune on the same piano with a soft whistle sliding along above it
     const b4 = bar % 4, b8 = bar % 8, root = RB_ROOT[b4];
@@ -2200,15 +2524,32 @@ Object.assign(PAT, {
     play(RB[b8], s, t, spb, (at, m, d) => { ep(at, m, d * 1.3, .13, { send: .35 }); ep(at, m, d * .6, .05, { bell: true }); });
     tune(RB[b8], s, t, spb, 'whistle', .045, { glide: true, len: 1 });
   },
-  dancepop(s, bar, t, spb){                      // bright dance pop: a kick on every beat, a bass guitar bouncing off it, piano chords in a three-and-two pattern, and a bell tune you could sing
-    const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = DN_ROOT[b4];
-    if (q === 0) kick(t, .95);
-    if (s === 4 || s === 12){ clap(t, .4); snare(t, .18); }
-    hat(t, q === 2 ? .08 : .03, q === 2 ? .2 : .08);
-    if ('x..x..x.x..x..x.'[s] === 'x') pluck(t, root + (s === 6 || s === 14 ? 12 : s === 11 ? 7 : 0), .38, { cut: 900, dur: spb * .45 });
-    if (s === 0) sub(t, mtof(root), spb * .7, .14);
-    if ('x..x..x...x.x...'[s] === 'x') for (const n of DN_CH[b4]) ep(t, n, spb * (s === 0 ? .9 : .45), .036);
-    play(DN[b8], s, t, spb, (at, m, d) => { ep(at, m, d * 1.1, .1, { bell: true, send: .25 }); pluck(at, m, .17, { dur: .35, bright: true }); });
+  dancepop(s, bar, t, spb){                      // dance pop: a kick on every beat, a bass guitar bouncing off it, chords that swell between the beats as if the kick pushed them down, piano stabs, and a sung hook with a plucked double
+    const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = DN_ROOT[b4], ch = DN_CH[b4];
+    if (q === 0) kick(t, 1);
+    if (s === 4 || s === 12){ clap(t, .42); snare(t, .2); }
+    hat(t, q === 2 ? .09 : .03, q === 2 ? .2 : .07);
+    if ('x..x..x.x..x..x.'[s] === 'x') pluck(t, root + (s === 6 || s === 14 ? 12 : s === 11 ? 7 : 0), .4, { cut: 950, dur: spb * .45 });
+    if (s === 0) sub(t, mtof(root), spb * .7, .16);
+    if (q === 0) for (const n of ch) lead(t + spb * .12, mtof(n + 12), spb * .8, 'silk', .04);
+    if ('x..x..x...x.x...'[s] === 'x') for (const n of ch) ep(t, n, spb * (s === 0 ? .9 : .45), .034);
+    tune(DN[b8], s, t, spb, 'whistle', .14, { glide: true, len: 1, send: .3 });
+    play(DN[b8], s, t, spb, (at, m, d) => { pluck(at, m, .2, { dur: .4, bright: true, send: .2 }); if (b8 >= 4) ep(at, m, d, .07, { bell: true }); });
+  },
+  eurodance(s, bar, t, spb){                     // nineties Eurodance: a hard kick, the bass answering on every off-beat, piano chords in threes and a saw-wave riff; for the second half the riff makes way for a long tune
+    const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = ED_ROOT[b4], ch = ED_CH[b4];
+    if (q === 0) kick(t, 1, true);
+    if (s === 4 || s === 12) clap(t, .45);
+    if (q === 2) hat(t, .09, .2); else if (s % 2 === 1) hat(t, .025, .06);
+    if (q >= 2) tone(t, mtof(root + 12), spb * .22, 'sawtooth', q === 2 ? .3 : .2, 900, { q: 3, envTo: 320 });
+    if (s === 0) sub(t, mtof(root + 12), spb * .45, .2);
+    if ('x..x..x.x..x..x.'[s] === 'x') for (const n of ch){ ep(t, n, spb * .3, .05); pluck(t, n + 12, .07, { dur: .16, bright: true }); }
+    if (b8 < 4) play(ED[b8], s, t, spb, (at, m, d) => { for (const det of [1.004, .996]) lead(at, mtof(m - 12) * det, Math.max(.12, d * .85), 'saw', .09, det > 1 ? .3 : 0); lead(at, mtof(m), Math.max(.12, d * .85), 'pluck', .11, .25); });
+    else {
+      tune(ED[b8], s, t, spb, 'saw', .12, { up: -12, send: .3, len: .97 }); tune(ED[b8], s, t, spb, 'whistle', .09, { len: .97, send: .2 });
+      if (s % 2 === 0) lead(t, mtof(ch[(s / 2) % 3] + 12), spb * .3, 'pluck', .07, .25);
+    }
+    if (b8 === 7 && s >= 12) snare(t, .1 + .04 * (s - 12));
   },
   latin(s, bar, t, spb){                         // Latin dance pop: son clave, a syncopated piano figure, bass on one, the "and" of two, and four, trumpets in thirds
     const b4 = bar % 4, h = LT_CH[b4];
@@ -2249,15 +2590,28 @@ Object.assign(PAT, {
     tune(MN[b8], s, t, spb, 'whistle', .07, { glide: true, len: 1 });
     if (b8 >= 4 && (s === 3 || s === 11)) lead(t, mtof(MN_CH[b4][2] + 12), spb * .4, 'pluck', .08, .45);
   },
-  disco(s, bar, t, spb){                         // disco: four on the floor with open hats between, a bass guitar jumping the octave, a guitar scratching sixteenths, soft strings falling step by step and a bell tune over the top
-    const b8 = bar % 8, q = s % 4, root = DS_ROOT[b8];
+  disco(s, bar, t, spb){                         // seventies disco: four on the floor with the hi-hat opening on every off-beat, a bass guitar jumping octaves, a guitar scratching sixteenths, a horn riff, and strings in octaves that answer it and then take the tune
+    const b8 = bar % 8, q = s % 4, root = DS_ROOT[b8], w = DS_WALK[b8][s - 14], ch = b8 === 7 && s >= 8 ? [57, 59, 63, 66] : DS_CH[b8];
     if (q === 0) kick(t, 1);
-    if (s === 4 || s === 12){ clap(t, .36); snare(t, .2); }
-    hat(t, q === 2 ? .1 : .03, q === 2 ? .22 : .08);
-    if (s % 2 === 0) pluck(t, root + (s === 14 ? 7 : q === 2 ? 12 : 0), .36, { cut: 900, dur: spb * .4 });
-    if (s === 0){ sub(t, mtof(root), spb * .7, .14); for (const n of DS_STR[b8]) lead(t, mtof(n), spb * 3.96, 'silk', .03); }
-    if ('..xx..x...xx..x.'[s] === 'x') strum(t, DS_CH[b8], .085, { dur: .055, up: q === 3, gap: .005, bright: true });
-    play(DS[b8], s, t, spb, (at, m, d) => { ep(at, m, d * 1.2, .11, { bell: true, send: .2 }); pluck(at, m, .12, { dur: .3, bright: true }); });
+    if (s === 4 || s === 12){ clap(t, .36); snare(t, .22); }
+    hat(t, q === 2 ? .11 : .03, q === 2 ? .22 : .08);
+    if (s % 2 === 0 && s < 14) pluck(t, root + (q === 2 ? 12 : 0), .36, { cut: 900, dur: spb * .4 }); else if (w) pluck(t, w, .32, { cut: 900, dur: spb * .22 });
+    if (s === 0) sub(t, mtof(root), spb * .7, .14);
+    if ('..xx..x...xx.xx.'[s] === 'x') strum(t, ch, .08, { dur: .055, up: q === 3, gap: .005, bright: true });
+    tune(DS_HORN[b8], s, t, spb, 'brass', .15, { harm: true, len: .8, send: .12 }); tune(DS_HORN[b8], s, t, spb, 'reed', .06, { up: -12, len: .8 });
+    tune(DS_STR[b8], s, t, spb, 'strings', .12, { send: .18 }); tune(DS_STR[b8], s, t, spb, 'strings', .08, { up: -12, det: 1.004 });
+  },
+  nudisco(s, bar, t, spb){                       // nu disco: chords chopped between the beats through a filter that opens over eight bars, a bass guitar popping octaves, and a tune sung through a talk box
+    const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = ND_ROOT[b4], open = 520 * Math.pow(2, 2.3 * (b8 * 16 + s) / 128), bn = { 0: 0, 3: 12, 6: 0, 8: 7, 11: 12, 14: 0 }[s];
+    if (q === 0) kick(t, 1);
+    if (s === 4 || s === 12) clap(t, .42);
+    hat(t, q === 2 ? .1 : .025, q === 2 ? .2 : .06);
+    if (bn !== undefined) pluck(t, root + bn, .4, { cut: 1100, dur: spb * (s === 0 ? .6 : .3) });
+    if (s === 0) sub(t, mtof(root - 12), spb * .6, .15);
+    if (q === 2 || s === 7 || s === 15) for (const n of ND_CH[b4]) tone(t, mtof(n), spb * (q === 2 ? .42 : .2), 'sawtooth', .05, open, { q: 6 });
+    tune(ND[b8], s, t, spb, 'oboe', .13, { up: -12, glide: true, len: 1, send: .25 });
+    play(ND[b8], s, t, spb, (at, m) => pluck(at, m, .18, { dur: .3, bright: true, send: .2 }));
+    if (b8 === 7 && s >= 12) noise(t, .05, 'highpass', 5000, .7, .08 + .04 * (s - 12));
   },
   italo(s, bar, t, spb){                         // Italo disco: an octave bass, a chord rippling in sixteenths, a pad held under it, big claps, drum-machine toms to end the phrase, and a square-wave hook
     const b4 = bar % 4, b8 = bar % 8, q = s % 4, root = IT_ROOT[b4], ch = IT_CH[b4];
@@ -2370,13 +2724,120 @@ Object.assign(PAT, {
     if (b8 >= 4 && (s === 4 || s === 12)) clap(t, .28);
   }
 });
+// ----- ballroom: an original salsa and an original tango, and a waltz by Johann Strauss II -----
+// Salsa in A minor. One bar here is two bars of the dancers' count, which is one turn of the clave. The chords change every half bar: Am, Dm, E7, Am
+const SA_CH = [[64, 69, 72], [65, 69, 74], [64, 68, 74], [64, 69, 72]], SA_BASS = [[40, 50], [45, 40], [47, 45], [40, 45]];
+const SA_MONT = { 0: [0, 0], 2: [0, 1], 3: [0, 2], 5: [0, 1], 7: [1, 2], 9: [1, 0], 11: [1, 2], 13: [1, 1], 15: [2, 2] };   // each stroke of the piano figure: how many half bars ahead its chord is, and which note of it
+const SA = melody(`e5 a5 c6/3 a5/1 -/1 a5/1 d6 f6 d6 | -/1 b5/1 e6 d6/4 c6/3 c6/1 a5/4 | e5 a5 c6/3 a5/1 -/1 a5/1 d6 f6 d6 | -/1 b5/1 e6 d6/4 e6/3 c6/1 a5/4 |
+  a5/1 -/1 a5/1 c6 a5/1 c6 d6/1 -/1 d6/1 f6 d6/1 a5 | e6/1 -/1 e6/1 d6 b5/1 g#5 a5/3 c6/3 a5 | a5/1 -/1 a5/1 c6 a5/1 c6 d6/1 -/1 d6/1 f6 d6/1 a5 | e6/1 -/1 e6/1 d6 b5/1 d6 e6/3 c6/3 a5`);
+// Tango in D minor, written an octave above where the bandoneon and the violin play it. One letter of harmony and one bass note for each beat; the last bar is the two chords that end every tango
+const TG_H = ['dddd', 'AAAA', 'AAAA', 'dddD', 'gggg', 'dddd', 'bbAA', 'd.Ad'], TG_CH = { d: [62, 65, 69], D: [60, 66, 69], A: [61, 64, 67], g: [62, 67, 70], b: [62, 65, 70] };
+const TG_BASS = [[38, 45, 38, 41], [45, 40, 45, 40], [45, 40, 45, 49], [38, 45, 38, 42], [43, 50, 43, 46], [38, 45, 38, 45], [46, 46, 45, 49], [38, 0, 45, 38]];
+const TG = melody(`a5/1 a5/1 a5 d6 -/2 a5/1 a5/1 a5 f6 -/2 | g6/3 e6/1 c#6 a5 bb5/3 a5/1 g5 e5 | a5/1 a5/1 a5 c#6 -/2 a5/1 a5/1 a5 e6 -/2 | f6/3 d6/1 a5 f5 d5/4 -/4 |
+  bb5/6 a5/1 g5/1 d6/6 c6/1 bb5/1 | a5/6 g5/1 f5/1 a5 f5 d5/4 | d6/3 bb5/1 g5 f5 e5/3 c#5/1 e5 a5 | d6/4 -/12`);
+// Johann Strauss II, The Blue Danube (1866), D major. One bar here is four bars of the waltz and one beat is a whole bar of it, three steps to the beat.
+// A note written with a second one under it belongs to the woodwinds that answer the tune. One letter of harmony for each bar of the waltz
+const WZ = melody(`d4/t f#4/t a4/t a4/2t a5+f#5/t a5+f#5/t -/t f#5+d5/t f#5+d5/t -/t d4/t | d4/t f#4/t a4/t a4/2t a5+e5/t a5+e5/t -/t g5+e5/t g5+e5/t -/t c#4/t |
+  c#4/t e4/t b4/t b4/2t b5+g5/t b5+g5/t -/t g5+e5/t g5+e5/t -/t c#4/t | c#4/t e4/t b4/t b4/2t b5+g5/t b5+f#5/t -/t f#5+d5/t f#5+d5/t -/t d4/t |
+  d4/t f#4/t a4/t d5/2t d6+a5/t d6+a5/t -/t a5+f#5/t a5+f#5/t -/t d4/t | d4/t f#4/t a4/t d5/2t d6+b5/t d6+b5/t -/t b5+g5/t b5+g5/t -/t e4/t |
+  e4/t g4/t b4/t b4/4t g#4/t a4/t f#5/3t | -/t d5/t f#4/t f#4/2t e4/t b4/2t a4/t d4/2t d4/t`);
+const WZ_H = 'DDDDDDAAAAAAAADDDDDDDDGGeeaddaAD';
+const WZ_CH = { D: [38, 45, [66, 69, 74]], A: [45, 40, [64, 67, 73]], G: [43, 38, [67, 71, 74]], e: [40, 47, [64, 67, 71]], a: [45, 45, [61, 64, 73]], d: [45, 45, [66, 69, 74]] };
+// ----- India: original tunes -----
+// Bollywood: a song in the manner of the Hindi films of the fifties and sixties, in A minor with its raised seventh. The voice sings a line and the violins
+// run up to answer it; the same line comes back a fourth higher, and then in the major for the second half. One letter of harmony for each beat
+const BW = melody(`e5 a5 a5/1 b5/1 c6 b5/1 a5/1 g#5 a5/4 | c6 b5/1 a5/1 g#5 f5 e5/4 -/4 | a5 d6 d6/1 e6/1 f6 e6/1 d6/1 c6 d6/4 | e6 f6/1 e6/1 d6 b5 a5/4 -/4 |
+  g5 c6 c6/1 d6/1 e6 d6/1 c6/1 b5 c6/4 | d6 e6/1 d6/1 b5 a5 g5/4 -/4 | a5 c6 c6/1 d6/1 f6 e6/1 d6/1 c6 d6/4 | e6 f6/1 e6/1 d6 b5 g#5 b5 e5/4`);
+const BW_RUN = melody(`-/16 | -/12 d5/1 e5/1 f5/1 g#5/1 | -/16 | -/12 e6/1 d6/1 c6/1 a5/1 | -/16 | -/12 d6/1 c6/1 b5/1 g5/1 | -/16 | -/16`);
+const BW_CH = { a: [45, [57, 60, 64]], E: [40, [56, 62, 64]], d: [38, [57, 62, 65]], C: [48, [55, 60, 64]], G: [43, [55, 59, 62]], F: [41, [57, 60, 65]] };
+const BW_H = ['aaaa', 'aEEE', 'dddd', 'EEaa', 'CCCC', 'GGGG', 'FFdd', 'EEEE'];
+const KEHERWA = ['dha', 0, 'ge', 'ke', 'na', 0, 'tin', 'ke', 'na', 0, 'ke', 0, 'dhin', 0, 'na', 'ge'];
+const bols = k => k === 'dha' ? ['ge', 'na'] : k === 'dhin' ? ['ge', 'tin'] : [k];      // the strokes that are both drums at once
+// Bhangra in A: a riff for the tumbi's one string, two bars long, and a reed tune for the second half
+const TB = melody(`a5 a5/1 c6/1 d6 c6/1 a5/1 g5 a5 -/4 | a5 a5/1 c6/1 d6 c6/1 a5/1 e6 d6/1 c6/1 a5 -/2`);
+const BH = melody(`e6/3 d6/1 c6 a5 c6/3 d6/1 e6/4 | g6/3 e6/1 d6 c6 d6/3 c6/1 a5/4 | e6/3 d6/1 c6 a5 c6/3 d6/1 e6/4 | d6/3 c6/1 a5 g5 a5/8`);
+// Kathak: raga Yaman with D as its home note. Four bars of the sitar's tune, three of it rattled out against the high string, and then one phrase played
+// three times over so that its last note is the first beat of the next round. The tabla keeps the sixteen-beat cycle, two bars to a round
+const KT = melody(`d5/4 c#5 e5 f#5/4 e5 d5 | e5 f#5 g#5 a5/4 g#5 f#5 e5 | c#5 e5 f#5/4 g#5 b5 c#6/4 | d6/4 c#6 b5 a5 g#5 f#5/4 |
+  f#5/1 d6/1 d6/1 d6/1 f#5/1 d6/1 d6/1 d6/1 e5/1 d6/1 d6/1 d6/1 e5/1 d6/1 d6/1 d6/1 | f#5/1 d6/1 d6/1 d6/1 g#5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 |
+  b5/1 d6/1 d6/1 d6/1 a5/1 d6/1 d6/1 d6/1 g#5/1 d6/1 d6/1 d6/1 f#5/1 d6/1 d6/1 d6/1 | b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1`);
+const KF = melody(`f#5/8 e5/8 | f#5/4 g#5/4 a5/8 | b5/4 a5/4 g#5/4 f#5/4 | b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1 d6 b5/1 c#6/1 e6/1 c#6/1`);
+const TEEN = [['dha', 'dhin', 'dhin', 'dha', 'dha', 'dhin', 'dhin', 'dha'], ['dha', 'tin', 'tin', 'na', 'na', 'dhin', 'dhin', 'dha']];
+const TIHAI = ['ke', 'ke', 'ke', 'na', 'dha', 0, 'ke', 'ke', 'ke', 'na', 'dha', 0, 'ke', 'ke', 'ke', 'na'];
+Object.assign(PAT, {
+  salsa(s, bar, t, spb){                         // salsa: the clave, a piano figure in octaves that leans ahead of the chords, a bass that never plays on the one, congas, and horns: a sung line with a flute, then a punchy riff with the bell
+    const b8 = bar % 8, h0 = (bar % 2) * 2, e = s % 8, m = SA_MONT[s];
+    if (s === 2 || s === 4 || s === 8 || s === 11 || s === 14) noise(t, .03, 'bandpass', 2500, 12, .5);            // the clave: two strokes, then three
+    hat(t, .03, s % 2 === 0 ? .1 : .05);
+    if (e === 2) noise(t, .03, 'bandpass', 1700, 2, .2); else if (e === 6 || e === 7) tom(t, e === 6 ? 210 : 165, .3);   // congas: a slap, then two open notes
+    if (s === 0 || s === 8) kick(t, .55);
+    if (b8 >= 4){ if (s % 4 === 0) lead(t, 659, .12, 'tack', .07); else if (s % 4 >= 2) lead(t, 988, .05, 'tack', .04); }
+    if (e === 3 || e === 6) pluck(t, SA_BASS[h0 + (s >> 3)][e === 3 ? 0 : 1], .42, { cut: 850, dur: spb * (e === 3 ? .5 : .7) });
+    if (m){ const n = SA_CH[(h0 + m[0]) % 4][m[1]]; pluck(t, n, .2, { bright: true, dur: .22 }); pluck(t, n + 12, .14, { bright: true, dur: .22 }); lead(t, mtof(n + 12), .12, 'tack', .035); }
+    tune(SA[b8], s, t, spb, 'brass', .13, { up: -12, len: .85, send: .12 });
+    tune(SA[b8], s, t, spb, b8 < 4 ? 'whistle' : 'brass', b8 < 4 ? .1 : .07, { len: .85 });
+  },
+  tango(s, bar, t, spb){                         // tango: bass and bandoneon chords struck short on every beat, a bandoneon tune of jabbed repeated notes, a violin singing the second half over a swaying bass, and the two chords that end it
+    const b8 = bar % 8, q = s % 4, bt = s >> 2, e = s % 8, h = TG_CH[TG_H[b8][bt]], bn = TG_BASS[b8][bt], sing = b8 >= 4 && b8 < 7;
+    if (q === 0 && bn){
+      const big = b8 === 7 && bt >= 2, g = big ? 1.5 : bt % 2 === 0 ? 1 : .7;
+      pluck(t, bn, .42 * g, { cut: 800, dur: spb * .4 }); tone(t, mtof(bn), spb * .3, 'sawtooth', .16 * g, 600, { low: true });
+      if (h) for (const n of h){ lead(t, mtof(n) * 1.004, big ? .2 : .1, 'reed', .06 * g); lead(t, mtof(n + (big ? 12 : 0)) * .996, big ? .2 : .1, 'oboe', .03 * g); }
+      if (bt % 2 === 0) kick(t, big ? .9 : .5); else noise(t, .04, 'highpass', 5500, .7, .1);
+    }
+    if (sing && (e === 3 || e === 6)) pluck(t, TG_BASS[b8][bt & 2] + (e === 3 ? 7 : 12), .26, { cut: 800, dur: spb * .3 });
+    if (sing){ tune(TG[b8], s, t, spb, 'fiddle', .18, { up: -12, glide: true, len: 1, send: .2 }); tune(TG[b8], s, t, spb, 'silk', .07, { glide: true, len: 1 }); }
+    else { tune(TG[b8], s, t, spb, 'reed', .16, { up: -12, det: 1.004, len: .8, send: .1 }); tune(TG[b8], s, t, spb, 'oboe', .08, { up: -12, det: .996, len: .8 }); }
+  },
+  waltz(s, bar, t, spb){                         // the tune on strings with the woodwinds answering, over the waltz's own beat: a bass note, then two chords
+    const b8 = bar % 8, q = s % 4, m = b8 * 4 + (s >> 2), h = WZ_CH[WZ_H[m]], at = t + q * spb / 12;
+    for (const n of WZ[b8]) if (Math.floor(n[0] + 1e-6) === s){
+      const w = t + (n[0] - s) * spb / 4, d = n[1] * spb / 4;
+      if (n[3]){ lead(w, mtof(n[2]), d * .6, 'whistle', .16, .15); lead(w, mtof(n[3]), d * .6, 'oboe', .08); }
+      else { lead(w, mtof(n[2]), d * .95, 'strings', .2, .12); lead(w, mtof(n[2]), d * .95, 'brass', .06); if (b8 >= 4) lead(w, mtof(n[2] + 12), d * .95, 'silk', .08); }
+    }
+    if (q === 0){ tone(t, mtof(h[m % 2]), spb * .3, 'sawtooth', .3, 700, { low: true }); pluck(t, h[m % 2] + 12, .3, { cut: 900, dur: spb * .3 }); kick(t, .5); }
+    else if (q < 3){ for (const n of h[2]) lead(at, mtof(n), spb * .16, 'strings', .05); hat(at, .03, .07); }
+  },
+  bollywood(s, bar, t, spb){                     // an old film song: dholak and ankle bells, a mandolin strumming in threes and trembling along with the tune, a voice that slides from note to note, and violins running up to answer it
+    const b8 = bar % 8, H = BW_H[b8], h = BW_CH[H[s >> 2]], k = KEHERWA[s];
+    if (s % 2 === 1) t += spb * .04;
+    if (k) for (const x of bols(k)) tabla(t, x, x === 'ge' ? .8 : x === 'ke' ? .16 : .3, 440);
+    noise(t, .04, 'highpass', 8000, .7, s % 4 === 0 ? .1 : s % 2 === 0 ? .06 : .03);
+    if (s === 0 || s === 8) pluck(t, h[0] + (s === 8 && H[2] === H[0] ? 7 : 0), .4, { cut: 850, dur: spb * .8 });
+    if ('x..x..x.x..x..x.'[s] === 'x') strum(t, h[1], .1, { dur: .12, bright: true, up: s % 2 === 1, gap: .008 });
+    tune(BW[b8], s, t, spb, 'whistle', .2, { glide: true, len: 1, send: .2 });
+    pick(BW[b8], s, t, spb, .1, { bright: true, trem: .075, dur: .14 });
+    tune(BW_RUN[b8], s, t, spb, 'strings', .11, { send: .2 }); tune(BW_RUN[b8], s, t, spb, 'strings', .08, { up: -12 });
+    if (b8 >= 4) tune(BW[b8], s, t, spb, 'silk', .06, { up: -12, glide: true, len: 1 });
+  },
+  bhangra(s, bar, t, spb){                       // bhangra: the dhol's galloping beat, its low skin landing three times in every eight, a riff on the tumbi's one high string, a bass that follows the drum, the band shouting, and a reed tune over the second half
+    const b8 = bar % 8, e = s % 8, root = b8 % 4 === 3 && s < 8 ? 43 : 45;
+    if (s % 2 === 1) t += spb / 12;
+    if (e === 0 || e === 5 || e === 6){ kick(t, e === 0 ? 1 : .8); tom(t, 66, e === 0 ? .5 : .35); }
+    tabla(t, 'tak', e === 0 || e === 3 || e === 6 ? .36 : .17);
+    if (s === 4 || s === 12) clap(t, .3);
+    if (s === 0 || s === 8) sub(t, mtof(root - 12), spb * .8, .24); else if (e === 5 || e === 6) tone(t, mtof(root), spb * .2, 'sawtooth', .2, 700, { low: true });
+    play(TB[bar % 2], s, t, spb, (at, m) => { pluck(at, m, .36, { bright: true, dur: .16, bend: -1, send: .15 }); pluck(at, m - 12, .16, { bright: true, dur: .12 }); });
+    if (b8 >= 4){ tune(BH[b8 - 4], s, t, spb, 'reed', .1, { up: -12, det: 1.004, len: .9, send: .15 }); tune(BH[b8 - 4], s, t, spb, 'oboe', .05, { up: -12, det: .996, len: .9 }); }
+    if (bar % 2 === 1 && s === 12) shout(t, .2);
+  },
+  kathak(s, bar, t, spb){                        // kathak: the tabla's sixteen-beat cycle, a tanpura drone, a sitar with a flute joining for the second half, all of it gathering speed
+    const b8 = bar % 8, k = b8 === 7 ? TIHAI[s] : s % 2 === 0 ? TEEN[bar % 2][s / 2] : s % 8 === 7 ? 'ke' : 0;
+    if (k) for (const x of bols(k)) tabla(t, x, x === 'ge' ? .8 : x === 'ke' ? .2 : .42, 587);
+    if (s % 4 === 0) pluck(t, [57, 62, 62, 50][s >> 2], .18, { dur: 1.8 });
+    play(KT[b8], s, t, spb, (at, m, d) => pluck(at, m, b8 >= 4 && b8 < 7 && m === 86 ? .1 : b8 < 4 ? .38 : .3, { bright: true, dur: Math.max(.18, d * 1.3), bend: d > spb * .7 ? -2 : 0, send: .15 }));
+    if (b8 >= 4) tune(KF[b8 - 4], s, t, spb, 'whistle', .15, { glide: true, len: 1, send: .2 });
+  }
+});
 function fill(style, k, t){                      // the last beat before a new move
   if (tuneful(style)) snare(t, .08 + .04 * k);
   else snare(t, .18 + .07 * k);
 }
-function playBuild(q, rs, t, spb, g){            // drums thin out, the snare roll doubles, blips climb
+function playBuild(q, rs, t, spb, g, three){     // drums thin out, the snare roll doubles, blips climb; three: the music has three notes to the beat, and the roll keeps to them
+  if (three){ if (rs % 4 === 3) return; t += (rs % 4) * spb / 12; }
   if (rs % 4 === 0 && q < .5) kick(t, .8 * g);
-  if (q >= .5 || rs % 2 === 0) snare(t, (.14 + .3 * q) * g);
+  if (q >= .5 || rs % 2 === 0 || three) snare(t, (.14 + .3 * q) * g);
   hat(t, .03, (.08 + .08 * q) * g);
   if (q >= .75 && g === 1) tone(t, mtof(60 + Math.round((q - .75) * 48)), spb * .2, 'square', .08, 3000);
 }
@@ -2401,11 +2862,11 @@ function playStep(n, t, spb){
     if (!nx && !next.riser){ next.riser = true; riser(t, toDrop * spb); }
     const cl = tuneful(style);
     if (cl) PAT[style](rs % 16, Math.floor(rs / 16), t, spb);        // the classics keep their tune through the build
-    playBuild(clamp(1 - toDrop / build, 0, 1), rs, t, spb, cl ? .5 : 1);
+    playBuild(clamp(1 - toDrop / build, 0, 1), rs, t, spb, cl ? .5 : 1, STYLES[style].three);
     return;
   }
   PAT[style](rs % 16, Math.floor(rs / 16), t, spb);
-  if (rs % 32 >= 28) fill(style, rs % 32 - 28, t);
+  if (rs % 32 >= 28 && !(STYLES[style].three && rs % 4 === 3)) fill(style, rs % 32 - 28, t + (STYLES[style].three ? (rs % 4) * spb / 12 : 0));
 }
 function schedule(){
   if (!ac || ac.state !== 'running'){ nextStep = Math.ceil(beat * 4); return; }
@@ -2658,7 +3119,7 @@ async function selfTest(){
       const { p, tx } = poseAt(m, b), f = NUM.find(x => !isFinite(p[x]));
       if (f) why = f + ' is not a number at beat ' + b;
       else if (!(Math.abs(tx) <= 84)) why = 'he leaves the stage at beat ' + b;
-      else if (Math.abs(p.x) > 40 || p.y < -60 || p.y > 80 || Math.abs(p.lfx) > 90 || Math.abs(p.rfx) > 90 || Math.abs(p.lean) > .6) why = 'the pose is out of range at beat ' + b;
+      else if (Math.abs(p.x) > 40 || p.y < (p.rot ? -100 : -60) || p.y > 80 || Math.abs(p.lfx) > 90 || Math.abs(p.rfx) > 90 || Math.abs(p.lean) > .6) why = 'the pose is out of range at beat ' + b;
     }
     if (!why){ const a = poseAt(m, 0), z = poseAt(m, 16); if (Math.abs(a.tx - z.tx) > .01 || NUM.some(x => Math.abs(a.p[x] - z.p[x]) > .01)) why = 'the loop jumps after 16 beats'; }
     check('Moves', !why, m + ': ' + why);
