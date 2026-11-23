@@ -42,15 +42,16 @@ It plays eight bars of each style, blind, to two models that take sound, gives t
 
 Each run starts with a control, House with three notes in ten moved a semitone, and leaves out any model that does not mark it down.
 
-What a trial on 2026-11-23 showed (eleven models that take sound and three that read, 42 clips: the 36 styles then on the page and the six versions the owner had rejected, blind, up to three listens each):
+What a trial on 2026-11-23 showed (eleven general models that take sound, three that read, and a music model; 42 clips: the 36 styles then on the page and the six versions the owner had rejected, blind, up to three listens each):
 
 - **They do not predict what the owner likes.** Liked against rejected, the models' "overall" marks separated them 0.18 to 0.79 model by model and 0.52 taken together, where 0.50 is chance. Told the genre, 0.62; reading the notes, 0.64.
-- **Two of eleven hear wrong notes** (`google/gemini-4-argon`, `google/gemini-4-carbon`: harmony 8 down to 2 on the damaged House). Reading the notes, all three text models saw them in all four styles tried.
+- **Two of the eleven general models hear wrong notes** (`google/gemini-4-argon`, `google/gemini-4-carbon`: harmony 8 down to 2 on the damaged House). Reading the notes, all three text models saw them in all four styles tried.
 - **None hears a bad beat.** With every sixteenth moved by up to 52 ms, or the kick removed, marks fell by half a point at most. `check.js` catches both at once (pulse 0.9 to 0.1; low end 11 dB down).
 - **They misname most genres** (the best two named the genre first in three answers of ten; most answers were "chiptune" or "techno") and get the tempo right in a third to three quarters of answers.
 - **Marks wobble by about a point from run to run.** Only a gap as large as the control's means something.
 - **Their remarks are sometimes right and sometimes wrong.** Right: the Disco the owner rejected for "very poor notes" had "no distinct lead melody" in six answers of six. Wrong: one reader said the present Disco has no kick on beats 2 and 4. Check a remark against the notes before acting on it.
-- One model answered that it cannot hear a third of the time; one gave the same answer to every clip. NVIDIA's Music Flamingo was not tried (no public endpoint without a token).
+- **NVIDIA's Music Flamingo** (`music-flamingo-2601-hf`, run the same day on a rented GPU) reads facts well and judges nothing. It gave the right tempo in 41 of 42 descriptions and a key that fits the written notes in 36 of 42. But it called 100 of 126 clips "chiptune", marked two clips in three "overall 5", and described and marked the damaged copies the same as the clean ones, even when asked directly about wrong notes, timing and the kick. Tempo and key are known exactly from the page's code, so it adds nothing here.
+- One general model answered that it cannot hear a third of the time; one gave the same answer to every clip.
 
 So: useful as a second pair of ears for wrong notes and a missing tune, no use for rhythm or for taste.
 
