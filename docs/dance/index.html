@@ -3044,16 +3044,17 @@ function skeleton(p, tx){                        // where his joints are, as the
     lFoot: foot(p.lfx, p.lfy, p.lz, p.lPt), rFoot: foot(p.rfx, p.rfy, p.rz, p.rPt) };
 }
 const CLEAR = { head: 20, chest: 12, hip: 10, lElbow: 5, rElbow: 5, lHand: 5, rHand: 5, lFoot: 6, rFoot: 6 };      // how far the middle of each part stays above the floor
-function ground(p){                              // nothing goes through the floor. An arm that would reach below it folds at the elbow until the hand rests on it; a foot is brought up to it; and if anything is still under, the whole body rides up by that much
-  for (const a of ['l', 'r']){
-    const h = e => { const o = p[a + 'E']; p[a + 'E'] = e; const y = skeleton(p, 0)[a + 'Hand'][1] - CLEAR.lHand; p[a + 'E'] = o; return y; }, e0 = p[a + 'E'];
-    if (h(e0) >= 0) continue;
-    const dir = h(e0 + .3) > h(e0 - .3) ? 1 : -1; let far = 0;
-    for (let w = .3; w <= 2.7 && !far; w += .3) if (h(e0 + dir * w) >= 0) far = w;
-    if (!far) continue;
-    let lo = far - .3, hi = far; for (let i = 0; i < 7; i++){ const m = (lo + hi) / 2; if (h(e0 + dir * m) >= 0) hi = m; else lo = m; }
-    p[a + 'E'] = e0 + dir * hi;
-  }
+function ground(p){                              // nothing goes through the floor. An arm that would reach below it swings at the shoulder until the elbow clears, then folds at the elbow until the hand rests on it; a foot is brought up to it; and if anything is still under, the whole body rides up by that much
+  const fix = (a, key, joint) => {
+    const h = v => { const o = p[a + key]; p[a + key] = v; const y = skeleton(p, 0)[a + joint][1] - CLEAR.lHand; p[a + key] = o; return y; }, v0 = p[a + key];
+    if (h(v0) >= 0) return;
+    const dir = h(v0 + .3) > h(v0 - .3) ? 1 : -1; let far = 0;
+    for (let w = .3; w <= 2.7 && !far; w += .3) if (h(v0 + dir * w) >= 0) far = w;
+    if (!far) return;
+    let lo = far - .3, hi = far; for (let i = 0; i < 7; i++){ const m = (lo + hi) / 2; if (h(v0 + dir * m) >= 0) hi = m; else lo = m; }
+    p[a + key] = v0 + dir * hi;
+  };
+  for (const a of ['l', 'r']){ fix(a, 'S', 'Elbow'); fix(a, 'E', 'Hand'); }
   const cr = Math.cos(p.rot || 0);
   for (let i = 0; i < 3; i++){
     let j = skeleton(p, 0), d = 0;
@@ -3097,16 +3098,18 @@ window.ceoDanceLab = {
     }
     return rows;
   },
-  picture(move, beat, W, H){                     // the dancer alone in the pose of that beat, as W by H cells each saying how much of it he covers, 0 to 9
+  picture(move, beat, W, H){                     // the dancer alone in the pose of that beat, as W by H cells each saying how much of it he fills and how brightly, 0 to 9
     const p = basePose(); MOVES[move](beat, p); ground(p);
-    const sc = Math.min(cv.width / 340, cv.height / 300), cw = cv.width / W, ch = cv.height / H, g = [];
-    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(sc, 0, 0, sc, cv.width / 2, cv.height * .82);
-    drawDancer(p, 0, 0); ctx.restore();
+    const ow = cv.width, oh = cv.height, c = 20, g = [];
+    cv.width = W * c; cv.height = H * c;         // a canvas of its own size for the moment, so that the picture does not depend on the window
+    const sc = Math.min(cv.width / 340, cv.height / 300);
+    ctx.setTransform(sc, 0, 0, sc, cv.width / 2, cv.height * .82); drawDancer(p, 0, 0);
     const d = ctx.getImageData(0, 0, cv.width, cv.height).data;
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++){
-      let a = 0; for (let j = 0; j < 4; j++) for (let i = 0; i < 4; i++) a += d[4 * (Math.floor((y + (j + .5) / 4) * ch) * cv.width + Math.floor((x + (i + .5) / 4) * cw)) + 3];
-      g.push(Math.round(a / 16 / 255 * 9));
+      let a = 0; for (let j = 0; j < c; j++) for (let i = 0; i < c; i++){ const q = 4 * ((y * c + j) * cv.width + x * c + i); a += d[q + 3] * (.5 + (d[q] * .3 + d[q + 1] * .59 + d[q + 2] * .11) / 510); }
+      g.push(Math.round(a / (c * c) / 255 * 9));
     }
+    cv.width = ow; cv.height = oh;
     return g.join('');
   }
 };

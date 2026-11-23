@@ -135,7 +135,7 @@
     for (const st of styles) if (!opt.only || opt.only.styles.includes(st.id)) out.styles[st.id] = Object.assign({ bpm: st.bpm, tab: st.tab }, await music(st, bars));
     for (const mv of moves) if (!opt.only || opt.only.moves.includes(mv.id)){
       out.moves[mv.id] = Object.assign({ tab: mv.tab, bpm: home[mv.id] || 120 }, move(mv.id, home[mv.id] || 120));
-      out.pictures[mv.id] = [.5, 1.5, 2.5, 5.5].map(b => lab.picture(mv.id, b, 24, 20));
+      out.pictures[mv.id] = [.5, 2.5, 5.5].map(b => lab.picture(mv.id, b, 30, 26));      // three poses drawn as coarse pictures, to notice a change in how he is drawn
     }
     // each style with each of its own moves: does he arrive where the music hits? (the correlation, through the bar, of his arrivals with the music's attacks)
     for (const st of styles) if (out.styles[st.id]) for (const m of new Set(st.auto)){
