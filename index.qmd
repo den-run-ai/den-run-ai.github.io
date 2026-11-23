@@ -1,14 +1,46 @@
 ---
-title: "den-run-ai blog: Math, Code, AI, Chess, and Sports"
+pagetitle: "Denis Akhiyarov"
+description: "AI scientist working on agents, LLM evaluation and post-training, and document intelligence. Notes on math, code, AI, chess and running."
 listing:
+  id: posts
   contents: posts
   sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
-title-block-banner: true
+  template: _post-list.ejs
+  date-format: "MMM YYYY"
+  feed:
+    title: "Denis Akhiyarov"
+    description: "Notes on math, code, AI, chess and running."
+body-classes: profile
 ---
 
+```{=html}
+<header class="hero">
+  <img class="hero-photo" src="assets/avatar.jpg" alt="Denis Akhiyarov" width="104" height="104">
+  <div>
+    <h1 class="hero-name">Denis Akhiyarov</h1>
+    <p class="hero-role">Senior Staff AI Scientist · ServiceNow Core AI · SF Bay Area</p>
+  </div>
+</header>
+```
 
+::: {.lead}
+I build agentic systems and work on LLM post-training, evaluation and multimodal document intelligence. Before ServiceNow I did AI research at TotalEnergies and co-founded AiKYNETIX. Off the clock: trail running, coaching youth runners, chess and math puzzles.
+:::
+
+::: {.link-row}
+[LinkedIn](https://www.linkedin.com/in/den-run-ai) [GitHub](https://github.com/den-run-ai) [Google Scholar](https://scholar.google.com/citations?user=TfBvStoAAAAJ&hl=en) [arXiv](https://arxiv.org/search/?searchtype=author&query=Akhiyarov%2C+Denis) [X](https://x.com/den_run_ai)
+:::
+
+## Highlights
+
+::: {.plain-list}
+- **StarHarness** — evolving agent harnesses with the model weights fixed: +20–35 points on three enterprise benchmarks. [arXiv](https://arxiv.org/abs/2608.24804)
+- **Are small LLMs ready for coding agents?** — talk at the Agentic AI Summit, UC Berkeley, 2026. [Video](https://www.youtube.com/watch?v=N1XoiJGyNpM)
+- **Apriel-1.6-15B-Thinker** — agentic-coding evaluation for ServiceNow's open-weight reasoning model. [Release](https://huggingface.co/blog/ServiceNow-AI/apriel-1p6-15b-thinker)
+- **pdfmini** — compress and combine PDFs privately, right in the browser. [Try it](https://den-run-ai.github.io/pdfmini/)
+:::
+
+## Writing {#writing}
+
+::: {#posts}
+:::
